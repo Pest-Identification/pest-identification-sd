@@ -1,0 +1,131 @@
+VERSION = "1"
+DEFAULT_SEED = 0
+
+MODEL_INFO_FILE_NAME = "__models_info__.json"
+LABELS_INFO = "labels_info.json"
+CLASS_LABEL_TO_PREDICTION_INDEX_JSON = "class_label_to_prediction_index.json"
+INPUT_MODEL_UNTARRED_PATH = "_input_model_extracted/"
+
+CHECKPOINT_FOLDER = "/opt/ml/checkpoints/"
+
+DEFAULT_CLASS_LABELS_FILE = "ImageNetLabels.txt"
+LABELS = "labels"
+IMAGE_SIZE = "IMAGE_SIZE"
+PIXEL_SCALING_METHOD = "PIXEL_SCALING_METHOD"
+SIGNATURE = "SIGNATURE"
+OUTPUT_KEY = "OUTPUT_KEY"
+FINETUNED = "finetuned"
+EPOCH = "epoch"
+
+TRUE_STR = "True"
+FALSE_STR = "False"
+AUTO_STR = "Auto"
+
+TAR_GZ_PATTERN = "*.tar.gz"
+
+# Metrics
+VAL = "val"
+ACCURACY = "accuracy"
+TRUE_POS = "true_pos"
+FALSE_POS = "false_pos"
+TRUE_NEG = "true_neg"
+FALSE_NEG = "false_neg"
+PRECISION = "precision"
+RECALL = "recall"
+AUC = "auc"
+PRC = "prc"
+AUC_THRESHOLD = 10
+ROC = "ROC"
+PR = "PR"
+TOP_K_INT = 5
+TOP_K_ACCURACY = f"top_{TOP_K_INT}_accuracy"
+
+# Artifact generation constants
+DEFAULT_IGNORE_BACKGROUND_LABEL_BOOL = False
+BACKGROUND_STR = "background"
+URL_CLASSIFICATION_STR = "/classification/"
+URL_FEATURE_VECTOR_STR = "/feature_vector/"
+FEATURES_STR = "features"
+CLASSIFICATION_STR = "classification"
+
+# Data preparation constants
+DEFAULT_IMAGE_SIZE = [224, 224]
+DEFAULT_VALIDATION_SPLIT_RATIO = 0.2
+TRAIN_DATA_SHUFFLE_SEED = 123
+CATEGORICAL_MODE = "categorical"
+BINARY_MODE = "binary"
+DEFAULT_BINARY_MODE = "False"
+LABELS_INFERRED = "inferred"
+MAX_PIXEL_VALUE = 255.0
+IMAGENET_MEAN = [MAX_PIXEL_VALUE * x for x in [0.485, 0.456, 0.406]]
+IMAGENET_STD_DEV = [MAX_PIXEL_VALUE * x for x in [0.229, 0.224, 0.225]]
+
+BILINEAR = "bilinear"
+NEAREST = "nearest"
+BICUBIC = "bicubic"
+AREA = "area"
+LANCZOS3 = "lanczos3"
+LANCZOS5 = "lanczos5"
+GAUSSIAN = "gaussian"
+MITCHELLCUBIC = "mitchellcubic"
+DEFAULT_IMAGE_RESIZE_INTERPOLATION = BILINEAR
+
+
+DEFAULT_AUGMENTATION = "False"
+DEFAULT_AUGMENTATION_RANDOM_FLIP = "horizontal_and_vertical"
+DEFAULT_AUGMENTATION_RANDOM_ROTATION = 0.2
+
+DEFAULT_AUGMENTATION_RANDOM_ZOOM = 0.1
+NO_RANDOM_FLIP = "None"
+HORIZONTAL = "horizontal"
+VERTICAL = "vertical"
+HORIZONTAL_AND_VERTICAL = "horizontal_and_vertical"
+
+NO_RANDOM_ROTATION = 0
+NO_RANDOM_ZOOM = 0
+
+# Model classification head constants
+DEFAULT_REINITIALIZE_TOP_LAYER = "Auto"
+DEFAULT_TRAIN_ONLY_TOP_LAYER = False
+COLOR_CHANNELS = 3
+DEFAULT_DROPOUT_RATE = 0.2
+DEFAULT_REGULARIZERS_L2 = 0.0001
+DEFAULT_FROM_LOGITS = True  # Note that this cannot be changed as the model tarball returns logits.
+SIGMOID = "sigmoid"
+
+# Training constants
+FIT_SHUFFLE = True
+DEFAULT_VERBOSE_ONE_LINE_PER_EPOCH = 2
+EVALUATE_RETURN_DICT = True
+DEFAULT_LABEL_SMOOTHING = 0.1
+DEFAULT_BATCH_SIZE = 32
+DEFAULT_EPOCHS = 3
+
+DEFAULT_CHECKPOINT_SAVE_BEST_ONLY = "True"
+CHECKPOINT_SAVE_WEIGHTS_ONLY = True
+CHECKPOINT_MODE = "max"
+CHECKPOINT_SAVE_FREQ = "epoch"
+
+# Early stopping
+DEFAULT_EARLY_STOPPING = "False"
+DEFAULT_EARLY_STOPPING_MIN_DELTA = 0.0
+DEFAULT_EARLY_STOPPING_PATIENCE = 5
+EARLY_STOPPING_BASELINE = None
+EARLY_STOPPING_RESTORE_BEST_WEIGHTS = False
+EARLY_STOPPING_MODE = "auto"
+
+# optimizer constants
+ADADELTA = "adadelta"
+ADAGRAD = "adagrad"
+ADAM = "adam"
+SGD = "sgd"
+NESTEROV = "nesterov"
+RMSPROP = "rmsprop"
+DEFAULT_OPTIMIZER = ADAM
+DEFAULT_LEARNING_RATE = 0.001
+DEFAULT_RHO = 0.95
+DEFAULT_EPSILON = 1e-7
+DEFAULT_INITIAL_ACCUMULATOR_VALUE = 0.1
+DEFAULT_BETA_1 = 0.9
+DEFAULT_BETA_2 = 0.999
+DEFAULT_MOMENTUM = 0.9

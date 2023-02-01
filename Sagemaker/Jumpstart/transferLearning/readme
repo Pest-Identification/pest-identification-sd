@@ -1,0 +1,7 @@
+This tarball is the script found when retrieving the default training script for image classification.
+
+We are doing this in slf-classifer.py as of 2/1/2023.
+
+Extracted files are in 'extracted/'
+
+-Adam
