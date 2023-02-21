@@ -1,0 +1,15 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-flylite-staging-161334-authRole",
+      "UnauthRoleArn": "arn:aws:iam::447099698275:role/amplify-flylite-staging-161334-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::447099698275:role/amplify-flylite-staging-161334-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-flylite-staging-161334-deployment",
+      "UnauthRoleName": "amplify-flylite-staging-161334-unauthRole",
+      "StackName": "amplify-flylite-staging-161334",
+      "StackId": "arn:aws:cloudformation:us-east-2:447099698275:stack/amplify-flylite-staging-161334/ba276b20-95b8-11ed-a472-06aca22da8d2",
+      "AmplifyAppId": "dj2fy9i64709"
+    }
+  }
+}
