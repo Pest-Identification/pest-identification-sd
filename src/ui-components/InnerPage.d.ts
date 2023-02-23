@@ -6,13 +6,16 @@
 
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { ViewProps } from "@aws-amplify/ui-react";
+import { IconProps, TextProps, ViewProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type CameraBackArrowOverridesProps = {
-    CameraBackArrow?: PrimitiveOverrideProps<ViewProps>;
-    "Rectangle 3"?: PrimitiveOverrideProps<ViewProps>;
+export declare type InnerPageOverridesProps = {
+    InnerPage?: PrimitiveOverrideProps<ViewProps>;
+    "Rectangle 6"?: PrimitiveOverrideProps<ViewProps>;
+    "Rectangle 5"?: PrimitiveOverrideProps<ViewProps>;
+    "Arrow 1"?: PrimitiveOverrideProps<IconProps>;
+    Title?: PrimitiveOverrideProps<TextProps>;
 } & EscapeHatchProps;
-export declare type CameraBackArrowProps = React.PropsWithChildren<Partial<ViewProps> & {
-    overrides?: CameraBackArrowOverridesProps | undefined | null;
+export declare type InnerPageProps = React.PropsWithChildren<Partial<ViewProps> & {
+    overrides?: InnerPageOverridesProps | undefined | null;
 }>;
-export default function CameraBackArrow(props: CameraBackArrowProps): React.ReactElement;
+export default function InnerPage(props: InnerPageProps): React.ReactElement;

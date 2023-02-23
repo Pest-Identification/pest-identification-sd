@@ -4,12 +4,10 @@
  * Any changes to this file will be overwritten when running amplify pull. *
  **************************************************************************/
 
-export { default as Component1 } from "./Component1";
-export { default as ReferenceButton } from "./ReferenceButton";
-export { default as CameraBackArrow } from "./CameraBackArrow";
-export { default as Referenceinfo } from "./Referenceinfo";
-export { default as ReferenceBackArrow } from "./ReferenceBackArrow";
-export { default as CameraIntake } from "./CameraIntake";
-export { default as IdentifyButton } from "./IdentifyButton";
 export { default as ReferencePage } from "./ReferencePage";
+export { default as InnerPage } from "./InnerPage";
+export { default as Identification } from "./Identification";
+export { default as FrontPage } from "./FrontPage";
+export { default as MainMenu } from "./MainMenu";
+export { default as BaseButton } from "./BaseButton";
 export { default as studioTheme } from "./studioTheme";

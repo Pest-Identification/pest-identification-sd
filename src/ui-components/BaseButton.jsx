@@ -8,8 +8,8 @@
 import * as React from "react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Text, View } from "@aws-amplify/ui-react";
-export default function IdentifyButton(props) {
-  const { identifyButton, overrides, ...rest } = props;
+export default function BaseButton(props) {
+  const { text = "Button", overrides, ...rest } = props;
   return (
     <View
       width="143px"
@@ -18,10 +18,9 @@ export default function IdentifyButton(props) {
       gap="unset"
       alignItems="unset"
       justifyContent="unset"
-      overflow="hidden"
       position="relative"
       padding="0px 0px 0px 0px"
-      {...getOverrideProps(overrides, "IdentifyButton")}
+      {...getOverrideProps(overrides, "BaseButton")}
       {...rest}
     >
       <View
@@ -37,7 +36,7 @@ export default function IdentifyButton(props) {
         borderRadius="3px"
         padding="0px 0px 0px 0px"
         backgroundColor="rgba(0,0,0,1)"
-        {...getOverrideProps(overrides, "Rectangle 1")}
+        {...getOverrideProps(overrides, "Button")}
       ></View>
       <Text
         fontFamily="Roboto"
@@ -56,11 +55,11 @@ export default function IdentifyButton(props) {
         alignItems="unset"
         position="absolute"
         top="9px"
-        left="24px"
+        left="38px"
         padding="0px 0px 0px 0px"
         whiteSpace="pre-wrap"
-        children="IDENTIFY"
-        {...getOverrideProps(overrides, "IDENTIFY")}
+        children={text}
+        {...getOverrideProps(overrides, "Text")}
       ></Text>
     </View>
   );

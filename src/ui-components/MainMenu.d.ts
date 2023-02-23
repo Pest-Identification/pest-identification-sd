@@ -6,17 +6,20 @@
 
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { TextProps, ViewProps } from "@aws-amplify/ui-react";
+import { BaseButtonProps } from "./BaseButton";
+import { ViewProps } from "@aws-amplify/ui-react";
 import { SyntheticEvent } from "react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type IdentifyButtonOverridesProps = {
-    IdentifyButton?: PrimitiveOverrideProps<ViewProps>;
-    "Rectangle 1"?: PrimitiveOverrideProps<ViewProps>;
-    IDENTIFY?: PrimitiveOverrideProps<TextProps>;
+export declare type MainMenuOverridesProps = {
+    MainMenu?: PrimitiveOverrideProps<ViewProps>;
+    BaseButton85350?: BaseButtonProps;
+    BaseButton85375?: BaseButtonProps;
 } & EscapeHatchProps;
-export declare type IdentifyButtonProps = React.PropsWithChildren<Partial<ViewProps> & {
-    identifyButton?: (event: SyntheticEvent) => void;
+export declare type MainMenuProps = React.PropsWithChildren<Partial<ViewProps> & {
+    b1Label?: String;
+    b2Label?: String;
+    test1?: (event: SyntheticEvent) => void;
 } & {
-    overrides?: IdentifyButtonOverridesProps | undefined | null;
+    overrides?: MainMenuOverridesProps | undefined | null;
 }>;
-export default function IdentifyButton(props: IdentifyButtonProps): React.ReactElement;
+export default function MainMenu(props: MainMenuProps): React.ReactElement;

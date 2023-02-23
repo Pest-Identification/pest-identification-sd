@@ -7,8 +7,8 @@
 /* eslint-disable */
 import * as React from "react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Icon, Image, Text, View } from "@aws-amplify/ui-react";
-import ReferenceBackArrow from "./ReferenceBackArrow";
+import InnerPage from "./InnerPage";
+import { Image, Text, View } from "@aws-amplify/ui-react";
 export default function ReferencePage(props) {
   const { overrides, ...rest } = props;
   return (
@@ -26,6 +26,21 @@ export default function ReferencePage(props) {
       {...getOverrideProps(overrides, "ReferencePage")}
       {...rest}
     >
+      <InnerPage
+        width="390px"
+        height="844px"
+        display="block"
+        gap="unset"
+        alignItems="unset"
+        justifyContent="unset"
+        overflow="hidden"
+        position="absolute"
+        top="0px"
+        left="0px"
+        padding="0px 0px 0px 0px"
+        backgroundColor="rgba(255,255,255,1)"
+        {...getOverrideProps(overrides, "InnerPage")}
+      ></InnerPage>
       <Image
         width="168px"
         height="111px"
@@ -40,85 +55,6 @@ export default function ReferencePage(props) {
         objectFit="cover"
         {...getOverrideProps(overrides, "Spotted_lanternfly_in_BBG_(42972) 1")}
       ></Image>
-      <View
-        width="390px"
-        height="70px"
-        display="block"
-        gap="unset"
-        alignItems="unset"
-        justifyContent="unset"
-        position="absolute"
-        top="0px"
-        left="0px"
-        padding="0px 0px 0px 0px"
-        backgroundColor="rgba(217,217,217,1)"
-        {...getOverrideProps(overrides, "Rectangle 2")}
-      ></View>
-      <Text
-        fontFamily="Raleway"
-        fontSize="20px"
-        fontWeight="700"
-        color="rgba(0,0,0,1)"
-        lineHeight="5px"
-        textAlign="left"
-        display="block"
-        direction="column"
-        justifyContent="unset"
-        width="unset"
-        height="unset"
-        gap="unset"
-        alignItems="unset"
-        position="absolute"
-        top="46px"
-        left="59px"
-        padding="0px 0px 0px 0px"
-        whiteSpace="pre-wrap"
-        children="References and Information"
-        {...getOverrideProps(overrides, "References and Information")}
-      ></Text>
-      <Icon
-        width="113px"
-        height="0px"
-        viewBox={{ minX: 0, minY: 0, width: 113, height: 1 }}
-        paths={[
-          {
-            d: "M114.061 1.06066C114.646 0.474874 114.646 -0.474874 114.061 -1.06066L104.515 -10.6066C103.929 -11.1924 102.979 -11.1924 102.393 -10.6066C101.808 -10.0208 101.808 -9.07107 102.393 -8.48528L110.879 0L102.393 8.48528C101.808 9.07107 101.808 10.0208 102.393 10.6066C102.979 11.1924 103.929 11.1924 104.515 10.6066L114.061 1.06066ZM0 1.5L113 1.5L113 -1.5L0 -1.5L0 1.5Z",
-            stroke: "rgba(0,0,0,1)",
-            fillRule: "nonzero",
-            strokeWidth: 3,
-          },
-        ]}
-        display="block"
-        gap="unset"
-        alignItems="unset"
-        justifyContent="unset"
-        position="absolute"
-        top="51px"
-        left="337px"
-        transformOrigin="top left"
-        transform="rotate(0deg)"
-        {...getOverrideProps(overrides, "Arrow 1")}
-      ></Icon>
-      <Icon
-        width="39px"
-        height="39px"
-        viewBox={{ minX: 0, minY: 0, width: 39, height: 39 }}
-        paths={[
-          {
-            d: "M39 19.5C39 30.2696 30.2696 39 19.5 39C8.73045 39 0 30.2696 0 19.5C0 8.73045 8.73045 0 19.5 0C30.2696 0 39 8.73045 39 19.5Z",
-            fill: "rgba(217,217,217,1)",
-            fillRule: "nonzero",
-          },
-        ]}
-        display="block"
-        gap="unset"
-        alignItems="unset"
-        justifyContent="unset"
-        position="absolute"
-        top="31px"
-        left="376px"
-        {...getOverrideProps(overrides, "Ellipse 1")}
-      ></Icon>
       <Text
         fontFamily="Raleway"
         fontSize="20px"
@@ -297,42 +233,6 @@ export default function ReferencePage(props) {
         children="Fig 1.2 Grape Berry Moth"
         {...getOverrideProps(overrides, "Fig 1.2 Grape Berry Moth")}
       ></Text>
-      <ReferenceBackArrow
-        width="41px"
-        height="30px"
-        display="block"
-        gap="unset"
-        alignItems="unset"
-        justifyContent="unset"
-        position="absolute"
-        top="36px"
-        left="7px"
-        padding="0px 0px 0px 0px"
-        {...getOverrideProps(overrides, "Reference Back Arrow")}
-      ></ReferenceBackArrow>
-      <Icon
-        width="31px"
-        height="0px"
-        viewBox={{ minX: 0, minY: 0, width: 31, height: 1 }}
-        paths={[
-          {
-            d: "M32.0607 1.06066C32.6464 0.474874 32.6464 -0.474874 32.0607 -1.06066L22.5147 -10.6066C21.9289 -11.1924 20.9792 -11.1924 20.3934 -10.6066C19.8076 -10.0208 19.8076 -9.07107 20.3934 -8.48528L28.8787 0L20.3934 8.48528C19.8076 9.07107 19.8076 10.0208 20.3934 10.6066C20.9792 11.1924 21.9289 11.1924 22.5147 10.6066L32.0607 1.06066ZM0 1.5L31 1.5L31 -1.5L0 -1.5L0 1.5Z",
-            stroke: "rgba(0,0,0,1)",
-            fillRule: "nonzero",
-            strokeWidth: 3,
-          },
-        ]}
-        display="block"
-        gap="unset"
-        alignItems="unset"
-        justifyContent="unset"
-        position="absolute"
-        top="51px"
-        left="46px"
-        transformOrigin="top left"
-        transform="rotate(-180deg)"
-        {...getOverrideProps(overrides, "Arrow 2")}
-      ></Icon>
       <Image
         width="332px"
         height="159px"

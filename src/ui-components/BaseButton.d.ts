@@ -6,14 +6,16 @@
 
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { IdentifyButtonProps } from "./IdentifyButton";
-import { ViewProps } from "@aws-amplify/ui-react";
+import { TextProps, ViewProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type ReferenceButtonOverridesProps = {
-    ReferenceButton?: PrimitiveOverrideProps<ViewProps>;
-    "Identify Button"?: IdentifyButtonProps;
+export declare type BaseButtonOverridesProps = {
+    BaseButton?: PrimitiveOverrideProps<ViewProps>;
+    Button?: PrimitiveOverrideProps<ViewProps>;
+    Text?: PrimitiveOverrideProps<TextProps>;
 } & EscapeHatchProps;
-export declare type ReferenceButtonProps = React.PropsWithChildren<Partial<ViewProps> & {
-    overrides?: ReferenceButtonOverridesProps | undefined | null;
+export declare type BaseButtonProps = React.PropsWithChildren<Partial<ViewProps> & {
+    text?: String;
+} & {
+    overrides?: BaseButtonOverridesProps | undefined | null;
 }>;
-export default function ReferenceButton(props: ReferenceButtonProps): React.ReactElement;
+export default function BaseButton(props: BaseButtonProps): React.ReactElement;

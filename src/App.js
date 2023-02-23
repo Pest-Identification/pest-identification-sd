@@ -1,12 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
 import "@aws-amplify/ui-react/styles.css";
 
-import {ReferencePage} from './ui-components'
+import {BaseButton, ReferencePage} from './ui-components'
 
 function App() {
+  const test = () => {
+    return(
+    <div>
+      <BaseButton text = "IDENTIFY" onClick = {ReferencePage}/>
+      <BaseButton text = "REFERENCE" onClick = {ReferencePage}/>
+
+    </div>
+    )
+  }
+
+
   return (
-    <ReferencePage />
+    test()
   );
 }
 

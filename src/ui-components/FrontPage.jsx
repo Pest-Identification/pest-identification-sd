@@ -7,30 +7,23 @@
 /* eslint-disable */
 import * as React from "react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Icon } from "@aws-amplify/ui-react";
-export default function CameraIntake(props) {
+import { View } from "@aws-amplify/ui-react";
+export default function FrontPage(props) {
   const { overrides, ...rest } = props;
   return (
-    <Icon
-      width="95px"
-      height="95px"
+    <View
+      width="390px"
+      height="844px"
       display="block"
       gap="unset"
       alignItems="unset"
       justifyContent="unset"
+      overflow="hidden"
       position="relative"
       padding="0px 0px 0px 0px"
-      viewBox={{ minX: 0, minY: 0, width: 95, height: 95 }}
-      paths={[
-        {
-          d: "M95 47.5C95 73.7335 73.7335 95 47.5 95C21.2665 95 0 73.7335 0 47.5C0 21.2665 21.2665 0 47.5 0C73.7335 0 95 21.2665 95 47.5Z",
-          fill: "rgba(255,255,255,1)",
-          fillRule: "nonzero",
-          style: { transform: "translate(0%, 0%)" },
-        },
-      ]}
-      {...getOverrideProps(overrides, "CameraIntake")}
+      backgroundColor="rgba(255,255,255,1)"
+      {...getOverrideProps(overrides, "FrontPage")}
       {...rest}
-    ></Icon>
+    ></View>
   );
 }

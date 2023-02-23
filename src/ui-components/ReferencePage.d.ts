@@ -6,16 +6,13 @@
 
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { IconProps, ImageProps, TextProps, ViewProps } from "@aws-amplify/ui-react";
-import { ReferenceBackArrowProps } from "./ReferenceBackArrow";
+import { InnerPageProps } from "./InnerPage";
+import { ImageProps, TextProps, ViewProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ReferencePageOverridesProps = {
     ReferencePage?: PrimitiveOverrideProps<ViewProps>;
+    InnerPage?: InnerPageProps;
     "Spotted_lanternfly_in_BBG_(42972) 1"?: PrimitiveOverrideProps<ImageProps>;
-    "Rectangle 2"?: PrimitiveOverrideProps<ViewProps>;
-    "References and Information"?: PrimitiveOverrideProps<TextProps>;
-    "Arrow 1"?: PrimitiveOverrideProps<IconProps>;
-    "Ellipse 1"?: PrimitiveOverrideProps<IconProps>;
     Background?: PrimitiveOverrideProps<TextProps>;
     "More About Spotted Lanternflies"?: PrimitiveOverrideProps<TextProps>;
     "More About Grape Berry Moths"?: PrimitiveOverrideProps<TextProps>;
@@ -24,8 +21,6 @@ export declare type ReferencePageOverridesProps = {
     "grapeberrymoth 1"?: PrimitiveOverrideProps<ImageProps>;
     "Fig 1.1 Spotted Lanternfly"?: PrimitiveOverrideProps<TextProps>;
     "Fig 1.2 Grape Berry Moth"?: PrimitiveOverrideProps<TextProps>;
-    "Reference Back Arrow"?: ReferenceBackArrowProps;
-    "Arrow 2"?: PrimitiveOverrideProps<IconProps>;
     "final+-+egg+masses 1"?: PrimitiveOverrideProps<ImageProps>;
     "Fig 1.3 Spotted Lanternfly Eggs"?: PrimitiveOverrideProps<TextProps>;
 } & EscapeHatchProps;

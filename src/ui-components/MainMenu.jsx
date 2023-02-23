@@ -7,38 +7,53 @@
 /* eslint-disable */
 import * as React from "react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import BaseButton from "./BaseButton";
 import { View } from "@aws-amplify/ui-react";
-export default function CameraBackArrow(props) {
-  const { overrides, ...rest } = props;
+export default function MainMenu(props) {
+  const { b1Label, b2Label, test1, overrides, ...rest } = props;
   return (
     <View
-      width="41px"
-      height="30px"
+      width="390px"
+      height="844px"
       display="block"
       gap="unset"
       alignItems="unset"
       justifyContent="unset"
+      overflow="hidden"
       position="relative"
       padding="0px 0px 0px 0px"
-      {...getOverrideProps(overrides, "CameraBackArrow")}
+      backgroundColor="rgba(255,255,255,1)"
+      {...getOverrideProps(overrides, "MainMenu")}
       {...rest}
     >
-      <View
-        width="41px"
-        height="30px"
+      <BaseButton
+        width="143px"
+        height="40px"
         display="block"
         gap="unset"
         alignItems="unset"
         justifyContent="unset"
         position="absolute"
-        top="0%"
-        bottom="0%"
-        left="0%"
-        right="0%"
+        top="319px"
+        left="124px"
         padding="0px 0px 0px 0px"
-        backgroundColor="rgba(217,217,217,1)"
-        {...getOverrideProps(overrides, "Rectangle 3")}
-      ></View>
+        text={b1Label}
+        {...getOverrideProps(overrides, "BaseButton85350")}
+      ></BaseButton>
+      <BaseButton
+        width="143px"
+        height="40px"
+        display="block"
+        gap="unset"
+        alignItems="unset"
+        justifyContent="unset"
+        position="absolute"
+        top="382px"
+        left="124px"
+        padding="0px 0px 0px 0px"
+        text={b2Label}
+        {...getOverrideProps(overrides, "BaseButton85375")}
+      ></BaseButton>
     </View>
   );
 }

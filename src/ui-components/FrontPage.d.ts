@@ -6,12 +6,12 @@
 
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { IconProps } from "@aws-amplify/ui-react";
+import { ViewProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type CameraIntakeOverridesProps = {
-    CameraIntake?: PrimitiveOverrideProps<IconProps>;
+export declare type FrontPageOverridesProps = {
+    FrontPage?: PrimitiveOverrideProps<ViewProps>;
 } & EscapeHatchProps;
-export declare type CameraIntakeProps = React.PropsWithChildren<Partial<IconProps> & {
-    overrides?: CameraIntakeOverridesProps | undefined | null;
+export declare type FrontPageProps = React.PropsWithChildren<Partial<ViewProps> & {
+    overrides?: FrontPageOverridesProps | undefined | null;
 }>;
-export default function CameraIntake(props: CameraIntakeProps): React.ReactElement;
+export default function FrontPage(props: FrontPageProps): React.ReactElement;
