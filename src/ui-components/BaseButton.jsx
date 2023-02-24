@@ -28,14 +28,15 @@ export default function BaseButton(props) {
         height="39px"
         display="block"
         gap="unset"
-        alignItems="unset"
-        justifyContent="unset"
-        position="absolute"
+        alignItems="center"
+        justifyContent="center"
+        position="relative"
         top="1px"
         left="0px"
         borderRadius="3px"
         padding="0px 0px 0px 0px"
         backgroundColor="rgba(0,0,0,1)"
+        fontFamily="Roboto"
         {...getOverrideProps(overrides, "Button")}
       ></View>
       <Text
@@ -56,7 +57,7 @@ export default function BaseButton(props) {
         position="absolute"
         top="0"
         left="0"
-        padding="7px 0px 0px 0px"
+        padding="8px 0px 0px 0px"
         whiteSpace="pre-wrap"
         children={text}
         {...getOverrideProps(overrides, "Text")}
