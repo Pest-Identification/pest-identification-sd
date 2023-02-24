@@ -10,19 +10,19 @@ import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import BaseButton from "./BaseButton";
 import { View } from "@aws-amplify/ui-react";
 export default function MainMenu(props) {
-  const { b1Label, b2Label, test1, overrides, ...rest } = props;
+  const { b1Label, b2Label, IdentifyEvent, overrides, ...rest } = props;
   return (
     <View
       width="390px"
       height="844px"
-      display="block"
+      display="flex"
       gap="unset"
-      alignItems="unset"
-      justifyContent="unset"
-      overflow="hidden"
+      alignItems="center"
+      justifyContent="center"
+      overflow="visible"
       position="relative"
       padding="0px 0px 0px 0px"
-      backgroundColor="rgba(255,255,255,1)"
+      backgroundColor="lightgrey"
       {...getOverrideProps(overrides, "MainMenu")}
       {...rest}
     >
@@ -31,11 +31,11 @@ export default function MainMenu(props) {
         height="40px"
         display="block"
         gap="unset"
-        alignItems="unset"
+        alignItems="center"
         justifyContent="unset"
         position="absolute"
-        top="319px"
-        left="124px"
+        top="340px"
+        left="125px"
         padding="0px 0px 0px 0px"
         text={b1Label}
         {...getOverrideProps(overrides, "BaseButton85350")}
@@ -48,8 +48,8 @@ export default function MainMenu(props) {
         alignItems="unset"
         justifyContent="unset"
         position="absolute"
-        top="382px"
-        left="124px"
+        top="380px"
+        left="125px"
         padding="0px 0px 0px 0px"
         text={b2Label}
         {...getOverrideProps(overrides, "BaseButton85375")}
