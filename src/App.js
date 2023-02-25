@@ -3,9 +3,10 @@ import "@aws-amplify/ui-react/styles.css";
 
 import {Identification, MainMenu, ReferencePage} from './ui-components'
 import '@aws-amplify/ui-react/styles.css'
+console.log(Identification);
 
 function App() {
-  
+
   const test = () => {
     return(
     <div>
@@ -16,7 +17,8 @@ function App() {
       overrides={{
         "BaseButton85350": {
           "as" : "a",
-          "href" : "src/ui-components/Identification.jsx"
+          "href" : "#",
+          "onClick" : Id
         }
       }}
       />
@@ -28,6 +30,23 @@ function App() {
   return (
     test()
   );
+}
+
+function Id(){
+
+  const test = () => {
+      return(
+      <div>
+        <Identification/>
+      </div>
+      );
+    }
+
+    return (
+      test()
+    );
+
+
 }
 
 
