@@ -24,7 +24,7 @@ export default function BaseButton(props) {
       {...rest}
     >
       <View
-        width="143px"
+        width="100%"
         height="39px"
         display="block"
         gap="unset"
