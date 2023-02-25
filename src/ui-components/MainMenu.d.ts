@@ -19,7 +19,8 @@ export declare type MainMenuOverridesProps = {
 export declare type MainMenuProps = React.PropsWithChildren<Partial<ViewProps> & {
     b1Label?: String;
     b2Label?: String;
-    IdentifyEvent?: (event: SyntheticEvent) => void;
+    onClickB1?: (event: SyntheticEvent) => void;
+    onClickB2?: (event: SyntheticEvent) => void;
 } & {
     overrides?: MainMenuOverridesProps | undefined | null;
 }>;

@@ -20,6 +20,8 @@ export default function BaseButton(props) {
       justifyContent="center"
       position="relative"
       padding="0px 0px 0px 0px"
+      onClickB1=""
+      onClickB2=""
       {...getOverrideProps(overrides, "BaseButton")}
       {...rest}
     >

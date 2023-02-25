@@ -10,7 +10,7 @@ import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Flex, View } from "@aws-amplify/ui-react";
 import BaseButton from "./BaseButton";
 export default function MainMenu(props) {
-  const { b1Label, b2Label, IdentifyEvent, overrides, ...rest } = props;
+  const { b1Label, b2Label, onClickB1, onClickB2, overrides, ...rest } = props;
   return (
     <View
       width="100%"
