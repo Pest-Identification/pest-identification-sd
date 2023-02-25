@@ -44,11 +44,11 @@ export default function MainMenu(props) {
         height="40px"
         display="block"
         gap="unset"
-        alignItems="center"
-        justifyContent="space-evenly"
-        position="relative"
-        top="319px"
-        left="124px"
+        alignItems="unset"
+        justifyContent="unset"
+        position="absolute"
+        top="40%"
+        left="45%"
         padding="0px 0px 0px 0px"
         text={b1Label}
         {...getOverrideProps(overrides, "BaseButton85350")}
@@ -58,11 +58,11 @@ export default function MainMenu(props) {
         height="40px"
         display="block"
         gap="unset"
-        alignItems="center"
-        justifyContent="space-evenly"
-        position="relative"
-        top="382px"
-        left="124px"
+        alignItems="unset"
+        justifyContent="unset"
+        position="absolute"
+        top="45%"
+        left="45%"
         padding="0px 0px 0px 0px"
         text={b2Label}
         {...getOverrideProps(overrides, "BaseButton85375")}
