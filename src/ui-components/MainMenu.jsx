@@ -51,8 +51,10 @@ export default function MainMenu(props) {
         left="45%"
         padding="0px 0px 0px 0px"
         text={b1Label}
+        onClick={onClickB1} // Add the onClick prop
         {...getOverrideProps(overrides, "BaseButton85350")}
       ></BaseButton>
+
       <BaseButton
         width="143px"
         height="40px"
@@ -65,6 +67,7 @@ export default function MainMenu(props) {
         left="45%"
         padding="0px 0px 0px 0px"
         text={b2Label}
+        onClick={onClickB2} // Add the onClick prop
         {...getOverrideProps(overrides, "BaseButton85375")}
       ></BaseButton>
     </View>

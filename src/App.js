@@ -1,53 +1,35 @@
 import './App.css';
 import "@aws-amplify/ui-react/styles.css";
-
-import {Identification, MainMenu, ReferencePage} from './ui-components'
-import '@aws-amplify/ui-react/styles.css'
-console.log(Identification);
+import { useState } from 'react';
+import { Identification, MainMenu, ReferencePage } from './ui-components';
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('MainMenu');
 
-  const test = () => {
-    return(
-    <div>
-      <MainMenu 
-      b1Label={"IDENTIFY"} 
-      b2Label={"REFERENCE"} 
-      IdentifyEvent = {ReferencePage}
-      overrides={{
-        "BaseButton85350": {
-          "as" : "a",
-          "href" : "#",
-          "onClick" : Id
-        }
-      }}
-      />
-    </div>
-    );
-  }
+  const handleClickB1 = () => {
+    setCurrentPage('Identification');
+  };
 
+  const handleClickB2 = () => {
+    setCurrentPage('ReferencePage');
+  };
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'Identification':
+        return <Identification />;
+      case 'ReferencePage':
+        return <ReferencePage />;
+      default:
+        return <MainMenu b1Label="IDENTIFY" b2Label="REFERENCE" onClickB1={handleClickB1} onClickB2={handleClickB2} />;
+    }
+  };
 
   return (
-    test()
+    <div className="App">
+      {renderPage()}
+    </div>
   );
 }
-
-function Id(){
-
-  const test = () => {
-      return(
-      <div>
-        <Identification/>
-      </div>
-      );
-    }
-
-    return (
-      test()
-    );
-
-
-}
-
 
 export default App;
