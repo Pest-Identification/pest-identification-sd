@@ -1,0 +1,60 @@
+type Reply {
+  author: String!
+  body: String!
+}
+
+type GPSLocation {
+  longitude: Float!
+  latitude: Float!
+}
+
+type Report {
+  user: User!
+  time: AWSDateTime
+  location: GPSLocation
+  pestActual: String!
+  pestSubmitted: String
+  pestIdentified: String
+  image: AWSURL
+}
+
+type User {
+  name: String!
+  creationDate: AWSDateTime
+}
+
+type Post {
+  author: User!
+  title: String!
+  body: String!
+  refReport: Report
+  replies: [Reply]
+}
+
+type DiscussionBoard @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  posts: Post
+}
+
+type Map @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  location: AWSPhone
+  time: String
+}
+
+type GBMReportData @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  location: AWSPhone
+  time: AWSDateTime
+  image: AWSURL
+  Map: Map @hasOne
+}
+
+type SLFReportData @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  location: AWSPhone
+  time: AWSDateTime
+  image: AWSURL
+  Map: Map @hasOne
+}
+ 
