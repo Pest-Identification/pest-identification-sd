@@ -23,6 +23,7 @@ export default function MainMenu(props) {
       position="relative"
       padding="0px 0px 0px 0px"
       backgroundColor="lightgrey"
+      max-width="100%"
       {...getOverrideProps(overrides, "MainMenu")}
       {...rest}
     >
