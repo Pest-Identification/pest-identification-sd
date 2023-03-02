@@ -22,11 +22,7 @@ function App({signOut, user}) {
       case 'ReferencePage':
         return <ReferencePage />;
       default:
-<<<<<<< HEAD
         return <MainMenu b1Label="IDENTIFY" b2Label="REFERENCE" b1onClick={handleClickB1} b2onClick={handleClickB2} />;
-=======
-        return <MainMenu b1Label="IDENTIFY" b2Label="REFERENCE"  b1onClick={handleClickB1} b2onClick={handleClickB2} />;
->>>>>>> Pulled ui
     }
   };
 
