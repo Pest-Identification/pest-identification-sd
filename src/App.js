@@ -28,7 +28,6 @@ function App({signOut, user}) {
 
   return (
     <div className="App">
-      <h1>Hello {user.username}</h1>
       <button onClick={signOut}>Sign out</button>
       {renderPage()}
     </div>
