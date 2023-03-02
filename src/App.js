@@ -2,8 +2,9 @@ import './App.css';
 import "@aws-amplify/ui-react/styles.css";
 import { useState } from 'react';
 import { Identification, MainMenu, ReferencePage } from './ui-components';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 
-function App() {
+function App({signOut, user}) {
   const [currentPage, setCurrentPage] = useState('MainMenu');
 
   const handleClickB1 = () => {
@@ -27,9 +28,11 @@ function App() {
 
   return (
     <div className="App">
+      <h1>Hello {user.username}</h1>
+      <button onClick={signOut}>Sign out</button>
       {renderPage()}
     </div>
   );
 }
 
-export default App;
+export default withAuthenticator(App);
