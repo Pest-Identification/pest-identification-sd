@@ -37,7 +37,6 @@ export default function MainMenu(props) {
         top="392px"
         left="113px"
         padding="10px 10px 10px 10px"
-<<<<<<< HEAD
         {...getOverrideProps(overrides, "Background 1")}
       >
         <BaseButton
@@ -69,40 +68,6 @@ export default function MainMenu(props) {
           {...getOverrideProps(overrides, "Button2")}
         ></BaseButton>
       </Flex>
-=======
-        {...getOverrideProps(overrides, "Frame 2")}
-      ></Flex>
-      <BaseButton
-        width="143px"
-        height="40px"
-        display="block"
-        gap="unset"
-        alignItems="unset"
-        justifyContent="unset"
-        position="absolute"
-        top="40%"
-        left="45%"
-        padding="0px 0px 0px 0px"
-        text={b1Label}
-        onClick={b1onClick}
-        {...getOverrideProps(overrides, "BaseButton85350")}
-      ></BaseButton>
-      <BaseButton
-        width="143px"
-        height="40px"
-        display="block"
-        gap="unset"
-        alignItems="unset"
-        justifyContent="unset"
-        position="absolute"
-        top="45%"
-        left="45%"
-        padding="0px 0px 0px 0px"
-        text={b2Label}
-        onClick={b2onClick}
-        {...getOverrideProps(overrides, "BaseButton85375")}
-      ></BaseButton>
->>>>>>> Pulled ui
     </View>
   );
 }
