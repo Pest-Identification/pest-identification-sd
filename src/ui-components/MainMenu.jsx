@@ -10,10 +10,10 @@ import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Flex, View } from "@aws-amplify/ui-react";
 import BaseButton from "./BaseButton";
 export default function MainMenu(props) {
-  const { b1Label, b2Label, b1onClick, b2onClick, overrides, ...rest } = props;
+  const { b1Label, b2Label, onClickB1, onClickB2, overrides, ...rest } = props;
   return (
     <View
-      width="390px"
+      width="100%"
       height="844px"
       display="block"
       gap="unset"
@@ -52,9 +52,10 @@ export default function MainMenu(props) {
         left="45%"
         padding="0px 0px 0px 0px"
         text={b1Label}
-        onClick={b1onClick}
+        onClick={onClickB1} // Add the onClick prop
         {...getOverrideProps(overrides, "BaseButton85350")}
       ></BaseButton>
+
       <BaseButton
         width="143px"
         height="40px"
@@ -67,7 +68,7 @@ export default function MainMenu(props) {
         left="45%"
         padding="0px 0px 0px 0px"
         text={b2Label}
-        onClick={b2onClick}
+        onClick={onClickB2} // Add the onClick prop
         {...getOverrideProps(overrides, "BaseButton85375")}
       ></BaseButton>
     </View>

@@ -1,24 +1,37 @@
 import './App.css';
 import "@aws-amplify/ui-react/styles.css";
+import { useState } from 'react';
+import { Identification, MainMenu, ReferencePage } from './ui-components';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 
-import {BaseButton, ReferencePage} from './ui-components'
+function App({signOut, user}) {
+  const [currentPage, setCurrentPage] = useState('MainMenu');
 
-function App() {
-  const test = () => {
-    return(
-    <div>
-      <BaseButton text = "IDENTIFY" onClick = {ReferencePage}/>
-      <BaseButton text = "REFERENCE" onClick = {ReferencePage}/>
+  const handleClickB1 = () => {
+    setCurrentPage('Identification');
+  };
 
-    </div>
-    )
-  }
+  const handleClickB2 = () => {
+    setCurrentPage('ReferencePage');
+  };
 
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'Identification':
+        return <Identification />;
+      case 'ReferencePage':
+        return <ReferencePage />;
+      default:
+        return <MainMenu b1Label="IDENTIFY" b2Label="REFERENCE" onClickB1={handleClickB1} onClickB2={handleClickB2} />;
+    }
+  };
 
   return (
-    test()
+    <div className="App">
+      <button onClick={signOut}>Sign out</button>
+      {renderPage()}
+    </div>
   );
 }
 
-
-export default App;
+export default withAuthenticator(App);

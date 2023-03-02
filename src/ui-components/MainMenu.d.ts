@@ -8,6 +8,7 @@ import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { FlexProps, ViewProps } from "@aws-amplify/ui-react";
 import { BaseButtonProps } from "./BaseButton";
+import { SyntheticEvent } from "react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MainMenuOverridesProps = {
     MainMenu?: PrimitiveOverrideProps<ViewProps>;
@@ -18,8 +19,8 @@ export declare type MainMenuOverridesProps = {
 export declare type MainMenuProps = React.PropsWithChildren<Partial<ViewProps> & {
     b1Label?: String;
     b2Label?: String;
-    b1onClick?: String;
-    b2onClick?: String;
+    onClickB1?: (event: SyntheticEvent) => void;
+    onClickB2?: (event: SyntheticEvent) => void;
 } & {
     overrides?: MainMenuOverridesProps | undefined | null;
 }>;
