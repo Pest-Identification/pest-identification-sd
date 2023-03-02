@@ -6,19 +6,20 @@
 
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
+import { FlexProps, ViewProps } from "@aws-amplify/ui-react";
 import { BaseButtonProps } from "./BaseButton";
-import { ViewProps } from "@aws-amplify/ui-react";
-import { SyntheticEvent } from "react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MainMenuOverridesProps = {
     MainMenu?: PrimitiveOverrideProps<ViewProps>;
+    "Frame 2"?: PrimitiveOverrideProps<FlexProps>;
     BaseButton85350?: BaseButtonProps;
     BaseButton85375?: BaseButtonProps;
 } & EscapeHatchProps;
 export declare type MainMenuProps = React.PropsWithChildren<Partial<ViewProps> & {
     b1Label?: String;
     b2Label?: String;
-    test1?: (event: SyntheticEvent) => void;
+    b1onClick?: String;
+    b2onClick?: String;
 } & {
     overrides?: MainMenuOverridesProps | undefined | null;
 }>;

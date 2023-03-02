@@ -10,6 +10,14 @@
       "StackName": "amplify-flylite-staging-161334",
       "StackId": "arn:aws:cloudformation:us-east-2:447099698275:stack/amplify-flylite-staging-161334/ba276b20-95b8-11ed-a472-06aca22da8d2",
       "AmplifyAppId": "dj2fy9i64709"
+    },
+    "categories": {
+      "auth": {
+        "FlyLite": {}
+      },
+      "storage": {
+        "s3flylitestorage6936379b": {}
+      }
     }
   }
 }

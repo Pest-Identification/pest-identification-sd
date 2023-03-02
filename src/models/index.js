@@ -4,16 +4,13 @@ import { schema } from './schema';
 
 
 
-const { DiscussionBoard, Map, GBMReportData, SLFReportData, Reply, GPSLocation, Report, User, Post } = initSchema(schema);
+const { Report, Post, ReportPost, User, GPSLocation, Reply } = initSchema(schema);
 
 export {
-  DiscussionBoard,
-  Map,
-  GBMReportData,
-  SLFReportData,
-  Reply,
-  GPSLocation,
   Report,
+  Post,
+  ReportPost,
   User,
-  Post
+  GPSLocation,
+  Reply
 };

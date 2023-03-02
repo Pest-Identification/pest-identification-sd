@@ -1,0 +1,37 @@
+type Report @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  user: User!
+  time: AWSDateTime
+  location: GPSLocation
+  pestActual: String!
+  pestSubmitted: String
+  pestIdentified: String
+  image: AWSURL
+  posts: [Post] @manyToMany(relationName: "ReportPost")
+}
+
+type Post @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  author: User!
+  title: String!
+  body: String!
+  refReport: [ID]
+  replies: [Reply]
+  reports: [Report] @manyToMany(relationName: "ReportPost")
+}
+
+type GPSLocation {
+  longitude: Float!
+  latitude: Float!
+}
+
+type User {
+  name: String!
+  creationDate: AWSDateTime
+}
+
+type Reply {
+  author: String!
+  body: String!
+}
+ 

@@ -7,6 +7,7 @@
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { TextProps, ViewProps } from "@aws-amplify/ui-react";
+import { SyntheticEvent } from "react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type BaseButtonOverridesProps = {
     BaseButton?: PrimitiveOverrideProps<ViewProps>;
@@ -15,6 +16,7 @@ export declare type BaseButtonOverridesProps = {
 } & EscapeHatchProps;
 export declare type BaseButtonProps = React.PropsWithChildren<Partial<ViewProps> & {
     text?: String;
+    onClick?: (event: SyntheticEvent) => void;
 } & {
     overrides?: BaseButtonOverridesProps | undefined | null;
 }>;
