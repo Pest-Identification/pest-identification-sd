@@ -6,21 +6,19 @@
 
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { BaseButtonProps } from "./BaseButton";
 import { FlexProps, ViewProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type MainMenuOverridesProps = {
-    MainMenu?: PrimitiveOverrideProps<ViewProps>;
-    "Background 1"?: PrimitiveOverrideProps<FlexProps>;
-    Button1?: BaseButtonProps;
-    Button2?: BaseButtonProps;
+export declare type RatingOverridesProps = {
+    Rating?: PrimitiveOverrideProps<FlexProps>;
+    Icon111368?: PrimitiveOverrideProps<ViewProps>;
+    Icon111369?: PrimitiveOverrideProps<ViewProps>;
+    Icon111370?: PrimitiveOverrideProps<ViewProps>;
+    Icon111371?: PrimitiveOverrideProps<ViewProps>;
+    Icon111372?: PrimitiveOverrideProps<ViewProps>;
 } & EscapeHatchProps;
-export declare type MainMenuProps = React.PropsWithChildren<Partial<ViewProps> & {
-    b1Label?: String;
-    b2Label?: String;
-    b1onClick?: String;
-    b2onClick?: String;
+export declare type RatingProps = React.PropsWithChildren<Partial<FlexProps> & {
+    size?: "default" | "large" | "small";
 } & {
-    overrides?: MainMenuOverridesProps | undefined | null;
+    overrides?: RatingOverridesProps | undefined | null;
 }>;
-export default function MainMenu(props: MainMenuProps): React.ReactElement;
+export default function Rating(props: RatingProps): React.ReactElement;

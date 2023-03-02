@@ -22,7 +22,7 @@ function App({signOut, user}) {
       case 'ReferencePage':
         return <ReferencePage />;
       default:
-        return <MainMenu b1Label="IDENTIFY" b2Label="REFERENCE" onClickB1={handleClickB1} onClickB2={handleClickB2} />;
+        return <MainMenu b1Label="IDENTIFY" b2Label="REFERENCE" b1onClick={handleClickB1} b2onClick={handleClickB2} />;
     }
   };
 
