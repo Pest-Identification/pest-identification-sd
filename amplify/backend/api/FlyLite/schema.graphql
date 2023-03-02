@@ -1,14 +1,5 @@
-type Reply {
-  author: String!
-  body: String!
-}
-
-type GPSLocation {
-  longitude: Float!
-  latitude: Float!
-}
-
-type Report {
+type Report @model @auth(rules: [{allow: public}]) {
+  id: ID!
   user: User!
   time: AWSDateTime
   location: GPSLocation
@@ -16,6 +7,22 @@ type Report {
   pestSubmitted: String
   pestIdentified: String
   image: AWSURL
+  posts: [Post] @manyToMany(relationName: "ReportPost")
+}
+
+type Post @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  author: User!
+  title: String!
+  body: String!
+  refReport: [ID]
+  replies: [Reply]
+  reports: [Report] @manyToMany(relationName: "ReportPost")
+}
+
+type GPSLocation {
+  longitude: Float!
+  latitude: Float!
 }
 
 type User {
@@ -23,38 +30,8 @@ type User {
   creationDate: AWSDateTime
 }
 
-type Post {
-  author: User!
-  title: String!
+type Reply {
+  author: String!
   body: String!
-  refReport: Report
-  replies: [Reply]
-}
-
-type DiscussionBoard @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  posts: Post
-}
-
-type Map @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  location: AWSPhone
-  time: String
-}
-
-type GBMReportData @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  location: AWSPhone
-  time: AWSDateTime
-  image: AWSURL
-  Map: Map @hasOne
-}
-
-type SLFReportData @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  location: AWSPhone
-  time: AWSDateTime
-  image: AWSURL
-  Map: Map @hasOne
 }
  
