@@ -13,9 +13,9 @@ export default function MainMenu(props) {
   const { b1Label, b2Label, b1onClick, b2onClick, overrides, ...rest } = props;
   return (
     <View
-      width="390px"
-      height="844px"
-      display="block"
+      width="100%"
+      height="100%"
+      display="contents"
       gap="unset"
       alignItems="unset"
       justifyContent="unset"
@@ -31,12 +31,13 @@ export default function MainMenu(props) {
         direction="column"
         width="unset"
         height="unset"
-        justifyContent="flex-start"
+        justifyContent="center"
         alignItems="center"
         position="absolute"
-        top="392px"
-        left="113px"
-        padding="10px 10px 10px 10px"
+        top="50%"
+        left="50%"
+        padding="0px 0px 0px 0px"
+        transform="translate(-50%, -50%)"
         {...getOverrideProps(overrides, "Background 1")}
       >
         <BaseButton
