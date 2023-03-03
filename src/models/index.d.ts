@@ -2,21 +2,11 @@ import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-
 // @ts-ignore
 import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
 
-
-
-type EagerUser = {
-  readonly name: string;
-  readonly creationDate?: string | null;
+export enum Pests {
+  UNKNOWN = "UNKNOWN",
+  GRAPE_BERRY_MOTH = "GRAPE_BERRY_MOTH",
+  SPOTTED_LANTERN_FLY = "SPOTTED_LANTERN_FLY"
 }
-
-type LazyUser = {
-  readonly name: string;
-  readonly creationDate?: string | null;
-}
-
-export declare type User = LazyLoading extends LazyLoadingDisabled ? EagerUser : LazyUser
-
-export declare const User: (new (init: ModelInit<User>) => User)
 
 type EagerGPSLocation = {
   readonly longitude: number;
@@ -33,18 +23,40 @@ export declare type GPSLocation = LazyLoading extends LazyLoadingDisabled ? Eage
 export declare const GPSLocation: (new (init: ModelInit<GPSLocation>) => GPSLocation)
 
 type EagerReply = {
-  readonly author: string;
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Reply, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly authorID: string;
+  readonly title: string;
   readonly body: string;
+  readonly postID: string;
+  readonly reports?: (ReplyReport | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
 }
 
 type LazyReply = {
-  readonly author: string;
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Reply, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly authorID: string;
+  readonly title: string;
   readonly body: string;
+  readonly postID: string;
+  readonly reports: AsyncCollection<ReplyReport>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
 }
 
 export declare type Reply = LazyLoading extends LazyLoadingDisabled ? EagerReply : LazyReply
 
-export declare const Reply: (new (init: ModelInit<Reply>) => Reply)
+export declare const Reply: (new (init: ModelInit<Reply>) => Reply) & {
+  copyOf(source: Reply, mutator: (draft: MutableModel<Reply>) => MutableModel<Reply> | void): Reply;
+}
 
 type EagerReport = {
   readonly [__modelMeta__]: {
@@ -52,14 +64,14 @@ type EagerReport = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly user: User;
-  readonly time?: string | null;
+  readonly authorID: string;
   readonly location?: GPSLocation | null;
-  readonly pestActual: string;
-  readonly pestSubmitted?: string | null;
-  readonly pestIdentified?: string | null;
+  readonly pestActual: Pests | keyof typeof Pests;
+  readonly pestSubmitted?: Pests | keyof typeof Pests | null;
+  readonly pestIdentified?: Pests | keyof typeof Pests | null;
   readonly image?: string | null;
-  readonly posts?: (ReportPost | null)[] | null;
+  readonly posts?: (PostReport | null)[] | null;
+  readonly replys?: (ReplyReport | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -70,14 +82,14 @@ type LazyReport = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly user: User;
-  readonly time?: string | null;
+  readonly authorID: string;
   readonly location?: GPSLocation | null;
-  readonly pestActual: string;
-  readonly pestSubmitted?: string | null;
-  readonly pestIdentified?: string | null;
+  readonly pestActual: Pests | keyof typeof Pests;
+  readonly pestSubmitted?: Pests | keyof typeof Pests | null;
+  readonly pestIdentified?: Pests | keyof typeof Pests | null;
   readonly image?: string | null;
-  readonly posts: AsyncCollection<ReportPost>;
+  readonly posts: AsyncCollection<PostReport>;
+  readonly replys: AsyncCollection<ReplyReport>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -94,12 +106,11 @@ type EagerPost = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly author: User;
+  readonly authorID: string;
   readonly title: string;
   readonly body: string;
-  readonly refReport?: (string | null)[] | null;
   readonly replies?: (Reply | null)[] | null;
-  readonly reports?: (ReportPost | null)[] | null;
+  readonly reports?: (PostReport | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -110,12 +121,11 @@ type LazyPost = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly author: User;
+  readonly authorID: string;
   readonly title: string;
   readonly body: string;
-  readonly refReport?: (string | null)[] | null;
-  readonly replies?: (Reply | null)[] | null;
-  readonly reports: AsyncCollection<ReportPost>;
+  readonly replies: AsyncCollection<Reply>;
+  readonly reports: AsyncCollection<PostReport>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -126,9 +136,43 @@ export declare const Post: (new (init: ModelInit<Post>) => Post) & {
   copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
 }
 
-type EagerReportPost = {
+type EagerReplyReport = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<ReportPost, 'id'>;
+    identifier: ManagedIdentifier<ReplyReport, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly replyId?: string | null;
+  readonly reportId?: string | null;
+  readonly reply: Reply;
+  readonly report: Report;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyReplyReport = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<ReplyReport, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly replyId?: string | null;
+  readonly reportId?: string | null;
+  readonly reply: AsyncItem<Reply>;
+  readonly report: AsyncItem<Report>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type ReplyReport = LazyLoading extends LazyLoadingDisabled ? EagerReplyReport : LazyReplyReport
+
+export declare const ReplyReport: (new (init: ModelInit<ReplyReport>) => ReplyReport) & {
+  copyOf(source: ReplyReport, mutator: (draft: MutableModel<ReplyReport>) => MutableModel<ReplyReport> | void): ReplyReport;
+}
+
+type EagerPostReport = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<PostReport, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
@@ -140,9 +184,9 @@ type EagerReportPost = {
   readonly updatedAt?: string | null;
 }
 
-type LazyReportPost = {
+type LazyPostReport = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<ReportPost, 'id'>;
+    identifier: ManagedIdentifier<PostReport, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
@@ -154,8 +198,8 @@ type LazyReportPost = {
   readonly updatedAt?: string | null;
 }
 
-export declare type ReportPost = LazyLoading extends LazyLoadingDisabled ? EagerReportPost : LazyReportPost
+export declare type PostReport = LazyLoading extends LazyLoadingDisabled ? EagerPostReport : LazyPostReport
 
-export declare const ReportPost: (new (init: ModelInit<ReportPost>) => ReportPost) & {
-  copyOf(source: ReportPost, mutator: (draft: MutableModel<ReportPost>) => MutableModel<ReportPost> | void): ReportPost;
+export declare const PostReport: (new (init: ModelInit<PostReport>) => PostReport) & {
+  copyOf(source: PostReport, mutator: (draft: MutableModel<PostReport>) => MutableModel<PostReport> | void): PostReport;
 }
