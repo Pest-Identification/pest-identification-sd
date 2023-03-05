@@ -17,15 +17,6 @@ function App({signOut, user}) {
 
 
   const [currentPage, setCurrentPage] = useState('MainMenu');
-
-  const handleClickB1 = () => {
-    setCurrentPage('Identification');
-  };
-
-  const handleClickB2 = () => {
-    setCurrentPage('ReferencePage');
-  };
-
   
 
   const renderPage = () => {
@@ -35,7 +26,7 @@ function App({signOut, user}) {
       case 'ReferencePage':
         return <ReferencePage />;
       default:
-        return <MainMenu b1Label="IDENTIFY" b2Label="REFERENCE" b1onClick={handleClickB1} b2onClick={handleClickB2} />;
+        return <MainMenu b1Label="IDENTIFY" b2Label="REFERENCE" b1onClick={() => setCurrentPage('Identification')} b2onClick={() => setCurrentPage('ReferencePage');} />;
     }
   };
 
