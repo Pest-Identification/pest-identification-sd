@@ -1,37 +1,41 @@
+type Reply @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  authorID: String!
+  title: String!
+  body: String!
+  postID: ID! @index(name: "byPost")
+  reports: [Report] @manyToMany(relationName: "ReplyReport")
+}
+
+enum Pests {
+  UNKNOWN
+  GRAPE_BERRY_MOTH
+  SPOTTED_LANTERN_FLY
+}
+
 type Report @model @auth(rules: [{allow: public}]) {
   id: ID!
-  user: User!
-  time: AWSDateTime
+  authorID: String!
   location: GPSLocation
-  pestActual: String!
-  pestSubmitted: String
-  pestIdentified: String
+  pestActual: Pests!
+  pestSubmitted: Pests
+  pestIdentified: Pests
   image: AWSURL
-  posts: [Post] @manyToMany(relationName: "ReportPost")
+  posts: [Post] @manyToMany(relationName: "PostReport")
+  replys: [Reply] @manyToMany(relationName: "ReplyReport")
 }
 
 type Post @model @auth(rules: [{allow: public}]) {
   id: ID!
-  author: User!
+  authorID: String!
   title: String!
   body: String!
-  refReport: [ID]
-  replies: [Reply]
-  reports: [Report] @manyToMany(relationName: "ReportPost")
+  replies: [Reply] @hasMany(indexName: "byPost", fields: ["id"])
+  reports: [Report] @manyToMany(relationName: "PostReport")
 }
 
 type GPSLocation {
   longitude: Float!
   latitude: Float!
-}
-
-type User {
-  name: String!
-  creationDate: AWSDateTime
-}
-
-type Reply {
-  author: String!
-  body: String!
 }
  

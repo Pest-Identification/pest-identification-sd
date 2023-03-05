@@ -36,7 +36,7 @@ export default function MainMenu(props) {
         position="absolute"
         top="50%"
         left="50%"
-        padding="0px 0px 0px 0px"
+        padding="10px 10px 10px 10px"
         transform="translate(-50%, -50%)"
         {...getOverrideProps(overrides, "Background 1")}
       >

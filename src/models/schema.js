@@ -1,5 +1,110 @@
 export const schema = {
     "models": {
+        "Reply": {
+            "name": "Reply",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "authorID": {
+                    "name": "authorID",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "title": {
+                    "name": "title",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "body": {
+                    "name": "body",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "postID": {
+                    "name": "postID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "reports": {
+                    "name": "reports",
+                    "isArray": true,
+                    "type": {
+                        "model": "ReplyReport"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "reply"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Replies",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byPost",
+                        "fields": [
+                            "postID"
+                        ]
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
         "Report": {
             "name": "Report",
             "fields": {
@@ -10,20 +115,11 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "user": {
-                    "name": "user",
+                "authorID": {
+                    "name": "authorID",
                     "isArray": false,
-                    "type": {
-                        "nonModel": "User"
-                    },
+                    "type": "String",
                     "isRequired": true,
-                    "attributes": []
-                },
-                "time": {
-                    "name": "time",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
                     "attributes": []
                 },
                 "location": {
@@ -38,21 +134,27 @@ export const schema = {
                 "pestActual": {
                     "name": "pestActual",
                     "isArray": false,
-                    "type": "String",
+                    "type": {
+                        "enum": "Pests"
+                    },
                     "isRequired": true,
                     "attributes": []
                 },
                 "pestSubmitted": {
                     "name": "pestSubmitted",
                     "isArray": false,
-                    "type": "String",
+                    "type": {
+                        "enum": "Pests"
+                    },
                     "isRequired": false,
                     "attributes": []
                 },
                 "pestIdentified": {
                     "name": "pestIdentified",
                     "isArray": false,
-                    "type": "String",
+                    "type": {
+                        "enum": "Pests"
+                    },
                     "isRequired": false,
                     "attributes": []
                 },
@@ -67,7 +169,23 @@ export const schema = {
                     "name": "posts",
                     "isArray": true,
                     "type": {
-                        "model": "ReportPost"
+                        "model": "PostReport"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "report"
+                        ]
+                    }
+                },
+                "replys": {
+                    "name": "replys",
+                    "isArray": true,
+                    "type": {
+                        "model": "ReplyReport"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -131,12 +249,10 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "author": {
-                    "name": "author",
+                "authorID": {
+                    "name": "authorID",
                     "isArray": false,
-                    "type": {
-                        "nonModel": "User"
-                    },
+                    "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -154,29 +270,27 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "refReport": {
-                    "name": "refReport",
-                    "isArray": true,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true
-                },
                 "replies": {
                     "name": "replies",
                     "isArray": true,
                     "type": {
-                        "nonModel": "Reply"
+                        "model": "Reply"
                     },
                     "isRequired": false,
                     "attributes": [],
-                    "isArrayNullable": true
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "postID"
+                        ]
+                    }
                 },
                 "reports": {
                     "name": "reports",
                     "isArray": true,
                     "type": {
-                        "model": "ReportPost"
+                        "model": "PostReport"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -230,8 +344,106 @@ export const schema = {
                 }
             ]
         },
-        "ReportPost": {
-            "name": "ReportPost",
+        "ReplyReport": {
+            "name": "ReplyReport",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "replyId": {
+                    "name": "replyId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "reportId": {
+                    "name": "reportId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "reply": {
+                    "name": "reply",
+                    "isArray": false,
+                    "type": {
+                        "model": "Reply"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "replyId"
+                        ]
+                    }
+                },
+                "report": {
+                    "name": "report",
+                    "isArray": false,
+                    "type": {
+                        "model": "Report"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "reportId"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "ReplyReports",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byReply",
+                        "fields": [
+                            "replyId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byReport",
+                        "fields": [
+                            "reportId"
+                        ]
+                    }
+                }
+            ]
+        },
+        "PostReport": {
+            "name": "PostReport",
             "fields": {
                 "id": {
                     "name": "id",
@@ -302,7 +514,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "ReportPosts",
+            "pluralName": "PostReports",
             "attributes": [
                 {
                     "type": "model",
@@ -329,27 +541,17 @@ export const schema = {
             ]
         }
     },
-    "enums": {},
+    "enums": {
+        "Pests": {
+            "name": "Pests",
+            "values": [
+                "UNKNOWN",
+                "GRAPE_BERRY_MOTH",
+                "SPOTTED_LANTERN_FLY"
+            ]
+        }
+    },
     "nonModels": {
-        "User": {
-            "name": "User",
-            "fields": {
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "creationDate": {
-                    "name": "creationDate",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            }
-        },
         "GPSLocation": {
             "name": "GPSLocation",
             "fields": {
@@ -368,27 +570,8 @@ export const schema = {
                     "attributes": []
                 }
             }
-        },
-        "Reply": {
-            "name": "Reply",
-            "fields": {
-                "author": {
-                    "name": "author",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "body": {
-                    "name": "body",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                }
-            }
         }
     },
     "codegenVersion": "3.3.5",
-    "version": "951f373bde454d1e4738bc82a327557a"
+    "version": "7f6e134ad1e35ec7113b1c5bd96c67f9"
 };
