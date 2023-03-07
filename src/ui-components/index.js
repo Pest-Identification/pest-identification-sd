@@ -6,13 +6,11 @@
 
 export { default as Heading } from "./Heading";
 export { default as ReferencePage } from "./ReferencePage";
-export { default as SelectField } from "./SelectField";
+export { default as NewIdentification } from "./NewIdentification";
 export { default as Post } from "./Post";
 export { default as InnerPage } from "./InnerPage";
 export { default as Rating } from "./Rating";
 export { default as Identification } from "./Identification";
-//export { default as Button } from "./Button";
-//export { default as SearchField } from "./SearchField";
 export { default as FrontPage } from "./FrontPage";
 export { default as MainMenu } from "./MainMenu";
 export { default as TextField } from "./TextField";
@@ -22,3 +20,5 @@ export { default as Badge } from "./Badge";
 export { default as CommentCard } from "./CommentCard";
 export { default as BaseButton } from "./BaseButton";
 export { default as studioTheme } from "./studioTheme";
+export { default as ReportForm } from "./ReportForm";
+export { default as Post1 } from "./Post1";
