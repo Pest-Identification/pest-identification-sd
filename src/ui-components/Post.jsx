@@ -9,7 +9,7 @@ import * as React from "react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Flex, Text } from "@aws-amplify/ui-react";
 export default function Post(props) {
-  const { overrides, ...rest } = props;
+  const { post, overrides, ...rest } = props;
   return (
     <Flex
       gap="16px"
@@ -83,7 +83,7 @@ export default function Post(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="New Amplify Studio gives designers the ability to export UI to React code"
+              children={post?.title}
               {...getOverrideProps(overrides, "Body11170")}
             ></Text>
             <Flex
@@ -118,7 +118,7 @@ export default function Post(props) {
                 position="relative"
                 padding="0px 0px 0px 0px"
                 whiteSpace="pre-wrap"
-                children="Nikhil S"
+                children={post?.authorID}
                 {...getOverrideProps(overrides, "Body11172")}
               ></Text>
               <Text
@@ -178,7 +178,7 @@ export default function Post(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="AWS Amplify Studio is a visual development environment for building full-stack web and mobile apps that grows with your business. Studio builds on existing backend building capabilities in AWS Amplify, allowing you to build your UI faster with a set of ready-to-use UI components that are editable in Figma. With Studio, you can quickly build an entire web app, front-to-back, with minimal coding, while still maintaining full control over your app design and behavior through code. Ship faster, scale effortlessly, and delight every user."
+              children={post?.body}
               {...getOverrideProps(overrides, "Body11176")}
             ></Text>
           </Flex>

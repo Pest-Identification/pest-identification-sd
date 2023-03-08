@@ -36,6 +36,7 @@ export declare type Post1Props = React.PropsWithChildren<{
     onSubmit?: (fields: Post1InputValues) => Post1InputValues;
     onSuccess?: (fields: Post1InputValues) => void;
     onError?: (fields: Post1InputValues, errorMessage: string) => void;
+    onCancel?: () => void;
     onChange?: (fields: Post1InputValues) => Post1InputValues;
     onValidate?: Post1ValidationValues;
 } & React.CSSProperties>;

@@ -7,16 +7,22 @@ import reportWebVitals from './reportWebVitals';
 import config from './aws-exports'
 import { Amplify } from 'aws-amplify';
 
-import { AmplifyProvider } from '@aws-amplify/ui-react';
+//import { AmplifyProvider } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
+
+import { ThemeProvider } from '@aws-amplify/ui-react';
+import awsconfig from './aws-exports';
+import studioTheme from './ui-components/studioTheme';
+
+Amplify.configure(awsconfig);
 
 Amplify.configure(config);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <AmplifyProvider>
+  <ThemeProvider theme={studioTheme}>
     <App />
-  </AmplifyProvider>
+  </ThemeProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

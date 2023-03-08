@@ -5,6 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
+import { Post } from "../models";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { FlexProps, TextProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -25,6 +26,8 @@ export declare type PostOverridesProps = {
     Readmore11185?: PrimitiveOverrideProps<TextProps>;
 } & EscapeHatchProps;
 export declare type PostProps = React.PropsWithChildren<Partial<FlexProps> & {
+    post?: Post;
+} & {
     overrides?: PostOverridesProps | undefined | null;
 }>;
 export default function Post(props: PostProps): React.ReactElement;

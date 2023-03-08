@@ -11,6 +11,7 @@ export { default as Post } from "./Post";
 export { default as InnerPage } from "./InnerPage";
 export { default as Rating } from "./Rating";
 export { default as Identification } from "./Identification";
+export { default as PostCollection } from "./PostCollection";
 export { default as FrontPage } from "./FrontPage";
 export { default as MainMenu } from "./MainMenu";
 export { default as TextField } from "./TextField";

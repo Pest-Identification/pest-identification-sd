@@ -12,6 +12,8 @@ export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes
 export declare type MainMenuOverridesProps = {
     MainMenu?: PrimitiveOverrideProps<ViewProps>;
     "Background 1"?: PrimitiveOverrideProps<FlexProps>;
+    Button4?: BaseButtonProps;
+    Button3?: BaseButtonProps;
     Button1?: BaseButtonProps;
     Button2?: BaseButtonProps;
 } & EscapeHatchProps;
@@ -20,6 +22,10 @@ export declare type MainMenuProps = React.PropsWithChildren<Partial<ViewProps> &
     b2Label?: String;
     b1onClick?: String;
     b2onClick?: String;
+    b3Label?: String;
+    b3onClick?: String;
+    b4Label?: String;
+    b4onClick?: String;
 } & {
     overrides?: MainMenuOverridesProps | undefined | null;
 }>;
