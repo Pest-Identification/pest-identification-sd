@@ -6,35 +6,29 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Post as Post0 } from "../models";
+import { Report } from "../models";
+import { SortDirection } from "@aws-amplify/datastore";
 import {
   getOverrideProps,
   useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
-import Post from "./Post";
+import ReportView from "./ReportView";
 import { Collection } from "@aws-amplify/ui-react";
-export default function PostCollection(props) {
+export default function ReportViewCollection(props) {
   const { items: itemsProp, overrideItems, overrides, ...rest } = props;
+  const itemsPagination = { sort: (s) => s.createdAt(SortDirection.ASCENDING) };
   const [items, setItems] = React.useState(undefined);
   const itemsDataStore = useDataStoreBinding({
     type: "collection",
-    model: Post0,
+    model: Report,
+    pagination: itemsPagination,
   }).items;
   React.useEffect(() => {
     if (itemsProp !== undefined) {
       setItems(itemsProp);
       return;
     }
-    async function setItemsFromDataStore() {
-      var loaded = await Promise.all(
-        itemsDataStore.map(async (item) => ({
-          ...item,
-          replies: await item.replies.toArray(),
-        }))
-      );
-      setItems(loaded);
-    }
-    setItemsFromDataStore();
+    setItems(itemsDataStore);
   }, [itemsProp, itemsDataStore]);
   return (
     <Collection
@@ -43,17 +37,17 @@ export default function PostCollection(props) {
       isPaginated={true}
       searchPlaceholder="Search..."
       direction="column"
-      justifyContent="center"
+      justifyContent="stretch"
       items={items || []}
-      {...getOverrideProps(overrides, "PostCollection")}
+      {...getOverrideProps(overrides, "ReportViewCollection")}
       {...rest}
     >
       {(item, index) => (
-        <Post
-          post={item}
+        <ReportView
+          image={item.image}
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}
-        ></Post>
+        ></ReportView>
       )}
     </Collection>
   );

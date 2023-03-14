@@ -107,6 +107,18 @@ export default function MainMenu(props) {
           onClick={b2onClick}
           {...getOverrideProps(overrides, "Button2")}
         ></BaseButton>
+        <BaseButton
+          width="143px"
+          height="40px"
+          display="block"
+          gap="unset"
+          alignItems="unset"
+          justifyContent="unset"
+          shrink="0"
+          position="relative"
+          padding="0px 0px 0px 0px"
+          {...getOverrideProps(overrides, "Button5")}
+        ></BaseButton>
       </Flex>
     </View>
   );

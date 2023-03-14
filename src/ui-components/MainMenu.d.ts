@@ -16,6 +16,7 @@ export declare type MainMenuOverridesProps = {
     Button3?: BaseButtonProps;
     Button1?: BaseButtonProps;
     Button2?: BaseButtonProps;
+    Button5?: BaseButtonProps;
 } & EscapeHatchProps;
 export declare type MainMenuProps = React.PropsWithChildren<Partial<ViewProps> & {
     b1Label?: String;

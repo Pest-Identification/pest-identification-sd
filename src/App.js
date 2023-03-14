@@ -22,7 +22,7 @@ function App({signOut, user}) {
   const renderPage = () => {
     switch (currentPage) {
       case 'Identification':
-        return <NewIdentification Return={() => setCurrentPage('MainMenu')} Report={() => setCurrentPage('Report')}/>;
+        return <NewIdentification onClickBack={() => setCurrentPage('MainMenu')} UnknownLabel="Unknown" SLFLabel="LanternFly" GBMLabel="GBMMoth"/>;
       case 'Report':
         return <ReportForm onCancel={() => setCurrentPage('MainMenu')}/>
       case 'ReferencePage':
@@ -32,7 +32,7 @@ function App({signOut, user}) {
       case 'Post':
         return <Post1 onCancel={() => setCurrentPage('MainMenu')} />;
       case 'MainMenu':
-        return <MainMenu b1Label="IDENTIFY" b2Label="REFERENCE" b3Label="POST" b4Label="DISCUSSION" b1onClick={() => setCurrentPage('Report')} b2onClick={() => setCurrentPage('ReferencePage')} b3onClick={() => setCurrentPage('Post')} b4onClick={() => setCurrentPage('PostCollection')}/>;
+        return <MainMenu b1Label="IDENTIFY" b2Label="REFERENCE" b3Label="POST" b4Label="DISCUSSION" b1onClick={() => setCurrentPage('Identification')} b2onClick={() => setCurrentPage('ReferencePage')} b3onClick={() => setCurrentPage('Post')} b4onClick={() => setCurrentPage('PostCollection')}/>;
       default:
         return <MainMenu b1Label="IDENTIFY" b2Label="REFERENCE" b3Label="POST" b4Label="DISCUSSION" b1onClick={() => setCurrentPage('Identification')} b2onClick={() => setCurrentPage('ReferencePage')} b3onClick={() => setCurrentPage('Post')} b4onClick={() => setCurrentPage('PostCollection')}/>;
     }
