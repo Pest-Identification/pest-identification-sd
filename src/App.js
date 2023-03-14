@@ -5,10 +5,11 @@ import './App.css';
 import "@aws-amplify/ui-react/styles.css";
 import { useState } from 'react';
 import { NewIdentification, MainMenu, ReferencePage, ReportForm, Post1, PostCollection } from './ui-components';
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import { withAuthenticator , FileUploader} from '@aws-amplify/ui-react';
+import { createReport } from './modules/datastore';
 //import {createReport, createPost, createReply} from './modules/datastore';
 
-//import { Pests } from './models';
+import { Pests } from './models';
 
 Amplify.configure(awsconfig);
 
@@ -24,7 +25,19 @@ function App({signOut, user}) {
       case 'Identification':
         return <NewIdentification onClickBack={() => setCurrentPage('MainMenu')} UnknownLabel="Unknown" SLFLabel="LanternFly" GBMLabel="GBMMoth"/>;
       case 'Report':
-        return <ReportForm onCancel={() => setCurrentPage('MainMenu')}/>
+        return (
+        <div>
+          <ReportForm onCancel={() => setCurrentPage('MainMenu')}/>
+          <FileUploader
+              variation="button"
+              acceptedFileTypes={['image/*']}
+              accessLevel="public"
+              isPreviewerVisible={false}
+              maxFileCount={1}
+              hasMultipleFiles={false}
+              onSuccess={(key) => createReport(key.key,Pests.UNKNOWN)}
+            />
+            </div>);
       case 'ReferencePage':
         return <ReferencePage />;
       case 'PostCollection':
