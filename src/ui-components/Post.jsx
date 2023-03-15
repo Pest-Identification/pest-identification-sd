@@ -21,6 +21,7 @@ export default function Post(props) {
       position="relative"
       padding="24px 24px 24px 24px"
       backgroundColor="rgba(255,255,255,1)"
+      display="flex"
       {...getOverrideProps(overrides, "Post")}
       {...rest}
     >
@@ -140,7 +141,7 @@ export default function Post(props) {
                 position="relative"
                 padding="0px 0px 0px 0px"
                 whiteSpace="pre-wrap"
-                children="2nd December 2021"
+                children={post?.createdAt}
                 {...getOverrideProps(overrides, "Body11173")}
               ></Text>
             </Flex>

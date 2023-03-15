@@ -25,7 +25,7 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "storage": {
-    "s3flylitestorage6936379b": {
+    "reportPics": {
       "BucketName": "string",
       "Region": "string"
     }

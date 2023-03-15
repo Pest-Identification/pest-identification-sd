@@ -9,7 +9,6 @@ export async function createReport(image,pest=Pests.UNKNOWN){
 
     console.log(image)
 
-    let bucket = "https://flylite-storage-6936379b161334-staging.s3.us-east-2.amazonaws.com/public/"
     if ("geolocation" in navigator) {
       console.log("Location available");
     } else {
@@ -35,7 +34,7 @@ export async function createReport(image,pest=Pests.UNKNOWN){
       "pestActual": pest,
       "pestSubmitted": pest,
       "pestIdentified": Pests.UNKNOWN,
-      "image": bucket + image,
+      "image": image,
       "postID": null
     } 
 

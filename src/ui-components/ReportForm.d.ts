@@ -13,26 +13,17 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type ReportFormInputValues = {
-    authorID?: string;
-    pestActual?: string;
     pestSubmitted?: string;
-    pestIdentified?: string;
     image?: string;
 };
 export declare type ReportFormValidationValues = {
-    authorID?: ValidationFunction<string>;
-    pestActual?: ValidationFunction<string>;
     pestSubmitted?: ValidationFunction<string>;
-    pestIdentified?: ValidationFunction<string>;
     image?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ReportFormOverridesProps = {
     ReportFormGrid?: PrimitiveOverrideProps<GridProps>;
-    authorID?: PrimitiveOverrideProps<TextFieldProps>;
-    pestActual?: PrimitiveOverrideProps<SelectFieldProps>;
     pestSubmitted?: PrimitiveOverrideProps<SelectFieldProps>;
-    pestIdentified?: PrimitiveOverrideProps<SelectFieldProps>;
     image?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ReportFormProps = React.PropsWithChildren<{

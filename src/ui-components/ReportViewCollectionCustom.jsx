@@ -6,36 +6,47 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Post as Post0 } from "../models";
+import { Report } from "../models";
+import { SortDirection } from "@aws-amplify/datastore";
 import {
   getOverrideProps,
   useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
-import Post from "./Post";
-import { Collection } from "@aws-amplify/ui-react";
-export default function PostCollection(props) {
+import ReportView from "./ReportView";
+import { Collection, AmplifyS3Image } from "@aws-amplify/ui-react";
+export default function ReportViewCollectionCustom(props) {
   const { items: itemsProp, overrideItems, overrides, ...rest } = props;
+  const itemsPagination = { sort: (s) => s.createdAt(SortDirection.ASCENDING) };
   const [items, setItems] = React.useState(undefined);
+  const [urls, setUrls] = React.useState([]);
+
   const itemsDataStore = useDataStoreBinding({
     type: "collection",
-    model: Post0,
+    model: Report,
+    pagination: itemsPagination,
   }).items;
+
   React.useEffect(() => {
     if (itemsProp !== undefined) {
       setItems(itemsProp);
-      return;
     }
-    async function setItemsFromDataStore() {
-      var loaded = await Promise.all(
-        itemsDataStore.map(async (item) => ({
-          ...item,
-          replies: await item.replies.toArray(),
-        }))
-      );
-      setItems(loaded);
+    else setItems(itemsDataStore);
+
+    for (const [index, item] of items.entries()){
+      if(urls[index] != undefined || urls[index] != null){
+        console.log("Getting " + item.image);
+        Storage.get(item.image).then((result) => {
+          const newUrls = urls.map((u,i) => {
+              if(i == index) return result;
+            })
+          setUrls(newUrls);
+          console.log("Set urls again for " + result);
+        });
+      }
     }
-    setItemsFromDataStore();
   }, [itemsProp, itemsDataStore]);
+
+
   return (
     <Collection
       type="list"
@@ -43,17 +54,18 @@ export default function PostCollection(props) {
       isPaginated={true}
       searchPlaceholder="Search..."
       direction="column"
-      justifyContent="center"
+      justifyContent="stretch"
       items={items || []}
-      {...getOverrideProps(overrides, "PostCollection")}
+      {...getOverrideProps(overrides, "ReportViewCollection")}
       {...rest}
     >
       {(item, index) => (
-        <Post
-          post={item}
+        <ReportView
+          image={urls[index]}
+          date={item.createdAt}
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}
-        ></Post>
+        ></ReportView>
       )}
     </Collection>
   );

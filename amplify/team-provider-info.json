@@ -15,8 +15,14 @@
       "auth": {
         "FlyLite": {}
       },
+      "api": {
+        "FlyLite": {}
+      },
+      "predictions": {
+        "slfModel": {}
+      },
       "storage": {
-        "s3flylitestorage6936379b": {}
+        "reportPics": {}
       }
     }
   }

@@ -30,35 +30,21 @@ export default function ReportForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    authorID: "",
-    pestActual: undefined,
     pestSubmitted: undefined,
-    pestIdentified: undefined,
     image: "",
   };
-  const [authorID, setAuthorID] = React.useState(initialValues.authorID);
-  const [pestActual, setPestActual] = React.useState(initialValues.pestActual);
   const [pestSubmitted, setPestSubmitted] = React.useState(
     initialValues.pestSubmitted
-  );
-  const [pestIdentified, setPestIdentified] = React.useState(
-    initialValues.pestIdentified
   );
   const [image, setImage] = React.useState(initialValues.image);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setAuthorID(initialValues.authorID);
-    setPestActual(initialValues.pestActual);
     setPestSubmitted(initialValues.pestSubmitted);
-    setPestIdentified(initialValues.pestIdentified);
     setImage(initialValues.image);
     setErrors({});
   };
   const validations = {
-    authorID: [{ type: "Required" }],
-    pestActual: [{ type: "Required" }],
     pestSubmitted: [],
-    pestIdentified: [],
     image: [{ type: "URL" }],
   };
   const runValidationTasks = async (
@@ -86,10 +72,7 @@ export default function ReportForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          authorID,
-          pestActual,
           pestSubmitted,
-          pestIdentified,
           image,
         };
         const validationResponses = await Promise.all(
@@ -136,78 +119,6 @@ export default function ReportForm(props) {
       {...getOverrideProps(overrides, "ReportForm")}
       {...rest}
     >
-      <TextField
-        label="Author id"
-        isRequired={true}
-        isReadOnly={false}
-        value={authorID}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              authorID: value,
-              pestActual,
-              pestSubmitted,
-              pestIdentified,
-              image,
-            };
-            const result = onChange(modelFields);
-            value = result?.authorID ?? value;
-          }
-          if (errors.authorID?.hasError) {
-            runValidationTasks("authorID", value);
-          }
-          setAuthorID(value);
-        }}
-        onBlur={() => runValidationTasks("authorID", authorID)}
-        errorMessage={errors.authorID?.errorMessage}
-        hasError={errors.authorID?.hasError}
-        {...getOverrideProps(overrides, "authorID")}
-      ></TextField>
-      <SelectField
-        label="Pest actual"
-        placeholder="Please select an option"
-        isDisabled={false}
-        value={pestActual}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              authorID,
-              pestActual: value,
-              pestSubmitted,
-              pestIdentified,
-              image,
-            };
-            const result = onChange(modelFields);
-            value = result?.pestActual ?? value;
-          }
-          if (errors.pestActual?.hasError) {
-            runValidationTasks("pestActual", value);
-          }
-          setPestActual(value);
-        }}
-        onBlur={() => runValidationTasks("pestActual", pestActual)}
-        errorMessage={errors.pestActual?.errorMessage}
-        hasError={errors.pestActual?.hasError}
-        {...getOverrideProps(overrides, "pestActual")}
-      >
-        <option
-          children="Unknown"
-          value="UNKNOWN"
-          {...getOverrideProps(overrides, "pestActualoption0")}
-        ></option>
-        <option
-          children="Grape berry moth"
-          value="GRAPE_BERRY_MOTH"
-          {...getOverrideProps(overrides, "pestActualoption1")}
-        ></option>
-        <option
-          children="Spotted lantern fly"
-          value="SPOTTED_LANTERN_FLY"
-          {...getOverrideProps(overrides, "pestActualoption2")}
-        ></option>
-      </SelectField>
       <SelectField
         label="Pest submitted"
         placeholder="Please select an option"
@@ -217,10 +128,7 @@ export default function ReportForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              authorID,
-              pestActual,
               pestSubmitted: value,
-              pestIdentified,
               image,
             };
             const result = onChange(modelFields);
@@ -252,50 +160,6 @@ export default function ReportForm(props) {
           {...getOverrideProps(overrides, "pestSubmittedoption2")}
         ></option>
       </SelectField>
-      <SelectField
-        label="Pest identified"
-        placeholder="Please select an option"
-        isDisabled={false}
-        value={pestIdentified}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              authorID,
-              pestActual,
-              pestSubmitted,
-              pestIdentified: value,
-              image,
-            };
-            const result = onChange(modelFields);
-            value = result?.pestIdentified ?? value;
-          }
-          if (errors.pestIdentified?.hasError) {
-            runValidationTasks("pestIdentified", value);
-          }
-          setPestIdentified(value);
-        }}
-        onBlur={() => runValidationTasks("pestIdentified", pestIdentified)}
-        errorMessage={errors.pestIdentified?.errorMessage}
-        hasError={errors.pestIdentified?.hasError}
-        {...getOverrideProps(overrides, "pestIdentified")}
-      >
-        <option
-          children="Unknown"
-          value="UNKNOWN"
-          {...getOverrideProps(overrides, "pestIdentifiedoption0")}
-        ></option>
-        <option
-          children="Grape berry moth"
-          value="GRAPE_BERRY_MOTH"
-          {...getOverrideProps(overrides, "pestIdentifiedoption1")}
-        ></option>
-        <option
-          children="Spotted lantern fly"
-          value="SPOTTED_LANTERN_FLY"
-          {...getOverrideProps(overrides, "pestIdentifiedoption2")}
-        ></option>
-      </SelectField>
       <TextField
         label="Image"
         isRequired={false}
@@ -305,10 +169,7 @@ export default function ReportForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              authorID,
-              pestActual,
               pestSubmitted,
-              pestIdentified,
               image: value,
             };
             const result = onChange(modelFields);
