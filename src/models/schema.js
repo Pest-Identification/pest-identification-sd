@@ -161,7 +161,7 @@ export const schema = {
                 "image": {
                     "name": "image",
                     "isArray": false,
-                    "type": "AWSURL",
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -573,5 +573,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.3.5",
-    "version": "7f6e134ad1e35ec7113b1c5bd96c67f9"
+    "version": "13d8836896e54577b3690bcb50803599"
 };

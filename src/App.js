@@ -1,9 +1,9 @@
-import { Amplify, Storage } from 'aws-amplify';
+import { Amplify, DataStore, Storage } from 'aws-amplify';
 import awsconfig from './aws-exports';
 
 import './App.css';
 import "@aws-amplify/ui-react/styles.css";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NewIdentification, MainMenu, ReferencePage, ReportForm, Post1, PostCollection, ReportView } from './ui-components';
 import {default as ReportViewCollectionCustom} from './ui-components/ReportViewCollectionCustom';
 import { withAuthenticator , FileUploader, Image} from '@aws-amplify/ui-react';
@@ -18,12 +18,26 @@ Amplify.configure(awsconfig);
 function App({signOut, user}) {
 
 
-  const [currentPage, setCurrentPage] = useState('MainMenu');
+  const [currentPage, setCurrentPage] = useState('Loading');
   const [image, setImage] = useState("");
+
+  // Ran only once
+  useEffect(() => {
+    DataStore.stop().then(() => {
+      console.log("Datastore stopped. Starting...");
+      DataStore.start().then(() => {
+        console.log("Datastore started!");
+        setCurrentPage('MainMenu')
+      });
+    });
+  }, []);
   
 
   const renderPage = () => {
     switch (currentPage) {
+      case 'Loading':
+        console.log("Loading");
+        return <div>Loading</div>;
       case 'Identification':
         return <NewIdentification Return={() => setCurrentPage('MainMenu')} Report={() => setCurrentPage('Report')}/>;
       case 'Report':
@@ -64,11 +78,7 @@ function App({signOut, user}) {
     }
   };
 
-  function getPic(key){
-    Storage.get(key).then((result) => {setImage(result)})
-  }
-
-
+  
 
   return (
     <div className="App">
