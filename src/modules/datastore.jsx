@@ -35,11 +35,7 @@ export async function createReport(image,pest=Pests.UNKNOWN){
       "pestActual": pest,
       "pestSubmitted": pest,
       "pestIdentified": Pests.UNKNOWN,
-<<<<<<< HEAD
-      "image": bucket + image,
-=======
       "image": image,
->>>>>>> f2e00b00f74a9c1e6e3b1f8d1884d2b8d809093f
       "postID": null
     } 
 

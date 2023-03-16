@@ -1,12 +1,12 @@
-import { Amplify, DataStore, Storage } from 'aws-amplify';
+import { Amplify, DataStore } from 'aws-amplify';
 import awsconfig from './aws-exports';
 
 import './App.css';
 import "@aws-amplify/ui-react/styles.css";
 import React, { useEffect, useState } from 'react';
-import { NewIdentification, MainMenu, ReferencePage, ReportForm, Post1, PostCollection, ReportView } from './ui-components';
+import { NewIdentification, MainMenu, ReferencePage, ReportForm, Post1, PostCollection } from './ui-components';
 import {default as ReportViewCollectionCustom} from './ui-components/ReportViewCollectionCustom';
-import { withAuthenticator , FileUploader, Image} from '@aws-amplify/ui-react';
+import { withAuthenticator , FileUploader} from '@aws-amplify/ui-react';
 import { createReport } from './modules/datastore';
 //import {createReport, createPost, createReply} from './modules/datastore';
 
@@ -19,9 +19,8 @@ function App({signOut, user}) {
 
 
   const [currentPage, setCurrentPage] = useState('Loading');
-  const [image, setImage] = useState("");
 
-  // Ran only once
+  // Run only once
   useEffect(() => {
     DataStore.stop().then(() => {
       console.log("Datastore stopped. Starting...");
@@ -37,7 +36,7 @@ function App({signOut, user}) {
     switch (currentPage) {
       case 'Loading':
         console.log("Loading");
-        return <div>Loading</div>;
+        return ;//<header>Loading</header>;
       case 'Identification':
         return <NewIdentification onClickBack={() => setCurrentPage('MainMenu')} UnknownLabel="Unknown" SLFLabel="LanternFly" GBMLabel="GBMMoth"/>;
       case 'Report':
@@ -83,7 +82,7 @@ function App({signOut, user}) {
   return (
     <div className="App">
       <button onClick={signOut}>Sign out</button>
-        {renderPage()}
+      {renderPage()}
     </div>
   );
 }

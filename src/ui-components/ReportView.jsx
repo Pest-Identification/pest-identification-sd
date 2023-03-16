@@ -38,10 +38,7 @@ export default function ReportView(props) {
         position="relative"
         padding="0px 0px 0px 0px"
         objectFit="cover"
-<<<<<<< HEAD
-=======
         src={image}
->>>>>>> f2e00b00f74a9c1e6e3b1f8d1884d2b8d809093f
         {...getOverrideProps(overrides, "Image")}
       ></Image>
       <Text
