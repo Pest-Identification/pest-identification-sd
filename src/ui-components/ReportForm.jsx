@@ -45,7 +45,11 @@ export default function ReportForm(props) {
   };
   const validations = {
     pestSubmitted: [],
+<<<<<<< HEAD
     image: [{ type: "URL" }],
+=======
+    image: [],
+>>>>>>> f2e00b00f74a9c1e6e3b1f8d1884d2b8d809093f
   };
   const runValidationTasks = async (
     fieldName,

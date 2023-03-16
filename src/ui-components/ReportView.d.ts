@@ -18,10 +18,10 @@ export declare type ReportViewOverridesProps = {
 } & EscapeHatchProps;
 export declare type ReportViewProps = React.PropsWithChildren<Partial<FlexProps> & {
     onClick?: (event: SyntheticEvent) => void;
-    image?: String;
     species?: String;
     date?: String;
     user?: String;
+    image?: String;
 } & {
     overrides?: ReportViewOverridesProps | undefined | null;
 }>;

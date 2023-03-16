@@ -27,6 +27,8 @@ export declare type MainMenuProps = React.PropsWithChildren<Partial<ViewProps> &
     b3onClick?: String;
     b4Label?: String;
     b4onClick?: String;
+    b5onClick?: String;
+    b5Label?: String;
 } & {
     overrides?: MainMenuOverridesProps | undefined | null;
 }>;

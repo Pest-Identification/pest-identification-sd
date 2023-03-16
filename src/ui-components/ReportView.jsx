@@ -9,7 +9,7 @@ import * as React from "react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Flex, Image, Text } from "@aws-amplify/ui-react";
 export default function ReportView(props) {
-  const { onClick, image, species, date, user, overrides, ...rest } = props;
+  const { onClick, species, date, user, image, overrides, ...rest } = props;
   return (
     <Flex
       gap="10px"
@@ -38,6 +38,10 @@ export default function ReportView(props) {
         position="relative"
         padding="0px 0px 0px 0px"
         objectFit="cover"
+<<<<<<< HEAD
+=======
+        src={image}
+>>>>>>> f2e00b00f74a9c1e6e3b1f8d1884d2b8d809093f
         {...getOverrideProps(overrides, "Image")}
       ></Image>
       <Text

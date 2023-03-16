@@ -24,7 +24,7 @@ export async function createReport(image,pest=Pests.UNKNOWN){
     let location = {"longitude": 0.0, "latitude": 0.0};
     
     navigator.geolocation.getCurrentPosition(
-        (loc) => {location.longitude = loc.coords.longitude; location.latitude = loc.coords.latitude; console.log("Got location:" + location);}, // Success
+        (loc) => {location.longitude = loc.coords.longitude; location.latitude = loc.coords.latitude; console.log("Got location:" + JSON.stringify(location));}, // Success
         () => {console.log("Can't get location"); return null;} // Failure
       );
 
@@ -35,7 +35,11 @@ export async function createReport(image,pest=Pests.UNKNOWN){
       "pestActual": pest,
       "pestSubmitted": pest,
       "pestIdentified": Pests.UNKNOWN,
+<<<<<<< HEAD
       "image": bucket + image,
+=======
+      "image": image,
+>>>>>>> f2e00b00f74a9c1e6e3b1f8d1884d2b8d809093f
       "postID": null
     } 
 

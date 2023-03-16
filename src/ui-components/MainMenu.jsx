@@ -19,6 +19,8 @@ export default function MainMenu(props) {
     b3onClick,
     b4Label,
     b4onClick,
+    b5onClick,
+    b5Label,
     overrides,
     ...rest
   } = props;
@@ -117,6 +119,8 @@ export default function MainMenu(props) {
           shrink="0"
           position="relative"
           padding="0px 0px 0px 0px"
+          onClick={b5onClick}
+          text={b5Label}
           {...getOverrideProps(overrides, "Button5")}
         ></BaseButton>
       </Flex>

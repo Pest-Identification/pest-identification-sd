@@ -1,0 +1,15 @@
+{
+  "resourceName": "reportPics",
+  "policyUUID": "78cfca85",
+  "bucketName": "flylite49942404ab2449e883a67b93f53bced6",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "groupAccess": {}
+}
