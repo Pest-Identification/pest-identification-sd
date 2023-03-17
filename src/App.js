@@ -6,7 +6,7 @@ import "@aws-amplify/ui-react/styles.css";
 import React, { useEffect, useState } from 'react';
 import { NewIdentification, MainMenu, ReferencePage, ReportForm, Post1, PostCollection } from './ui-components';
 import {default as ReportViewCollectionCustom} from './ui-components/ReportViewCollectionCustom';
-import { withAuthenticator , FileUploader} from '@aws-amplify/ui-react';
+import { withAuthenticator , FileUploader, SelectField, Button} from '@aws-amplify/ui-react';
 import { createReport } from './modules/datastore';
 //import {createReport, createPost, createReply} from './modules/datastore';
 
@@ -19,6 +19,8 @@ function App({signOut, user}) {
 
 
   const [currentPage, setCurrentPage] = useState('Loading');
+  const [pestSubmitted, setPestSubmitted] = useState("UNKNOWN");
+
 
   // Run only once
   useEffect(() => {
@@ -42,7 +44,29 @@ function App({signOut, user}) {
       case 'Report':
         return (
         <div>
-          <ReportForm onCancel={() => setCurrentPage('MainMenu')}/>
+          <SelectField
+          label="Submit pest as:"
+          placeholder="Please select an option"
+          isDisabled={false}
+          value={pestSubmitted}
+          onChange={(e) => {
+            let { value } = e.target;
+            setPestSubmitted(value);
+          }}
+      >
+        <option
+          children="Unknown"
+          value="UNKNOWN"
+        ></option>
+        <option
+          children="Grape berry moth"
+          value="GRAPE_BERRY_MOTH"
+        ></option>
+        <option
+          children="Spotted lantern fly"
+          value="SPOTTED_LANTERN_FLY"
+        ></option>
+      </SelectField>
           <FileUploader
               variation="button"
               acceptedFileTypes={['image/*']}
@@ -50,7 +74,7 @@ function App({signOut, user}) {
               isPreviewerVisible={false}
               maxFileCount={1}
               hasMultipleFiles={false}
-              onSuccess={(key) => createReport(key.key,Pests.UNKNOWN)}
+              onSuccess={(key) => createReport(key.key,pestSubmitted)}
             />
             </div>);
       case 'ReferencePage':
@@ -81,7 +105,10 @@ function App({signOut, user}) {
 
   return (
     <div className="App">
-      <button onClick={signOut}>Sign out</button>
+      <Button onClick={signOut}>Sign out</Button>
+      <Button onClick={() => {setCurrentPage("MainMenu")}}>
+      Main Menu
+      </Button>
       {renderPage()}
     </div>
   );

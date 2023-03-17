@@ -6,22 +6,25 @@
 
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { FlexProps, ImageProps, TextProps } from "@aws-amplify/ui-react";
+import { FlexProps, ImageProps, TextProps, ViewProps } from "@aws-amplify/ui-react";
 import { SyntheticEvent } from "react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ReportViewOverridesProps = {
-    ReportView?: PrimitiveOverrideProps<FlexProps>;
+    ReportView?: PrimitiveOverrideProps<ViewProps>;
     Image?: PrimitiveOverrideProps<ImageProps>;
+    Data?: PrimitiveOverrideProps<FlexProps>;
     Species?: PrimitiveOverrideProps<TextProps>;
+    Location?: PrimitiveOverrideProps<TextProps>;
     Date?: PrimitiveOverrideProps<TextProps>;
     User?: PrimitiveOverrideProps<TextProps>;
 } & EscapeHatchProps;
-export declare type ReportViewProps = React.PropsWithChildren<Partial<FlexProps> & {
+export declare type ReportViewProps = React.PropsWithChildren<Partial<ViewProps> & {
     onClick?: (event: SyntheticEvent) => void;
     species?: String;
     date?: String;
     user?: String;
     image?: String;
+    location?: String;
 } & {
     overrides?: ReportViewOverridesProps | undefined | null;
 }>;
