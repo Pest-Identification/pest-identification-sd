@@ -8,7 +8,7 @@
 import * as React from "react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import BaseButton from "./BaseButton";
-import { Flex, View } from "@aws-amplify/ui-react";
+import { View } from "@aws-amplify/ui-react";
 export default function MainMenu(props) {
   const {
     b1Label,
@@ -39,17 +39,17 @@ export default function MainMenu(props) {
       {...getOverrideProps(overrides, "MainMenu")}
       {...rest}
     >
-      <Flex
-        gap="10px"
-        direction="column"
-        width="unset"
-        height="unset"
+      <View
+        width="163px"
+        height="260px"
+        display="block"
+        gap="unset"
+        alignItems="unset"
         justifyContent="center"
-        alignItems="center"
         position="absolute"
         top="50%"
         left="50%"
-        padding="10px 10px 10px 10px"
+        padding="0px 0px 0px 0px"
         transform="translate(-50%, -50%)"
         {...getOverrideProps(overrides, "Background 1")}
       >
@@ -60,8 +60,9 @@ export default function MainMenu(props) {
           gap="unset"
           alignItems="unset"
           justifyContent="unset"
-          shrink="0"
-          position="relative"
+          position="absolute"
+          top="10px"
+          left="10px"
           padding="0px 0px 0px 0px"
           text={b4Label}
           onClick={b4onClick}
@@ -74,8 +75,9 @@ export default function MainMenu(props) {
           gap="unset"
           alignItems="unset"
           justifyContent="unset"
-          shrink="0"
-          position="relative"
+          position="absolute"
+          top="60px"
+          left="10px"
           padding="0px 0px 0px 0px"
           text={b3Label}
           onClick={b3onClick}
@@ -88,8 +90,9 @@ export default function MainMenu(props) {
           gap="unset"
           alignItems="unset"
           justifyContent="unset"
-          shrink="0"
-          position="relative"
+          position="absolute"
+          top="110px"
+          left="10px"
           padding="0px 0px 0px 0px"
           text={b1Label}
           onClick={b1onClick}
@@ -102,8 +105,9 @@ export default function MainMenu(props) {
           gap="unset"
           alignItems="unset"
           justifyContent="unset"
-          shrink="0"
-          position="relative"
+          position="absolute"
+          top="160px"
+          left="10px"
           padding="0px 0px 0px 0px"
           text={b2Label}
           onClick={b2onClick}
@@ -116,14 +120,15 @@ export default function MainMenu(props) {
           gap="unset"
           alignItems="unset"
           justifyContent="unset"
-          shrink="0"
-          position="relative"
+          position="absolute"
+          top="210px"
+          left="10px"
           padding="0px 0px 0px 0px"
           onClick={b5onClick}
           text={b5Label}
           {...getOverrideProps(overrides, "Button5")}
         ></BaseButton>
-      </Flex>
+      </View>
     </View>
   );
 }

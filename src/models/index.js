@@ -8,9 +8,10 @@ const Pests = {
   "SPOTTED_LANTERN_FLY": "SPOTTED_LANTERN_FLY"
 };
 
-const { Reply, Report, Post, ReplyReport, PostReport, GPSLocation } = initSchema(schema);
+const { User, Reply, Report, Post, ReplyReport, PostReport, GPSLocation } = initSchema(schema);
 
 export {
+  User,
   Reply,
   Report,
   Post,

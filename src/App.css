@@ -7,6 +7,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%; /* added */
+  height: 100%; /* added */
 }
 
 .App-logo {

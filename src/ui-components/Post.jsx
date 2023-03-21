@@ -14,8 +14,8 @@ export default function Post(props) {
     <Flex
       gap="16px"
       direction="column"
-      width="960px"
-      height="unset"
+      width="1020px"
+      height="276px"
       justifyContent="flex-start"
       alignItems="flex-start"
       position="relative"
@@ -30,8 +30,8 @@ export default function Post(props) {
         direction="row"
         width="unset"
         height="unset"
-        justifyContent="flex-start"
-        alignItems="flex-start"
+        justifyContent="center"
+        alignItems="center"
         shrink="0"
         alignSelf="stretch"
         position="relative"
@@ -183,41 +183,6 @@ export default function Post(props) {
               {...getOverrideProps(overrides, "Body11176")}
             ></Text>
           </Flex>
-          <Flex
-            gap="16px"
-            direction="row"
-            width="unset"
-            height="unset"
-            justifyContent="flex-start"
-            alignItems="flex-start"
-            shrink="0"
-            position="relative"
-            padding="0px 0px 0px 0px"
-            {...getOverrideProps(overrides, "Share11177")}
-          >
-            <Text
-              fontFamily="Inter"
-              fontSize="16px"
-              fontWeight="400"
-              color="rgba(92,102,112,1)"
-              lineHeight="24px"
-              textAlign="left"
-              display="block"
-              direction="column"
-              justifyContent="unset"
-              letterSpacing="0.01px"
-              width="unset"
-              height="unset"
-              gap="unset"
-              alignItems="unset"
-              shrink="0"
-              position="relative"
-              padding="0px 0px 0px 0px"
-              whiteSpace="pre-wrap"
-              children="Share"
-              {...getOverrideProps(overrides, "Share11178")}
-            ></Text>
-          </Flex>
         </Flex>
       </Flex>
       <Flex
@@ -225,8 +190,8 @@ export default function Post(props) {
         direction="row"
         width="unset"
         height="unset"
-        justifyContent="flex-start"
-        alignItems="flex-start"
+        justifyContent="center"
+        alignItems="center"
         shrink="0"
         alignSelf="stretch"
         position="relative"
@@ -255,7 +220,7 @@ export default function Post(props) {
           position="relative"
           padding="0px 0px 0px 0px"
           whiteSpace="pre-wrap"
-          children="Read more"
+          children="Reply"
           {...getOverrideProps(overrides, "Readmore11185")}
         ></Text>
       </Flex>

@@ -23,7 +23,7 @@ export default function NewIdentification(props) {
   } = props;
   return (
     <View
-      width="390px"
+      width="459px"
       height="844px"
       display="block"
       gap="unset"
@@ -37,7 +37,7 @@ export default function NewIdentification(props) {
       {...rest}
     >
       <View
-        width="390px"
+        width="459px"
         height="71px"
         display="block"
         gap="unset"
@@ -63,8 +63,8 @@ export default function NewIdentification(props) {
         direction="column"
         justifyContent="unset"
         letterSpacing="0.85px"
-        width="273px"
-        height="unset"
+        width="321.3px"
+        height="5px"
         gap="unset"
         alignItems="unset"
         position="absolute"
@@ -78,7 +78,7 @@ export default function NewIdentification(props) {
         {...getOverrideProps(overrides, "Identification")}
       ></Text>
       <View
-        width="120px"
+        width="141.23px"
         height="40px"
         display="block"
         gap="unset"
@@ -142,7 +142,7 @@ export default function NewIdentification(props) {
         justifyContent="unset"
         position="absolute"
         top="calc(50% - 20px - 0px)"
-        left="calc(50% - 71.5px - 0.5px)"
+        left="calc(50% - 71.5px - 0px)"
         padding="0px 0px 0px 0px"
         text={SLFLabel}
         onClick={onClickSLF}
@@ -197,7 +197,7 @@ export default function NewIdentification(props) {
         justifyContent="unset"
         position="absolute"
         top="calc(50% - 20px - 49px)"
-        left="calc(50% - 71.5px - 0.5px)"
+        left="calc(50% - 71.5px - 0px)"
         padding="0px 0px 0px 0px"
         text={GBMLabel}
         onClick={onClickGBM}
@@ -211,8 +211,8 @@ export default function NewIdentification(props) {
           alignItems="unset"
           justifyContent="unset"
           position="absolute"
-          top="1px"
-          left="0px"
+          top="calc(50% - 19.5px - -0.5px)"
+          left="calc(50% - 71.5px - 0px)"
           borderRadius="3px"
           padding="0px 0px 0px 0px"
           backgroundColor="rgba(0,0,0,1)"
@@ -253,7 +253,7 @@ export default function NewIdentification(props) {
         justifyContent="unset"
         position="absolute"
         top="calc(50% - 20px - -46px)"
-        left="calc(50% - 71.5px - 0.5px)"
+        left="calc(50% - 71.5px - 0px)"
         padding="0px 0px 0px 0px"
         text={UnknownLabel}
         onClick={onClickUnknown}

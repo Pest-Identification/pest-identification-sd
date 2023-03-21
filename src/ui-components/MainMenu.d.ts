@@ -7,11 +7,11 @@
 import * as React from "react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { BaseButtonProps } from "./BaseButton";
-import { FlexProps, ViewProps } from "@aws-amplify/ui-react";
+import { ViewProps } from "@aws-amplify/ui-react";
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MainMenuOverridesProps = {
     MainMenu?: PrimitiveOverrideProps<ViewProps>;
-    "Background 1"?: PrimitiveOverrideProps<FlexProps>;
+    "Background 1"?: PrimitiveOverrideProps<ViewProps>;
     Button4?: BaseButtonProps;
     Button3?: BaseButtonProps;
     Button1?: BaseButtonProps;
