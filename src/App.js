@@ -4,9 +4,9 @@ import awsconfig from './aws-exports';
 import './App.css';
 import "@aws-amplify/ui-react/styles.css";
 import React, { useEffect, useState } from 'react';
-import { NewIdentification, MainMenu, ReferencePage, ReportForm, Post1, PostCollection } from './ui-components';
+import { NewIdentification, MainMenu, ReferencePage, Post1, PostCollection } from './ui-components';
 import {default as ReportViewCollectionCustom} from './ui-components/ReportViewCollectionCustom';
-import { withAuthenticator , FileUploader, SelectField, Button} from '@aws-amplify/ui-react';
+import { withAuthenticator , FileUploader, SelectField, Button, Image} from '@aws-amplify/ui-react';
 import { createReport } from './modules/datastore';
 //import {createReport, createPost, createReply} from './modules/datastore';
 
@@ -20,6 +20,7 @@ function App({signOut, user}) {
 
   const [currentPage, setCurrentPage] = useState('Loading');
   const [pestSubmitted, setPestSubmitted] = useState("UNKNOWN");
+  const [imageToSubmit, setImageToSubmit] = useState();
 
 
   // Run only once
@@ -67,6 +68,14 @@ function App({signOut, user}) {
           value="SPOTTED_LANTERN_FLY"
         ></option>
       </SelectField>
+      <input
+      type="file"
+      accept="image/jpeg"
+      onChange={(e) => setImageToSubmit(e.target.files[0])}
+      />
+      <Image src={imageToSubmit}></Image>
+      <Button onClick={() => {createReport(imageToSubmit, pestSubmitted)}}>Submit Report</Button>
+      
           <FileUploader
               variation="button"
               acceptedFileTypes={['image/*']}
@@ -101,7 +110,6 @@ function App({signOut, user}) {
     }
   };
 
-  
 
   return (
     <div className="App">
@@ -109,6 +117,7 @@ function App({signOut, user}) {
       <Button onClick={() => {setCurrentPage("MainMenu")}}>
       Main Menu
       </Button>
+      
       {renderPage()}
     </div>
   );

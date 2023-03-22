@@ -1,5 +1,5 @@
 import { DataStore } from '@aws-amplify/datastore';
-import { Auth } from 'aws-amplify';
+import { Auth, Storage } from 'aws-amplify';
 import { Pests, Reply, Report, Post, PostReport, ReplyReport } from '../models';
 
 
@@ -7,53 +7,79 @@ import { Pests, Reply, Report, Post, PostReport, ReplyReport } from '../models';
 
 export async function createReport(image,pest=Pests.UNKNOWN){
 
-    console.log(image)
 
-    let bucket = "https://flylite-storage-6936379b161334-staging.s3.us-east-2.amazonaws.com/public/"
     if ("geolocation" in navigator) {
       console.log("Location available");
     } else {
-      console.log("Location unavailable");
-      return null;
+      throw new Error("Location unavailable");
     }
 
-    /*//////////////////
-    Code that uploads picture?
-    *//////////////////
-
-    let location = {"longitude": 0.0, "latitude": 0.0};
-    
-    navigator.geolocation.getCurrentPosition(
-        (loc) => {location.longitude = loc.coords.longitude; location.latitude = loc.coords.latitude; console.log("Got location:" + JSON.stringify(location));}, // Success
-        () => {console.log("Can't get location"); return null;} // Failure
-      );
-
-    let report = {
-      "authorID": (await Auth.currentUserInfo()).attributes.sub,
-      "time": new Date().toISOString(),
-      "location": location,
+    let reportStruct = 
+    {
+      "authorID": "asdf",
+      "location": {longitude: 0, latitude: 0},
       "pestActual": pest,
       "pestSubmitted": pest,
       "pestIdentified": Pests.UNKNOWN,
-      "image": image,
-      "postID": null
-    } 
+      "image": "asdf"
+    };
+    let submitedReport;
+    
+    new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (loc) => {resolve(loc)}, // Success
+        () => {reject()} // Failure
+      )}).then( r => {
+
+        reportStruct.location.longitude = r.coords.longitude; 
+        reportStruct.location.latitude = r.coords.latitude; 
+        console.log("Got location:" + JSON.stringify(reportStruct.location));
+        return Auth.currentUserInfo();
+    
+      }, ()=> {
+        throw new Error("Can't access location.");
+      }).then((r) => {
+
+        reportStruct.authorID = r.attributes.sub;
+
+        console.log("Got author ID. Creating report... ")
+      
+        return DataStore.save(new Report(reportStruct));
+
+      }).then( r => {
+
+        console.log("Submitted report. Getting new backend report id... ");
+
+          // Listen for changes to the report
+        return new Promise((resolve, reject) => {
+          const subscription = DataStore.observe(Report).subscribe(() => {
+            // Retrieve the updated report from the cloud
+            console.log("Detected a possible id change. Querying...")
+            subscription.unsubscribe(); // Unsubscribe from the observation to avoid memory leaks
+            resolve(DataStore.query(Report, r.id));
+          })
+        });
+
+      }).then( r => {
+
+        console.log("Got backend report id from cloud. Uploading image... ");
+
+        submitedReport = r;
+
+        return Storage.put(r.id,image);
+
+      }).then( r => {
+
+        console.log("Uploaded image. Updating report with image key...");
+        
+        return DataStore.save(Report.copyOf(submitedReport, updated => {updated.image = r.key}));
+
+      }).then( r => {
+        console.log("Report created successfully!", r);
+      });
 
 
-    /*////////////////
-    Code that runs inference and populates "pestIdentified"
-    Either returns "report" with "pestIdentified"
-    or creates the report and returns the result.
-    */////////////////
-
-    console.log("Creating report: ", report);
-
-    // Store
-    let reportPromise = DataStore.save(new Report(report));
-
-    console.log("Report created: ", reportPromise);
-
-    return reportPromise;
+    return;
   }
 
   export async function createReply(post,body,refReports){

@@ -20,8 +20,6 @@ export declare type PostOverridesProps = {
     Body11173?: PrimitiveOverrideProps<TextProps>;
     Article?: PrimitiveOverrideProps<FlexProps>;
     Body11176?: PrimitiveOverrideProps<TextProps>;
-    Share11177?: PrimitiveOverrideProps<FlexProps>;
-    Share11178?: PrimitiveOverrideProps<TextProps>;
     Readmore11183?: PrimitiveOverrideProps<FlexProps>;
     Readmore11185?: PrimitiveOverrideProps<TextProps>;
 } & EscapeHatchProps;
