@@ -130,7 +130,7 @@ function App({signOut, user}) {
       Main Menu
       </Button></h>
       
-      {renderPage()}
+      <body>{renderPage()}</body>
     </div>
   );
 }
