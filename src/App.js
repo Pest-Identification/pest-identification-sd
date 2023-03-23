@@ -74,17 +74,6 @@ function App({signOut, user}) {
       />
       <Image src={imageToSubmit}></Image>
       <Button onClick={() => {createReport(imageToSubmit, pestSubmitted)}}>Submit Report</Button>
-      
-          <FileUploader
-              variation="button"
-              acceptedFileTypes={['image/*']}
-              accessLevel="public"
-              isPreviewerVisible={false}
-              maxFileCount={1}
-              hasMultipleFiles={false}
-              onSuccess={(key) => createReport(key.key,pestSubmitted)}
-            />
-            </div>);
       case 'ReferencePage':
         return <ReferencePage />;
       case 'PostCollection':
