@@ -57,6 +57,47 @@
       "service": "Cognito"
     }
   },
+  "function": {
+    "updateUserDB": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "FlyLite"
+        },
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput"
+          ],
+          "category": "api",
+          "resourceName": "FlyLite"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_updateUserDB_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateUserDB"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateUserDB_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateUserDB"
+        }
+      ]
+    }
+  },
   "predictions": {
     "slfModel": {
       "dependsOn": [],

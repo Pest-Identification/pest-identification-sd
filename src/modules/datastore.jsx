@@ -16,12 +16,12 @@ export async function createReport(image,pest=Pests.UNKNOWN){
 
     let reportStruct = 
     {
-      "authorID": "asdf",
+      "authorID": "",
       "location": {longitude: 0, latitude: 0},
       "pestActual": pest,
       "pestSubmitted": pest,
       "pestIdentified": Pests.UNKNOWN,
-      "image": "asdf"
+      "image": ""
     };
     let submitedReport;
     

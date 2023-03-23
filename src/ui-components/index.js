@@ -21,6 +21,7 @@ export { default as Badge } from "./Badge";
 export { default as ReportView } from "./ReportView";
 export { default as CommentCard } from "./CommentCard";
 export { default as NewIdentification } from "./NewIdentification";
+export { default as Test } from "./Test";
 export { default as BaseButton } from "./BaseButton";
 export { default as studioTheme } from "./studioTheme";
 export { default as ReportForm } from "./ReportForm";
