@@ -66,7 +66,7 @@ export async function createReport(image,pest=Pests.UNKNOWN){
 
         submitedReport = r;
 
-        return Storage.put(r.id,image);
+        return Storage.put(r.id + ".jpg",image);
 
       }).then( r => {
 
