@@ -6,7 +6,7 @@ import "@aws-amplify/ui-react/styles.css";
 import React, { useEffect, useState } from 'react';
 import { NewIdentification, MainMenu, ReferencePage, Post1, PostCollection } from './ui-components';
 import {default as ReportViewCollectionCustom} from './ui-components/ReportViewCollectionCustom';
-import { withAuthenticator , FileUploader, SelectField, Button, Image} from '@aws-amplify/ui-react';
+import { withAuthenticator, SelectField, Button, Image} from '@aws-amplify/ui-react';
 import { createReport } from './modules/datastore';
 //import {createReport, createPost, createReply} from './modules/datastore';
 
@@ -74,6 +74,7 @@ function App({signOut, user}) {
       />
       <Image src={imageToSubmit}></Image>
       <Button onClick={() => {createReport(imageToSubmit, pestSubmitted)}}>Submit Report</Button>
+      </div>);
       case 'ReferencePage':
         return <ReferencePage />;
       case 'PostCollection':
