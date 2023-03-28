@@ -5,9 +5,9 @@
  **************************************************************************/
 
 /* eslint-disable */
-import { Storage } from 'aws-amplify';
+import { Storage, DataStore} from 'aws-amplify';
 import * as React from "react";
-import { Report } from "../models";
+import { Report, User } from "../models";
 import { SortDirection } from "@aws-amplify/datastore";
 import {
   getOverrideProps,
@@ -20,9 +20,10 @@ export default function ReportViewCollectionCustom(props) {
   const itemsPagination = { sort: (s) => s.createdAt(SortDirection.ASCENDING) };
   const [items, setItems] = React.useState(undefined);
   const [urls, setUrls] = React.useState({});
-  let loadingUrls
+  const [users, setUsers] = React.useState({});
   
-  let imageRequests = {"ids": [], "promises": []};
+  let imgRequests = {};
+  let userRequests = {};
 
   const itemsDataStore = useDataStoreBinding({
     type: "collection",
@@ -30,7 +31,6 @@ export default function ReportViewCollectionCustom(props) {
     pagination: itemsPagination,
   }).items;
 
-  let i = 0;
 
   React.useEffect(() => {
     if (itemsProp !== undefined) {
@@ -38,27 +38,40 @@ export default function ReportViewCollectionCustom(props) {
     }
     else setItems(itemsDataStore);
     
-    for (const [index, item] of itemsDataStore.entries()){
+    for (const item of itemsDataStore.values()){
 
       // If url has not been requested yet:
-      if(!Object.keys(imageRequests["ids"]).includes(item.id)){
-        imageRequests["ids"][index] = item.id;
-        imageRequests["promises"][index] = Storage.get(item.image);
+      if(!Object.keys(requests.keys()).includes(item.id)){
+        imgRequests[item.id] = Storage.get(item.image);
+        userRequests[item.id] = DataStore.query(User, item.authorID);
       }
 
     }
 
-    // Wait until all promises are resolved.
-    Promise.all(imageRequests["promises"]).then((results) => {
+    // Wait until all imgPromises are resolved.
+    Promise.allSettled(imgRequests.values()).then((results) => {
       let newUrls = Object.assign({},urls); // Must be a deep copy to trigger re-render
 
       // Enumerate ids (to match with promise using index)
-      for(let [index, id] of imageRequests["ids"].entries()){
+      for(let [index, id] of requests["ids"].entries()){
         newUrls[id] = results[index];
       }
-
+      
       setUrls(newUrls);
     });
+
+    // Wait until all userRequests are resolved.
+    Promise.allSettled(userRequests.values()).then((results) => {
+      let newUsers = Object.assign({},users); // Must be a deep copy to trigger re-render
+
+      // Enumerate ids (to match with promise using index)
+      for(let [index, id] of requests["ids"].entries()){
+        newUsers[id] = results[index];
+      }
+      
+      setUsers(newUsers);
+    });
+
   }, [itemsProp, itemsDataStore]);
 
   function getDate(item){
@@ -66,8 +79,8 @@ export default function ReportViewCollectionCustom(props) {
     return (d.toLocaleDateString() + " " + d.toLocaleTimeString("en",{timeStyle: "short"}));
   }
 
-  function getUser(item){
-    return "by " + item.authorID;
+  function getUser(id){
+    return "by " + users[id];
   }
 
   function getLocation(item){
@@ -90,7 +103,7 @@ export default function ReportViewCollectionCustom(props) {
           image={urls[item.id]}
           date={getDate(item)}
           species={item.pestActual}
-          user={getUser(item)}
+          user={getUser(item.id)}
           location={getLocation(item)}
           key={item.id}
           {...(overrideItems && overrideItems({ item, index }))}

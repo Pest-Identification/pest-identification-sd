@@ -10,15 +10,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "cognitoID": {
-                    "name": "cognitoID",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "username": {
-                    "name": "username",
+                "name": {
+                    "name": "name",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -639,5 +632,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.3.5",
-    "version": "3569ebf80193d5f47974b32f2b4a210c"
+    "version": "9d3c15f9731cab5ba13d8f14d968bd05"
 };

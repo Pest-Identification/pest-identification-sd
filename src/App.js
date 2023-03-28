@@ -53,28 +53,28 @@ function App({signOut, user}) {
             let { value } = e.target;
             setPestSubmitted(value);
           }}
-      >
-        <option
-          children="Unknown"
-          value="UNKNOWN"
-        ></option>
-        <option
-          children="Grape berry moth"
-          value="GRAPE_BERRY_MOTH"
-        ></option>
-        <option
-          children="Spotted lantern fly"
-          value="SPOTTED_LANTERN_FLY"
-        ></option>
-      </SelectField>
-      <input
-      type="file"
-      accept="image/jpeg"
-      onChange={(e) => setImageToSubmit(e.target.files[0])}
-      />
-      <Image src={imageToSubmit}></Image>
-      <Button onClick={() => {createReport(imageToSubmit, pestSubmitted)}}>Submit Report</Button>
-      </div>);
+          >
+          <option
+            children="Unknown"
+            value="UNKNOWN"
+          ></option>
+          <option
+            children="Grape berry moth"
+            value="GRAPE_BERRY_MOTH"
+          ></option>
+          <option
+            children="Spotted lantern fly"
+            value="SPOTTED_LANTERN_FLY"
+          ></option>
+          </SelectField>
+          <input
+          type="file"
+          accept="image/jpeg"
+          onChange={(e) => setImageToSubmit(e.target.files[0])}
+          />
+          <Image src={imageToSubmit}></Image>
+          <Button onClick={() => {createReport(imageToSubmit, pestSubmitted)}}>Submit Report</Button>
+        </div>);
       case 'ReferencePage':
         return <ReferencePage />;
       case 'PostCollection':
@@ -83,46 +83,34 @@ function App({signOut, user}) {
         return <Post1 onCancel={() => setCurrentPage('MainMenu')} />;
       case 'Reports':
         return <ReportViewCollectionCustom />;
-      case 'MainMenu':
-        return <MainMenu
-          b1Label="IDENTIFY"
-          b1onClick={() => setCurrentPage('Report')}
-          b2Label="REFERENCE"
-          b2onClick={() => setCurrentPage('ReferencePage')}
-          b3Label="POST"
-          b3onClick={() => setCurrentPage('Post')}
-          b4Label="DISCUSSION"
-          b4onClick={() => setCurrentPage('PostCollection')}
-          b5Label="REPORTS"
-          b5onClick={() => setCurrentPage('Reports')}
-          />;
       default:
-        return <MainMenu
+        return (<MainMenu
           b1Label="IDENTIFY"
-          b1onClick={() => setCurrentPage('Report')}
+          b1onClick={() => setCurrentPage("Report")}
           b2Label="REFERENCE"
-          b2onClick={() => setCurrentPage('ReferencePage')}
+          b2onClick={() => setCurrentPage("ReferencePage")}
           b3Label="POST"
-          b3onClick={() => setCurrentPage('Post')}
+          b3onClick={() => setCurrentPage("Post")}
           b4Label="DISCUSSION"
-          b4onClick={() => setCurrentPage('PostCollection')}
+          b4onClick={() => setCurrentPage("PostCollection")}
           b5Label="REPORTS"
-          b5onClick={() => setCurrentPage('Reports')}
-          />;
+          b5onClick={() => setCurrentPage("Reports")}
+          />);
     }
   };
 
 
   return (
     <div className="App">
-      <h><Button onClick={signOut}>Sign out</Button>
+      <div><Button onClick={signOut}>Sign out</Button>
       <Button onClick={() => {setCurrentPage("MainMenu")}}>
       Main Menu
-      </Button></h>
+      </Button></div>
       
-      <body>{renderPage()}</body>
+      {renderPage()}
     </div>
   );
 }
 
 export default withAuthenticator(App);
+//export default App;

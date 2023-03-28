@@ -28,8 +28,7 @@ type EagerUser = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly cognitoID: string;
-  readonly username: string;
+  readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -40,8 +39,7 @@ type LazyUser = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly cognitoID: string;
-  readonly username: string;
+  readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

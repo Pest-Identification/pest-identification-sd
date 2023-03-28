@@ -1,7 +1,6 @@
 type User @model @auth(rules: [{allow: public}]) {
   id: ID!
-  cognitoID: String!
-  username: String!
+  name: String!
 }
 
 type Reply @model @auth(rules: [{allow: public}]) {

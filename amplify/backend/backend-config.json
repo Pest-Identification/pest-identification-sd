@@ -43,6 +43,7 @@
         "signupAttributes": [
           "EMAIL",
           "NAME",
+          "PREFERRED_USERNAME",
           "PHONE_NUMBER"
         ],
         "socialProviders": [],
@@ -61,13 +62,6 @@
     "updateUserDB": {
       "build": true,
       "dependsOn": [
-        {
-          "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "FlyLite"
-        },
         {
           "attributes": [
             "GraphQLAPIIdOutput"

@@ -12,9 +12,6 @@
       "AmplifyAppId": "dj2fy9i64709"
     },
     "categories": {
-      "auth": {
-        "FlyLite": {}
-      },
       "api": {
         "FlyLite": {}
       },
@@ -28,8 +25,11 @@
         "updateUserDb": {},
         "updateUserDB": {
           "deploymentBucketName": "amplify-flylite-staging-161334-deployment",
-          "s3Key": "amplify-builds/updateUserDB-5061676c416a4f634369-build.zip"
+          "s3Key": "amplify-builds/updateUserDB-6275367a497372623335-build.zip"
         }
+      },
+      "auth": {
+        "FlyLite": {}
       }
     }
   }
