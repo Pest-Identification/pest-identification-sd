@@ -25,11 +25,14 @@
         "updateUserDb": {},
         "updateUserDB": {
           "deploymentBucketName": "amplify-flylite-staging-161334-deployment",
-          "s3Key": "amplify-builds/updateUserDB-6275367a497372623335-build.zip"
+          "s3Key": "amplify-builds/updateUserDB-63594e4547595a54734d-build.zip"
         }
       },
       "auth": {
         "FlyLite": {}
+      },
+      "geo": {
+        "reportLocationLookup": {}
       }
     }
   }

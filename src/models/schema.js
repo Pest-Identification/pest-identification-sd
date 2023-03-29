@@ -10,8 +10,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "name": {
-                    "name": "name",
+                "userName": {
+                    "name": "userName",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -185,7 +185,7 @@ export const schema = {
                     "name": "location",
                     "isArray": false,
                     "type": {
-                        "nonModel": "GPSLocation"
+                        "nonModel": "Location"
                     },
                     "isRequired": false,
                     "attributes": []
@@ -611,6 +611,83 @@ export const schema = {
         }
     },
     "nonModels": {
+        "Location": {
+            "name": "Location",
+            "fields": {
+                "address": {
+                    "name": "address",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "Address"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "coordinates": {
+                    "name": "coordinates",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "GPSLocation"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        },
+        "Address": {
+            "name": "Address",
+            "fields": {
+                "number": {
+                    "name": "number",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "street": {
+                    "name": "street",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "neighborhood": {
+                    "name": "neighborhood",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "municipality": {
+                    "name": "municipality",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "region": {
+                    "name": "region",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "country": {
+                    "name": "country",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "postalCode": {
+                    "name": "postalCode",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        },
         "GPSLocation": {
             "name": "GPSLocation",
             "fields": {
@@ -632,5 +709,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.3.5",
-    "version": "9d3c15f9731cab5ba13d8f14d968bd05"
+    "version": "7bf66fb51e3dadbf8885b375682cccbe"
 };

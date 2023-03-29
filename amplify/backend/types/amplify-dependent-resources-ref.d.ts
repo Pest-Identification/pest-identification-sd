@@ -27,6 +27,13 @@ export type AmplifyDependentResourcesAttributes = {
       "Region": "string"
     }
   },
+  "geo": {
+    "reportLocationLookup": {
+      "Arn": "string",
+      "Name": "string",
+      "Region": "string"
+    }
+  },
   "predictions": {
     "slfModel": {
       "region": "string",

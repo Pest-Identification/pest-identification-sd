@@ -8,7 +8,7 @@ const Pests = {
   "SPOTTED_LANTERN_FLY": "SPOTTED_LANTERN_FLY"
 };
 
-const { User, Reply, Report, Post, ReplyReport, PostReport, GPSLocation } = initSchema(schema);
+const { User, Reply, Report, Post, ReplyReport, PostReport, Location, Address, GPSLocation } = initSchema(schema);
 
 export {
   User,
@@ -18,5 +18,7 @@ export {
   ReplyReport,
   PostReport,
   Pests,
+  Location,
+  Address,
   GPSLocation
 };

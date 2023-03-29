@@ -1,6 +1,21 @@
+type Location {
+  address: Address
+  coordinates: GPSLocation
+}
+
+type Address {
+  number: String
+  street: String
+  neighborhood: String
+  municipality: String
+  region: String
+  country: String
+  postalCode: String
+}
+
 type User @model @auth(rules: [{allow: public}]) {
   id: ID!
-  name: String!
+  userName: String!
 }
 
 type Reply @model @auth(rules: [{allow: public}]) {
@@ -21,7 +36,7 @@ enum Pests {
 type Report @model @auth(rules: [{allow: public}]) {
   id: ID!
   authorID: String!
-  location: GPSLocation
+  location: Location
   pestActual: Pests!
   pestSubmitted: Pests
   pestIdentified: Pests

@@ -8,6 +8,44 @@ export enum Pests {
   SPOTTED_LANTERN_FLY = "SPOTTED_LANTERN_FLY"
 }
 
+type EagerLocation = {
+  readonly address?: Address | null;
+  readonly coordinates?: GPSLocation | null;
+}
+
+type LazyLocation = {
+  readonly address?: Address | null;
+  readonly coordinates?: GPSLocation | null;
+}
+
+export declare type Location = LazyLoading extends LazyLoadingDisabled ? EagerLocation : LazyLocation
+
+export declare const Location: (new (init: ModelInit<Location>) => Location)
+
+type EagerAddress = {
+  readonly number?: string | null;
+  readonly street?: string | null;
+  readonly neighborhood?: string | null;
+  readonly municipality?: string | null;
+  readonly region?: string | null;
+  readonly country?: string | null;
+  readonly postalCode?: string | null;
+}
+
+type LazyAddress = {
+  readonly number?: string | null;
+  readonly street?: string | null;
+  readonly neighborhood?: string | null;
+  readonly municipality?: string | null;
+  readonly region?: string | null;
+  readonly country?: string | null;
+  readonly postalCode?: string | null;
+}
+
+export declare type Address = LazyLoading extends LazyLoadingDisabled ? EagerAddress : LazyAddress
+
+export declare const Address: (new (init: ModelInit<Address>) => Address)
+
 type EagerGPSLocation = {
   readonly longitude: number;
   readonly latitude: number;
@@ -28,7 +66,7 @@ type EagerUser = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly name: string;
+  readonly userName: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -39,7 +77,7 @@ type LazyUser = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly name: string;
+  readonly userName: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -93,7 +131,7 @@ type EagerReport = {
   };
   readonly id: string;
   readonly authorID: string;
-  readonly location?: GPSLocation | null;
+  readonly location?: Location | null;
   readonly pestActual: Pests | keyof typeof Pests;
   readonly pestSubmitted?: Pests | keyof typeof Pests | null;
   readonly pestIdentified?: Pests | keyof typeof Pests | null;
@@ -111,7 +149,7 @@ type LazyReport = {
   };
   readonly id: string;
   readonly authorID: string;
-  readonly location?: GPSLocation | null;
+  readonly location?: Location | null;
   readonly pestActual: Pests | keyof typeof Pests;
   readonly pestSubmitted?: Pests | keyof typeof Pests | null;
   readonly pestIdentified?: Pests | keyof typeof Pests | null;

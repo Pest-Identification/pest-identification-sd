@@ -1,7 +1,6 @@
 import { DataStore } from '@aws-amplify/datastore';
-import { Auth, Storage } from 'aws-amplify';
-import { Pests, Reply, Report, Post, PostReport, ReplyReport } from '../models';
-
+import { Auth, Storage, Geo } from 'aws-amplify';
+import { Pests, Reply, Report, Post, PostReport, ReplyReport} from '../models';
 
 
 
@@ -14,11 +13,22 @@ export async function createReport(image,pest=Pests.UNKNOWN){
       throw new Error("Location unavailable");
     }
 
+    let coordinates = {longitude: 0, latitude: 0};
+    let address = {
+      number: "",
+      street: "",
+      neighborhood: "",
+      municipality: "",
+      region: "",
+      country: "",
+      postalCode: ""
+    }
+
     let reportStruct = 
     {
       "authorID": "",
-      "location": {longitude: 0, latitude: 0},
-      "pestActual": pest,
+      "location": {address,coordinates},
+      "pestActual": Pests.UNKNOWN,
       "pestSubmitted": pest,
       "pestIdentified": Pests.UNKNOWN,
       "image": ""
@@ -31,13 +41,30 @@ export async function createReport(image,pest=Pests.UNKNOWN){
         () => {reject()} // Failure
       )}).then( r => {
 
-        reportStruct.location.longitude = r.coords.longitude; 
-        reportStruct.location.latitude = r.coords.latitude; 
-        console.log("Got location:" + JSON.stringify(reportStruct.location));
-        return Auth.currentUserInfo();
-    
+        reportStruct.location.coordinates.longitude = r.coords.longitude; 
+        reportStruct.location.coordinates.latitude = r.coords.latitude; 
+        console.log("Got GPS location: " + JSON.stringify(reportStruct.location.coordinates) + " Reverse geocoding...");
+
+        return Geo.searchByCoordinates([r.coords.longitude, r.coords.latitude]);
+        
       }, ()=> {
+
         throw new Error("Can't access location.");
+
+      }).then((r) => {
+
+        console.log("Successfully reverse geocoded. Getting author ID...");
+
+        reportStruct.location.address.number = r.addressNumber;
+        reportStruct.location.address.street = r.street;
+        reportStruct.location.address.neighborhood = r.subRegion;
+        reportStruct.location.address.municipality = r.municipality;
+        reportStruct.location.address.region = r.region;
+        reportStruct.location.address.country = r.country;
+        reportStruct.location.address.postalCode = r.postalCode;
+
+        return Auth.currentUserInfo();
+
       }).then((r) => {
 
         reportStruct.authorID = r.attributes.sub;

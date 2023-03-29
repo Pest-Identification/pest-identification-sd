@@ -29,6 +29,9 @@ function App({signOut, user}) {
       DataStore.start().then(() => {
         console.log("Datastore started!");
         setCurrentPage('MainMenu')
+      },
+      (err) => {
+        console.log(err);
       });
     });
   }, []);
@@ -102,12 +105,12 @@ function App({signOut, user}) {
 
   return (
     <div className="App">
-      <div><Button onClick={signOut}>Sign out</Button>
+      <header><Button onClick={signOut}>Sign out</Button>
       <Button onClick={() => {setCurrentPage("MainMenu")}}>
       Main Menu
-      </Button></div>
+      </Button></header>
       
-      {renderPage()}
+      <body>{renderPage()}</body>
     </div>
   );
 }

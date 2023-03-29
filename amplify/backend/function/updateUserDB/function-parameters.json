@@ -1,5 +1,13 @@
 {
   "permissions": {
+    "auth": {
+      "FlyLite": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
     "storage": {
       "User:@model(appsync)": [
         "create",

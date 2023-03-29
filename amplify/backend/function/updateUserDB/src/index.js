@@ -15,37 +15,87 @@ const AWS = require('aws-sdk');
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 AWS.config.region = 'us-east-2';
+const updateDbParams = {
+    TableName: 'User-cx725szbmvc7xcykpwaxueqafq-staging',
+    UpdateExpression: 
+        'set userName = :userName, ' +
+        'createdAt = if_not_exists(createdAt, :created), ' +
+        'updatedAt = :updatedString, ' +
+        '#lastChangedAt = :updatedInt, ' +
+        '#typename = :type ' +
+        'add #version :addOne',
+    ExpressionAttributeNames: { // This is necessary as _ are invalid characters
+        "#lastChangedAt": "_lastChangedAt",
+        "#typename": "__typename",
+        "#version": "_version"
+    }
+};
 
-
+var dbParams = {
+        TableName : 'User-cx725szbmvc7xcykpwaxueqafq-staging',
+      }
+      
+// Define the parameters for the listUsers API call
+var cognitoParams = {
+    UserPoolId: 'us-east-2_ZoTZXGASQ',
+    AttributesToGet: ['preferred_username', 'sub']
+};
 
 exports.handler = async (event, context, callback) => {
     
     console.log("Event:", JSON.stringify(event));
 
-    if(event.operation = "update"){
+    if(event.operation == "update"){
 
         // Create a new instance of the Amazon Cognito IdentityServiceProvider
         var cognito = new AWS.CognitoIdentityServiceProvider();
 
-        // Define the parameters for the listUsers API call
-        var cognitoParams = {
-            UserPoolId: 'us-east-2_ZoTZXGASQ',
-            //AttributesToGet: ['username', 'name'] // optional: specify the user attributes to retrieve
-        };
-
         // Call the listUsers API to retrieve a list of all users in the user pool
         try{
             const data = await cognito.listUsers(cognitoParams).promise();
-            console.log(data);
-            for(d of data.Users){
-                console.log(d);
-                console.log(d.Attributes);
+            const users = data.Users
+            for(let u of users){
+                let id;
+                let userName;
+                
+                
+                for(let a of u.Attributes){
+                    if(a.Name == "sub") id = a.Value;
+                    if(a.Name == "preferred_username") userName = a.Value;
+                }
+                dbParams.Item = {
+                    "id": id,
+                    "userName": userName
+                }
+                
+                updateDbParams.Key = {
+                          "id": id
+                      };
+                      
+                const date = new Date();
+                updateDbParams.ExpressionAttributeValues = {
+                        ":userName": userName,
+                        ":created": date.toISOString(),
+                        ":updatedString": date.toISOString(),
+                        ":updatedInt": Math.floor(date.getTime() / 1000),
+                        ":type": "User",
+                        ":addOne": 1
+                      }
+                
+                try{
+                    await docClient.update(updateDbParams).promise();
+                    console.log("Put user ", JSON.stringify(updateDbParams));
+                }
+                catch (err){
+                    console.log(JSON.stringify(err));
+                }
+                
             }
-            callback(data);
+            callback(null,users);
         }
         catch(err){
             console.log(err);
-            callback(err);
+            callback(null, err);
         }
         
 
@@ -54,19 +104,16 @@ exports.handler = async (event, context, callback) => {
     
     callback(null,event);
     
-    const params = {
-        TableName : 'User-cx725szbmvc7xcykpwaxueqafq-staging',
-        /* Item properties will depend on your application concerns */
-        Item: {
+    
+  dbParams.Item = {
             "id": event.userName,
-            "name": event.request.userAttributes.name
+            "name": event.request.userAttributes.username
         }
-      }
       
     try {
-        await docClient.put(params).promise();
+        await docClient.put(dbParams).promise();
         console.log("It worked");
-        return { body: 'Successfully created item! ' + JSON.stringify(params.Item)};
+        return { body: 'Successfully created item! ' + JSON.stringify(dbParams.Item)};
     } catch (err) {
         console.log("It didn't work" + JSON.stringify(err));
         return { error: err }
