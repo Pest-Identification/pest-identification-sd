@@ -2,6 +2,9 @@
   "name": "pest-identification-sd",
   "version": "0.1.0",
   "private": true,
+  "overrides": {
+    "react-refresh": "0.14.0"
+  },
   "dependencies": {
     "@aws-amplify/geo": "^2.0.22",
     "@aws-amplify/ui-react": "^4.3.9",
@@ -10,10 +13,13 @@
     "@testing-library/user-event": "^13.5.0",
     "ajv": "^8.12.0",
     "aws-amplify": "^5.0.16",
+    "maplibre-gl": "^2.4.0",
+    "maplibre-gl-js-amplify": "^3.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-native": "^0.71.3",
     "react-promise": "^3.0.2",
+    "react-refresh": "^0.14.0",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
