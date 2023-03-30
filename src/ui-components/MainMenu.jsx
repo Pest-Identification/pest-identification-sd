@@ -28,7 +28,7 @@ export default function MainMenu(props) {
     <View
       width="100%"
       height="100%"
-      display="contents"
+      display="flex"
       gap="unset"
       alignItems="unset"
       justifyContent="unset"

@@ -26,3 +26,4 @@ export { default as BaseButton } from "./BaseButton";
 export { default as studioTheme } from "./studioTheme";
 export { default as ReportForm } from "./ReportForm";
 export { default as Post1 } from "./Post1";
+export { default as Menu } from "./Menu";

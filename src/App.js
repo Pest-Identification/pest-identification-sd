@@ -4,9 +4,9 @@ import awsconfig from './aws-exports';
 import './App.css';
 import "@aws-amplify/ui-react/styles.css";
 import React, { useEffect, useState } from 'react';
-import { NewIdentification, MainMenu, ReferencePage, Post1, PostCollection } from './ui-components';
+import { NewIdentification, MainMenu, ReferencePage, Post1, PostCollection, Menu } from './ui-components';
 import {default as ReportViewCollectionCustom} from './ui-components/ReportViewCollectionCustom';
-import { withAuthenticator, SelectField, Button, Image} from '@aws-amplify/ui-react';
+import { withAuthenticator, SelectField, Button, Image, Flex} from '@aws-amplify/ui-react';
 import { createReport } from './modules/datastore';
 //import {createReport, createPost, createReply} from './modules/datastore';
 
@@ -20,7 +20,6 @@ function App({signOut, user}) {
   const [currentPage, setCurrentPage] = useState('Loading');
   const [pestSubmitted, setPestSubmitted] = useState("UNKNOWN");
   const [imageToSubmit, setImageToSubmit] = useState();
-
 
   // Run only once
   useEffect(() => {
@@ -87,18 +86,7 @@ function App({signOut, user}) {
       case 'Reports':
         return <ReportViewCollectionCustom />;
       default:
-        return (<MainMenu
-          b1Label="IDENTIFY"
-          b1onClick={() => setCurrentPage("Report")}
-          b2Label="REFERENCE"
-          b2onClick={() => setCurrentPage("ReferencePage")}
-          b3Label="POST"
-          b3onClick={() => setCurrentPage("Post")}
-          b4Label="DISCUSSION"
-          b4onClick={() => setCurrentPage("PostCollection")}
-          b5Label="REPORTS"
-          b5onClick={() => setCurrentPage("Reports")}
-          />);
+        return (<Menu renderPage={setCurrentPage}/>);
     }
   };
 
@@ -109,8 +97,8 @@ function App({signOut, user}) {
       <Button onClick={() => {setCurrentPage("MainMenu")}}>
       Main Menu
       </Button></header>
-      
-      <body>{renderPage()}</body>
+
+      {renderPage()}
     </div>
   );
 }
