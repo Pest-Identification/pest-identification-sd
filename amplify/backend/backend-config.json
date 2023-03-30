@@ -93,6 +93,22 @@
       "isDefault": true,
       "providerPlugin": "awscloudformation",
       "service": "PlaceIndex"
+    },
+    "reportsMap": {
+      "accessType": "AuthorizedUsers",
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "FlyLite"
+        }
+      ],
+      "isDefault": true,
+      "mapStyle": "RasterEsriImagery",
+      "providerPlugin": "awscloudformation",
+      "service": "Map"
     }
   },
   "parameters": {

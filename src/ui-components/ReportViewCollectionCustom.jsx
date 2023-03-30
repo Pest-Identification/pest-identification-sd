@@ -14,7 +14,12 @@ import {
   useDataStoreBinding,
 } from "@aws-amplify/ui-react/internal";
 import ReportView from "./ReportView";
-import { Collection, Card, Image, Flex, Badge, View, Divider, Text, Heading} from "@aws-amplify/ui-react";
+import { Collection, Card, Image, Flex, Badge, View, Divider, Text, Heading, Button, ToggleButton} from "@aws-amplify/ui-react";
+
+import { createMap } from "maplibre-gl-js-amplify";
+import "maplibre-gl/dist/maplibre-gl.css";
+
+
 export default function ReportViewCollectionCustom(props) {
 
   const itemsPagination = { sort: (s) => s.createdAt(SortDirection.ASCENDING) };
@@ -22,9 +27,11 @@ export default function ReportViewCollectionCustom(props) {
   const [urls, setUrls] = React.useState({});
   const [users, setUsers] = React.useState({});
   const [imageFailed, setImageFailed] = React.useState();
+  const [mapState, setMapState] = React.useState(false);
   
   let imgRequests = {};
   let userRequests = {};
+  let map;
 
   const itemsDataStore = useDataStoreBinding({
     type: "collection",
@@ -98,8 +105,9 @@ export default function ReportViewCollectionCustom(props) {
     }
     return item.location.address.municipality + spacing + item.location.address.region;
   }
-  return (
-    /*<Collection
+
+
+  /*<Collection
       type="list"
       isSearchable="true"
       isPaginated={true}
@@ -109,116 +117,183 @@ export default function ReportViewCollectionCustom(props) {
       justifyContent="stretch"
       items={items || []}
     >*/
-    <Collection
-      items={items}
-      type="list"
-      direction="row"
-      gap="20px"
-      wrap="wrap"
-      justifyContent="center"
-      isPaginated={true}
+
+  React.useEffect(() => {
+    return () => {
+      console.log("Removing map");
+      if(map != undefined) map.remove();
+      };
+  }, []);
+
+  React.useEffect(() => {
+    if(mapState && map == undefined) initializeMap();
+  }, [mapState]);
+
+  async function initializeMap() {
+    map = await createMap({
+        container: "map", // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
+        center: [-123.1187, 49.2819], // [Longitude, Latitude]
+        zoom: 11,
+    })
+    console.log("Map initialized.", map);
+  }
+
+  function toggleMap(){
+    if(mapState){
+      setMapState(false);
+      return;
+    }
+    else{
+      setMapState(true);
+      return;
+    }
+  }
+
+  const collection = 
+  <Collection
+  items={items}
+  type="list"
+  direction="row"
+  gap="20px"
+  wrap="wrap"
+  justifyContent="center"
+  isPaginated={true}
+  flex="1 1 auto"
+  backgroundColor="coral"
+>
+  {(item, index) => (
+    <Card
+    key={index}
+    borderRadius="medium"
+    variation="outlined"
     >
-      {(item, index) => (
-        <Card
-        key={index}
-        borderRadius="medium"
-        variation="outlined"
+      <Flex
+        width="20rem"
+        height="10rem"
+        direction="row"
+        alignItems="stretch"
+        gap="relative.small"
+      >
+        <Flex
+        height="100%"
+        width="25%"
+        alignItems="center"
+        justifyContent="center"
         >
+          {
+            imageFailed[index] ? (
+              <View
+              width="100%"
+              />
+            ) : (
+              
+              <Image
+                src={urls[item.id]}
+                width="100%"
+                maxHeight="100%"
+                onError={() => handleImageError(index)}
+              />
+            )
+          }
+        </Flex>
+          
+          
+        <Flex
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="stretch"
+          flex="1"
+        >
+          
           <Flex
-            width="20rem"
-            height="10rem"
-            direction="row"
-            alignItems="stretch"
-            gap="relative.small"
+          direction="row"
+          justifyContent="flex-end"
           >
-            <Flex
-            height="100%"
-            width="25%"
-            alignItems="center"
-            justifyContent="center"
+            <Badge
+              backgroundColor={
+                item.pestActual === Pests.SPOTTED_LANTERN_FLY ? 'green.10' 
+                : item.pestActual === Pests.GRAPE_BERRY_MOTH ? 'blue.40'
+                : 'grey'}
             >
-              {
-                imageFailed[index] ? (
-                  <View
-                  width="100%"
-                  />
-                ) : (
-                  
-                  <Image
-                    src={urls[item.id]}
-                    width="100%"
-                    maxHeight="100%"
-                    onError={() => handleImageError(index)}
-                  />
-                )
-              }
-            </Flex>
-              
-              
-            <Flex
-              direction="column"
-              justifyContent="flex-start"
-              alignItems="stretch"
-              flex="1"
-            >
-              
-              <Flex
-              direction="row"
-              justifyContent="flex-end"
-              >
-                <Badge
-                  backgroundColor={
-                    item.pestActual === Pests.SPOTTED_LANTERN_FLY ? 'green.10' 
-                    : item.pestActual === Pests.GRAPE_BERRY_MOTH ? 'blue.40'
-                    : 'grey'}
-                >
-                  {item.pestActual === Pests.SPOTTED_LANTERN_FLY ? 'Spotted Lantern Fly' 
-                    : item.pestActual === Pests.GRAPE_BERRY_MOTH ? 'Grape Berry Moth'
-                    : 'Unknown'}
-                </Badge>
-              </Flex>
-                
-              <Divider/>
-              
-              <Flex
-                direction="column"
-                justifyContent="space-evenly"
-                alignItems="flex-start"
-                flex="1"
-                overflow="clip"
-                gap="0"
-              >
-
-                <Text
-                  as="span"
-                  minHeight="33%"
-                  padding="0px 0px 0px 0px">
-                  Reported by {getUser(item.id)}
-                </Text>
-
-                
-                <Text
-                  as="span"
-                  minHeight="33%"
-                  padding="0px 0px 0px 0px">
-                  {getLocation(item)}
-                </Text>
-
-                <Text
-                  as="span"
-                  minHeight="33%"
-                  padding="0px 0px 0px 0px">
-                  {getDate(item)}
-                </Text>
-
-                
-              </Flex>
-            </Flex> 
+              {item.pestActual === Pests.SPOTTED_LANTERN_FLY ? 'Spotted Lantern Fly' 
+                : item.pestActual === Pests.GRAPE_BERRY_MOTH ? 'Grape Berry Moth'
+                : 'Unknown'}
+            </Badge>
           </Flex>
-        </Card>
+            
+          <Divider/>
+          
+          <Flex
+            direction="column"
+            justifyContent="space-evenly"
+            alignItems="flex-start"
+            flex="1"
+            overflow="clip"
+            gap="0"
+          >
+
+            <Text
+              as="span"
+              minHeight="33%"
+              padding="0px 0px 0px 0px">
+              Reported by {getUser(item.id)}
+            </Text>
+
+            
+            <Text
+              as="span"
+              minHeight="33%"
+              padding="0px 0px 0px 0px">
+              {getLocation(item)}
+            </Text>
+
+            <Text
+              as="span"
+              minHeight="33%"
+              padding="0px 0px 0px 0px">
+              {getDate(item)}
+            </Text>
+
+            
+          </Flex>
+        </Flex> 
+      </Flex>
+    </Card>
+    
+  )}
+  </Collection>;
+
+  return (
+    <Flex
+    direction="column"
+    alignItems="center"
+    width="100%"
+    height="100%">
         
-      )}
-    </Collection>
+        
+      <ToggleButton width="fit-content" onClick={() => {toggleMap()}}>View Map</ToggleButton>
+        
+        
+      <Flex
+        direction="row"
+        alignItems="stretch"
+        justifyContent="center"
+        wrap="wrap">
+
+        {collection}
+        {
+          mapState ? 
+          <Flex 
+            id="map"
+            flex="1 1 50%"
+          >
+            Map
+          </Flex> :
+          <div>Disabled</div>
+        }
+      </Flex>
+    
+    </Flex>
   );
 }
 
