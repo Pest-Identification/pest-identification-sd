@@ -32,12 +32,13 @@ const items = [
   }
 ];
 
-const Menu = (renderPage) => {
+const Menu = () => {
   const $root = useRef();
   const $indicator1 = useRef();
   const $indicator2 = useRef();
   const $items = useRef(items.map(createRef));
   const [active, setActive] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const ComponentToRender = items[active].component;
 
   const animate = () => {
@@ -74,31 +75,49 @@ const Menu = (renderPage) => {
     });
   }, [active, animate]);
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleItemClick = (index) => {
+    setActive(index);
+    setIsMenuOpen(false);
+  };
+
   return (
-    <div
-      ref={$root}
-      className="menu"
-    >
-      {items.map((item, index) => (
-        <div
-          key={item.name}
-          ref={$items.current[index]}
-          className={`item ${active === index ? 'active' : ''}`}
-          onClick={() => {
-            setActive(index);
-          }}
-        >
-          {item.name}
+    <div className="menu-wrapper">
+      <div className={`menu ${isMenuOpen ? 'open' : ''}`} ref={$root}>
+        <div className="menu-header">
+          <div className="menu-title">Menu</div>
+          <div className="hamburger" onClick={toggleMenu}>
+            <div className="line"></div>
+            <div className="line"></div>
+            <div className="line"></div>
+          </div>
         </div>
-      ))}
-      <div
-        ref={$indicator1}
-        className="indicator"
-      />
-      <div
-        ref={$indicator2}
-        className="indicator"
-      />
+        <div className="menu-items">
+          {items.map((item, index) => (
+            <div
+              key={item.name}
+              ref={$items.current[index]}
+              className={`item ${active === index ? 'active' : ''}`}
+              onClick={() => {
+                handleItemClick(index);
+              }}
+            >
+              {item.name}
+            </div>
+          ))}
+          <div
+            ref={$indicator1}
+            className="indicator"
+          />
+          <div
+            ref={$indicator2}
+            className="indicator"
+          />
+        </div>
+      </div>
       <div className="component-wrapper">
         {ComponentToRender && <ComponentToRender />}
       </div>

@@ -92,14 +92,7 @@ function App({signOut, user}) {
 
 
   return (
-    <div className="App">
-      <header><Button onClick={signOut}>Sign out</Button>
-      <Button onClick={() => {setCurrentPage("MainMenu")}}>
-      Main Menu
-      </Button></header>
-
-      {renderPage()}
-    </div>
+    <Menu/>
   );
 }
 
