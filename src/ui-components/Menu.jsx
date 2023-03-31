@@ -3,12 +3,13 @@ import { gsap } from "gsap";
 import './Menu.scss';
 import {default as ReportViewCollectionCustom} from './ReportViewCollectionCustom';
 import { NewIdentification, ReferencePage, Post1, PostCollection} from '.';
+import FReference from './FReference.jsx';
 
 const items = [
   {
-    name: "Discussion",
+    name: "Home",
     color: "#f44336",
-    component: PostCollection
+    component: FReference
   },
   {
     name: "Post",
@@ -21,9 +22,9 @@ const items = [
     component: NewIdentification
   },
   {
-    name: "Reference",
+    name: "Discussion",
     color: "#673ab7",
-    component: ReferencePage
+    component: PostCollection
   },
   {
     name: "Reports",
