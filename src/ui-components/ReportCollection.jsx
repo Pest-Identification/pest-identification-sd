@@ -17,11 +17,7 @@ import { Textfit } from 'react-textfit';
 
 
 
-
-
-
-
-export default function ReportCollection(props) {
+export function loadReports(){
 
   const itemsPagination = { sort: (s) => s.createdAt(SortDirection.ASCENDING) };
   const [items, setItems] = React.useState(undefined);
@@ -32,6 +28,7 @@ export default function ReportCollection(props) {
   
   let imgRequests = {};
   let userRequests = {};
+
 
   const itemsDataStore = useDataStoreBinding({
     type: "collection",
@@ -86,6 +83,30 @@ export default function ReportCollection(props) {
     });
 
   }, [itemsDataStore]);
+
+
+  return {
+    items,
+    urls, 
+    users,
+    imageFailed,
+    itemsDisplayed,
+    handleImageError
+  };
+
+}
+
+
+
+export function ReportCollection(props) {
+
+  const {
+    items,
+    urls, 
+    users,
+    imageFailed,
+    itemsDisplayed,
+    handleImageError} = props.data;
 
   function getDate(item){
     const d = new Date(item.createdAt);
@@ -199,7 +220,7 @@ export default function ReportCollection(props) {
                 >
                   <Textfit
                   mode="single"
-                  minSize="0">
+                  min="0">
                   {item.pestActual === Pests.SPOTTED_LANTERN_FLY ? 'Spotted Lantern Fly' 
                     : item.pestActual === Pests.GRAPE_BERRY_MOTH ? 'Grape Berry Moth'
                     : 'Unknown'}
@@ -215,7 +236,7 @@ export default function ReportCollection(props) {
                   textAlign="left">
                     <Textfit
                     mode="single"
-                    minSize="0">
+                    min="0">
                         Reported by {getUser(item.id)} <br/>
                         {getLocation(item)}<br/>
                         {getDate(item)}<br/>

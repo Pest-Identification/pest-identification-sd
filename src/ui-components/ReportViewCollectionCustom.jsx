@@ -10,11 +10,11 @@ import * as React from "react";
 
 import { Collection, Card, Image, Flex, Badge, View, Divider, Text, Heading, Button, ToggleButton, ScrollView, SearchField} from "@aws-amplify/ui-react";
 
-import { createMap } from "maplibre-gl-js-amplify";
+import { createMap, drawPoints } from "maplibre-gl-js-amplify";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import { Textfit } from 'react-textfit';
-import ReportCollection from './ReportCollection';
+import {ReportCollection, loadReports} from './ReportCollection';
 
 
 
@@ -27,7 +27,7 @@ export default function ReportViewCollectionCustom(props) {
   
   const [mapState, setMapState] = React.useState(false);
 
-  
+  const data = loadReports();
   let map;
 
 
@@ -43,9 +43,35 @@ export default function ReportViewCollectionCustom(props) {
     if(mapState && map == undefined){
       createMap({
         container: "map", // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
-        center: [-123.1187, 49.2819], // [Longitude, Latitude]
+        center: [-80.0851, 42.1292], // [Longitude, Latitude]
         zoom: 11,
-      }).then((r) => {map = r});
+      }).then((r) => {
+        map = r;
+        console.log("Drawing points", data.items)
+        map.on("load", function () {
+          const test = data.items.map((item) => {
+            return ({
+                coordinates: [item.location.coordinates.longitude, item.location.coordinates.latitude], // [Longitude, Latitude]
+                title: "Test1",
+                address: "Test2",
+              })
+            });
+            console.log("Points", test);
+          drawPoints("mySourceName", // Arbitrary source name
+            test,
+            map,
+            {
+                showCluster: true,
+                unclusteredOptions: {
+                  showMarkerPopup: false,
+                },
+                clusterOptions: {
+                    showCount: true,
+                },
+            }
+          );
+        });
+      });
     }
   }, [mapState]);
 
@@ -91,7 +117,7 @@ export default function ReportViewCollectionCustom(props) {
           minWidth="50px"
           maxWidth="30%"
           >
-          <ReportCollection/>
+          <ReportCollection data={data}/>
 
           </Flex>
 
@@ -106,7 +132,7 @@ export default function ReportViewCollectionCustom(props) {
         </Flex>
         
            :
-        <Flex minHeight="0" flex="1 1 0%"><ReportCollection/></Flex>
+        <Flex minHeight="0" flex="1 1 0%"><ReportCollection data={data}/></Flex>
       }
     
     </Flex>
