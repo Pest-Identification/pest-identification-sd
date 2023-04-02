@@ -6,7 +6,7 @@ import "@aws-amplify/ui-react/styles.css";
 import React, { useEffect, useState } from 'react';
 import { NewIdentification, MainMenu, ReferencePage, Post1, PostCollection } from './ui-components';
 import {default as ReportViewCollectionCustom} from './ui-components/ReportViewCollectionCustom';
-import { withAuthenticator, SelectField, Button, Image} from '@aws-amplify/ui-react';
+import { withAuthenticator, SelectField, Button, Image, Flex, View} from '@aws-amplify/ui-react';
 import { createReport } from './modules/datastore';
 //import {createReport, createPost, createReply} from './modules/datastore';
 
@@ -104,14 +104,9 @@ function App({signOut, user}) {
 
 
   return (
-    <div className="App">
-      <header><Button onClick={signOut}>Sign out</Button>
-      <Button onClick={() => {setCurrentPage("MainMenu")}}>
-      Main Menu
-      </Button></header>
-      
-      <body>{renderPage()}</body>
-    </div>
+    <View className="App">
+      {renderPage()}
+    </View>
   );
 }
 
