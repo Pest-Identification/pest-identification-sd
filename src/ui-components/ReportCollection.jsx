@@ -15,8 +15,6 @@ import { useDataStoreBinding } from "@aws-amplify/ui-react/internal";
 
 import { Textfit } from 'react-textfit';
 
-
-
 export function loadReports(){
 
   const itemsPagination = { sort: (s) => s.createdAt(SortDirection.ASCENDING) };
@@ -30,11 +28,11 @@ export function loadReports(){
   let userRequests = {};
 
 
-  const itemsDataStore = useDataStoreBinding({
+  const datastoreResult = useDataStoreBinding({
     type: "collection",
     model: Report,
     pagination: itemsPagination,
-  }).items;
+  });
 
 
   const handleImageError = (index) => {
@@ -44,45 +42,33 @@ export function loadReports(){
   };
 
   React.useEffect(() => {
-    
-    setItems(itemsDataStore);
-    setImageFailed(Array(itemsDataStore.length).fill(false));
-    
-    for (const item of itemsDataStore.values()){
+    console.log("This is", datastoreResult)
 
-      // If url has not been requested yet:
-      if(!Object.keys(imgRequests).includes(item.id)){
-        imgRequests[item.id] = Storage.get(item.image);
-        userRequests[item.id] = DataStore.query(User, item.authorID);
+    if(datastoreResult.isLoading == false){
+
+      let reports = [];
+      
+      console.log("Creating reports...")
+
+      for (const item of datastoreResult.items.values()){
+
+
+        let newReport = {
+          url: "",
+          user: "",
+          imageFailed: false
+        };
+
+        Storage.get(item.image).then(r => newReport.url = r.value);
+        DataStore.query(User, item.authorID).then(r => newReport.user = r.value.userName);
+        
+        reports.push(newReport);
       }
+
+      console.log("Reports:", reports);
 
     }
-
-    // Wait until all imgPromises are resolved.
-    Promise.allSettled(Object.values(imgRequests)).then((results) => {
-      let newUrls = Object.assign({},urls); // Must be a deep copy to trigger re-render
-
-      // Enumerate ids (to match with promise using index)
-      for(let [index, id] of Object.keys(imgRequests).entries()){
-        newUrls[id] = results[index].value;
-      }
-      
-      setUrls(newUrls);
-    });
-
-    // Wait until all userRequests are resolved.
-    Promise.allSettled(Object.values(userRequests)).then((results) => {
-      let newUsers = Object.assign({},users); // Must be a deep copy to trigger re-render
-
-      // Enumerate ids (to match with promise using index)
-      for(let [index, id] of Object.keys(userRequests).entries()){
-        newUsers[id] = results[index].value.userName;
-      }
-      
-      setUsers(newUsers);
-    });
-
-  }, [itemsDataStore]);
+  }, [datastoreResult]);
 
   function getDate(item){
     const d = new Date(item.createdAt);

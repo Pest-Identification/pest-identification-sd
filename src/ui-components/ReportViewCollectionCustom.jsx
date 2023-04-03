@@ -56,12 +56,12 @@ function MarkerData(data) {
               latitude={item.location.coordinates.latitude}
               content={
                 <Flex
-                height="100%"
-                width="100%">
+                height="100px"
+                width="100px">
                   <Flex
                   height="100%"
                   width="25%">
-                    <Image width="10px" maxHeight="100%" img={data.getUrl(item)}/>
+                    <Image width="100%" maxHeight="100%" src={data.getUrl(item)}/>
                   </Flex>
                   <Flex direction="column">
                     <Heading> Test1</Heading>
