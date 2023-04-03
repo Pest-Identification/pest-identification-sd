@@ -7,34 +7,8 @@
 /* eslint-disable */
 import { Storage, DataStore} from 'aws-amplify';
 import * as React from "react";
-<<<<<<< HEAD
-import { Pests, Report, User } from "../models";
-import { SortDirection } from "@aws-amplify/datastore";
-import {
-  getOverrideProps,
-  useDataStoreBinding,
-} from "@aws-amplify/ui-react/internal";
-import ReportView from "./ReportView";
-import { Collection, Card, Image, Flex, Badge, View, Divider, Text, Heading, Button} from "@aws-amplify/ui-react";
-import { createMap } from "maplibre-gl-js-amplify";
-import "maplibre-gl/dist/maplibre-gl.css";
-
-
-export default function ReportViewCollectionCustom(props) {
-
-  const itemsPagination = { sort: (s) => s.createdAt(SortDirection.ASCENDING) };
-  const [items, setItems] = React.useState(undefined);
-  const [urls, setUrls] = React.useState({});
-  const [users, setUsers] = React.useState({});
-  const [imageFailed, setImageFailed] = React.useState();
-  const [mapState, setMapState] = React.useState("disabled");
-  
-  let imgRequests = {};
-  let userRequests = {};
-=======
 
 import { Collection, Card, Image, Flex, Badge, View, Divider, Text, Heading, Button, ToggleButton, ScrollView, SearchField, MapView} from "@aws-amplify/ui-react";
->>>>>>> temp
 
 import { Textfit } from 'react-textfit';
 import {ReportCollection, loadReports, getUser, getAddress, getDate} from './ReportCollection';
@@ -117,167 +91,6 @@ export default function ReportViewCollectionCustom(props) {
     }
   }
 
-<<<<<<< HEAD
-  
-  let map;
-  async function initializeMap() {
-    map = await createMap({
-        container: "map", // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
-        center: [-123.1187, 49.2819], // [Longitude, Latitude]
-        zoom: 11,
-    })
-  }
-
-  React.useEffect(() => {
-    return () => {
-      if(map != undefined) map.stop();
-    }
-  }, [])
-
-  function toggleMapState(){
-    if(mapState == "disabled") {
-      setMapState("enabled");
-      if(map == undefined) initializeMap();
-      return;
-    }
-    else if(mapState == "enabled" || mapState == "fullscreen"){
-      setMapState("disabled");
-      return;
-    }
-    return;
-  }
-  /*<Collection
-        type="list"
-        isSearchable="true"
-        isPaginated={true}
-        searchPlaceholder="Search..."
-        direction="row"
-        wrap="wrap"
-        justifyContent="stretch"
-        items={items || []}
-      >*/
-
-  return (
-    <div>
-      <Button onClick = {() => toggleMapState()}>
-      Toggle Map
-      </Button>
-      {
-      mapState === "disabled" ? <div> Disabled map </div>
-      : mapState === "enabled" ? <div id="map"> Enabled Map</div> : <div> Unknown </div>
-      }
-      <Collection
-        items={items}
-        type="list"
-        direction="row"
-        gap="20px"
-        wrap="wrap"
-        justifyContent="center"
-        isPaginated={true}
-      >
-        {(item, index) => (
-          <Card
-          key={index}
-          borderRadius="medium"
-          variation="outlined"
-          >
-            <Flex
-              width="20rem"
-              height="10rem"
-              direction="row"
-              alignItems="stretch"
-              gap="relative.small"
-            >
-              <Flex
-              height="100%"
-              width="25%"
-              alignItems="center"
-              justifyContent="center"
-              >
-                {
-                  imageFailed[index] ? (
-                    <View
-                    width="100%"
-                    />
-                  ) : (
-                    
-                    <Image
-                      src={urls[item.id]}
-                      width="100%"
-                      maxHeight="100%"
-                      onError={() => handleImageError(index)}
-                    />
-                  )
-                }
-              </Flex>
-                
-                
-              <Flex
-                direction="column"
-                justifyContent="flex-start"
-                alignItems="stretch"
-                flex="1"
-              >
-                
-                <Flex
-                direction="row"
-                justifyContent="flex-end"
-                >
-                  <Badge
-                    backgroundColor={
-                      item.pestActual === Pests.SPOTTED_LANTERN_FLY ? 'green.10' 
-                      : item.pestActual === Pests.GRAPE_BERRY_MOTH ? 'blue.40'
-                      : 'grey'}
-                  >
-                    {item.pestActual === Pests.SPOTTED_LANTERN_FLY ? 'Spotted Lantern Fly' 
-                      : item.pestActual === Pests.GRAPE_BERRY_MOTH ? 'Grape Berry Moth'
-                      : 'Unknown'}
-                  </Badge>
-                </Flex>
-                  
-                <Divider/>
-                
-                <Flex
-                  direction="column"
-                  justifyContent="space-evenly"
-                  alignItems="flex-start"
-                  flex="1"
-                  overflow="clip"
-                  gap="0"
-                >
-
-                  <Text
-                    as="span"
-                    minHeight="33%"
-                    padding="0px 0px 0px 0px">
-                    Reported by {getUser(item.id)}
-                  </Text>
-
-                  
-                  <Text
-                    as="span"
-                    minHeight="33%"
-                    padding="0px 0px 0px 0px">
-                    {getLocation(item)}
-                  </Text>
-
-                  <Text
-                    as="span"
-                    minHeight="33%"
-                    padding="0px 0px 0px 0px">
-                    {getDate(item)}
-                  </Text>
-
-                  
-                </Flex>
-              </Flex> 
-            </Flex>
-          </Card>
-          
-        )}
-      </Collection>
-    </div>
-=======
  
 
   return (
@@ -328,7 +141,6 @@ export default function ReportViewCollectionCustom(props) {
       }
     
     </Flex>
->>>>>>> temp
   );
 }
 
