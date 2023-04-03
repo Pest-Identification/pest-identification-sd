@@ -84,6 +84,33 @@ export function loadReports(){
 
   }, [itemsDataStore]);
 
+  function getDate(item){
+    const d = new Date(item.createdAt);
+    return (d.toLocaleDateString() + " " + d.toLocaleTimeString("en",{timeStyle: "short"}));
+  }
+
+  function getUser(item){
+    if(users[item.id] == undefined){
+      return "Unknown";
+    } else return users[item.id];
+  }
+
+  function getAddress(item){
+    let spacing = ", "
+    if(item.location.address.municipality == ""){
+      if (item.location.address.region == "") 
+      {
+        spacing = '\u2028';
+      }
+      else spacing = "";
+    }
+    return item.location.address.municipality + spacing + item.location.address.region;
+  }
+
+  function getUrl(item){
+    return urls[item.id];
+  }
+
 
   return {
     items,
@@ -91,10 +118,16 @@ export function loadReports(){
     users,
     imageFailed,
     itemsDisplayed,
-    handleImageError
+    handleImageError,
+    getUser,
+    getDate,
+    getAddress,
+    getUrl,
+    setItemsDisplayed
   };
 
 }
+
 
 
 
@@ -106,30 +139,14 @@ export function ReportCollection(props) {
     users,
     imageFailed,
     itemsDisplayed,
-    handleImageError} = props.data;
+    handleImageError,
+    getUser,
+    getDate,
+    getAddress,
+    getUrl,
+    setItemsDisplayed} = props.data;
 
-  function getDate(item){
-    const d = new Date(item.createdAt);
-    return (d.toLocaleDateString() + " " + d.toLocaleTimeString("en",{timeStyle: "short"}));
-  }
-
-  function getUser(id){
-    if(users[id] == undefined){
-      return "Unknown";
-    } else return users[id];
-  }
-
-  function getLocation(item){
-    let spacing = ", "
-    if(item.location.address.municipality == ""){
-      if (item.location.address.region == "") 
-      {
-        spacing = '\u2028';
-      }
-      else spacing = "";
-    }
-    return item.location.address.municipality + spacing + item.location.address.region;
-  }
+  
 
     return( 
     <Flex
@@ -187,7 +204,7 @@ export function ReportCollection(props) {
                     ) : (
                       
                       <Image
-                        src={urls[item.id]}
+                        src={getUrl(item)}
                         width="100%"
                         maxHeight="100%"
                         onError={() => handleImageError(index)}
@@ -220,7 +237,7 @@ export function ReportCollection(props) {
                 >
                   <Textfit
                   mode="single"
-                  min="0">
+                  min={0}>
                   {item.pestActual === Pests.SPOTTED_LANTERN_FLY ? 'Spotted Lantern Fly' 
                     : item.pestActual === Pests.GRAPE_BERRY_MOTH ? 'Grape Berry Moth'
                     : 'Unknown'}
@@ -236,9 +253,9 @@ export function ReportCollection(props) {
                   textAlign="left">
                     <Textfit
                     mode="single"
-                    min="0">
+                    min={0}>
                         Reported by {getUser(item.id)} <br/>
-                        {getLocation(item)}<br/>
+                        {getAddress(item)}<br/>
                         {getDate(item)}<br/>
                     </Textfit>
                   </Flex>

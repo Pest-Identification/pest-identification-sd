@@ -8,72 +8,76 @@
 import { Storage, DataStore} from 'aws-amplify';
 import * as React from "react";
 
-import { Collection, Card, Image, Flex, Badge, View, Divider, Text, Heading, Button, ToggleButton, ScrollView, SearchField} from "@aws-amplify/ui-react";
-
-import { createMap, drawPoints } from "maplibre-gl-js-amplify";
-import "maplibre-gl/dist/maplibre-gl.css";
+import { Collection, Card, Image, Flex, Badge, View, Divider, Text, Heading, Button, ToggleButton, ScrollView, SearchField, MapView} from "@aws-amplify/ui-react";
 
 import { Textfit } from 'react-textfit';
-import {ReportCollection, loadReports} from './ReportCollection';
+import {ReportCollection, loadReports, getUser, getAddress, getDate} from './ReportCollection';
+
+
+import { Marker, Popup } from 'react-map-gl';
 
 
 
+function MarkerWithPopup({ latitude, longitude, content}) {
+  const [showPopup, setShowPopup] = React.useState(false);
+  
 
+  const handleMarkerClick = ({ originalEvent }) => {
+    originalEvent.stopPropagation();
+    setShowPopup(true);
+  };
 
+  return (
+    <>
+      <Marker
+        latitude={latitude}
+        longitude={longitude}
+        onClick={handleMarkerClick}
+      />
+      {showPopup && (
+        <Popup
+          latitude={latitude}
+          longitude={longitude}
+          offset={{ bottom: [0, -40] }}
+          onClose={() => setShowPopup(false)}
+        >
+          {content}
+        </Popup>
+      )}
+    </>
+  );
+}
+
+function MarkerData(data) {
+  console.log("MarkerData got", data)
+  return data.items.map((item) => {
+            return <MarkerWithPopup 
+              longitude={item.location.coordinates.longitude}
+              latitude={item.location.coordinates.latitude}
+              content={
+                <Flex
+                height="100%"
+                width="100%">
+                  <Flex
+                  height="100%"
+                  width="25%">
+                    <Image width="10px" maxHeight="100%" img={data.getUrl(item)}/>
+                  </Flex>
+                  <Flex direction="column">
+                    <Heading> Test1</Heading>
+                    <Text> Test2 </Text>
+                  </Flex>
+                </Flex>}/>
+            });
+}
 
 
 export default function ReportViewCollectionCustom(props) {
 
+  const data = loadReports();
   
   const [mapState, setMapState] = React.useState(false);
 
-  const data = loadReports();
-  let map;
-
-
-  React.useEffect(() => {
-
-    return () => {
-      console.log("Removing map");
-      if(map != undefined) map.remove();
-      };
-  }, []);
-
-  React.useEffect(() => {
-    if(mapState && map == undefined){
-      createMap({
-        container: "map", // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
-        center: [-80.0851, 42.1292], // [Longitude, Latitude]
-        zoom: 11,
-      }).then((r) => {
-        map = r;
-        console.log("Drawing points", data.items)
-        map.on("load", function () {
-          const test = data.items.map((item) => {
-            return ({
-                coordinates: [item.location.coordinates.longitude, item.location.coordinates.latitude], // [Longitude, Latitude]
-                title: "Test1",
-                address: "Test2",
-              })
-            });
-            console.log("Points", test);
-          drawPoints("mySourceName", // Arbitrary source name
-            test,
-            map,
-            {
-                showCluster: true,
-                unclusteredOptions: {
-                  showMarkerPopup: false,
-                },
-                clusterOptions: {
-                    showCount: true,
-                },
-            }
-          );
-        });
-      });
-    }
-  }, [mapState]);
 
 
   function toggleMap(){
@@ -122,12 +126,13 @@ export default function ReportViewCollectionCustom(props) {
           </Flex>
 
           <Flex 
-            id="map"
             flex="1 1 0%"
             minWidth="0"
             maxWidth="70%"
+            fontFamily="sans-serif"
             >
-            Map
+            <MapView
+            children={MarkerData(data)}/>
           </Flex>
         </Flex>
         
@@ -140,6 +145,17 @@ export default function ReportViewCollectionCustom(props) {
 }
 
 /*
+
+<Flex 
+            id="map"
+            flex="1 1 0%"
+            minWidth="0"
+            maxWidth="70%"
+            fontFamily="sans-serif"
+            >
+            Map
+          </Flex>
+          
 <Flex
     direction="column"
     alignItems="stretch"
