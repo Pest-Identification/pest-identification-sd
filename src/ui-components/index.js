@@ -4,11 +4,9 @@
  * Any changes to this file will be overwritten when running amplify pull. *
  **************************************************************************/
 
-export { default as Heading } from "./Heading";
 export { default as ReferencePage } from "./ReferencePage";
 export { default as Post } from "./Post";
 export { default as InnerPage } from "./InnerPage";
-export { default as Rating } from "./Rating";
 export { default as Identification } from "./Identification";
 export { default as PostCollection } from "./PostCollection";
 export { default as ReportViewCollection } from "./ReportViewCollection";

@@ -7,6 +7,7 @@
 /* eslint-disable */
 import { Storage, DataStore} from 'aws-amplify';
 import * as React from "react";
+<<<<<<< HEAD
 import { Pests, Report, User } from "../models";
 import { SortDirection } from "@aws-amplify/datastore";
 import {
@@ -30,80 +31,93 @@ export default function ReportViewCollectionCustom(props) {
   
   let imgRequests = {};
   let userRequests = {};
+=======
 
-  const itemsDataStore = useDataStoreBinding({
-    type: "collection",
-    model: Report,
-    pagination: itemsPagination,
-  }).items;
+import { Collection, Card, Image, Flex, Badge, View, Divider, Text, Heading, Button, ToggleButton, ScrollView, SearchField, MapView} from "@aws-amplify/ui-react";
+>>>>>>> temp
+
+import { Textfit } from 'react-textfit';
+import {ReportCollection, loadReports, getUser, getAddress, getDate} from './ReportCollection';
 
 
-  const handleImageError = (index) => {
-    const newImageFailed = [...imageFailed];
-    newImageFailed[index] = true;
-    setImageFailed(newImageFailed);
+import { Marker, Popup } from 'react-map-gl';
+
+
+
+function MarkerWithPopup({ latitude, longitude, content}) {
+  const [showPopup, setShowPopup] = React.useState(false);
+  
+
+  const handleMarkerClick = ({ originalEvent }) => {
+    originalEvent.stopPropagation();
+    setShowPopup(true);
   };
 
-  React.useEffect(() => {
-    
-    setItems(itemsDataStore);
-    setImageFailed(Array(itemsDataStore.length).fill(false));
-    
-    for (const item of itemsDataStore.values()){
+  return (
+    <>
+      <Marker
+        latitude={latitude}
+        longitude={longitude}
+        onClick={handleMarkerClick}
+      />
+      {showPopup && (
+        <Popup
+          latitude={latitude}
+          longitude={longitude}
+          offset={{ bottom: [0, -40] }}
+          onClose={() => setShowPopup(false)}
+        >
+          {content}
+        </Popup>
+      )}
+    </>
+  );
+}
 
-      // If url has not been requested yet:
-      if(!Object.keys(imgRequests).includes(item.id)){
-        imgRequests[item.id] = Storage.get(item.image);
-        userRequests[item.id] = DataStore.query(User, item.authorID);
-      }
+function MarkerData(data) {
+  console.log("MarkerData got", data)
+  return data.items.map((item) => {
+            return <MarkerWithPopup 
+              longitude={item.location.coordinates.longitude}
+              latitude={item.location.coordinates.latitude}
+              content={
+                <Flex
+                height="100px"
+                width="100px">
+                  <Flex
+                  height="100%"
+                  width="25%">
+                    <Image width="100%" maxHeight="100%" src={data.getUrl(item)}/>
+                  </Flex>
+                  <Flex direction="column">
+                    <Heading> Test1</Heading>
+                    <Text> Test2 </Text>
+                  </Flex>
+                </Flex>}/>
+            });
+}
 
+
+export default function ReportViewCollectionCustom(props) {
+
+  const data = loadReports();
+  
+  const [mapState, setMapState] = React.useState(false);
+
+
+
+  function toggleMap(){
+    if(mapState){
+      setMapState(false);
+      return;
     }
-
-    // Wait until all imgPromises are resolved.
-    Promise.allSettled(Object.values(imgRequests)).then((results) => {
-      let newUrls = Object.assign({},urls); // Must be a deep copy to trigger re-render
-
-      // Enumerate ids (to match with promise using index)
-      for(let [index, id] of Object.keys(imgRequests).entries()){
-        newUrls[id] = results[index].value;
-      }
-      
-      setUrls(newUrls);
-    });
-
-    // Wait until all userRequests are resolved.
-    Promise.allSettled(Object.values(userRequests)).then((results) => {
-      let newUsers = Object.assign({},users); // Must be a deep copy to trigger re-render
-
-      // Enumerate ids (to match with promise using index)
-      for(let [index, id] of Object.keys(userRequests).entries()){
-        newUsers[id] = results[index].value.userName;
-      }
-      
-      setUsers(newUsers);
-    });
-
-  }, [itemsDataStore]);
-
-  function getDate(item){
-    const d = new Date(item.createdAt);
-    return (d.toLocaleDateString() + " " + d.toLocaleTimeString("en",{timeStyle: "short"}));
-  }
-
-  function getUser(id){
-    if(users[id] == undefined){
-      return "Unknown";
-    } else return users[id];
-  }
-
-  function getLocation(item){
-    let spacing = ", "
-    if(item.location.address.municipality == ""){
-      spacing = "";
+    else{
+      setMapState(true);
+      return;
     }
-    return item.location.address.municipality + spacing + item.location.address.region;
   }
 
+<<<<<<< HEAD
   
   let map;
   async function initializeMap() {
@@ -263,20 +277,132 @@ export default function ReportViewCollectionCustom(props) {
         )}
       </Collection>
     </div>
+=======
+ 
+
+  return (
+    <Flex
+    direction="column"
+    alignItems="stretch"
+    minWidth="100%"
+    minHeight="100%"
+    maxWidth="100%"
+    maxHeight="100%">
+      <Flex
+      gap="1px"
+      justifyContent="center"
+      flex="0 1 auto">
+        <ToggleButton height="fit-content" width="fit-content" onClick={() => {toggleMap()}}>View Map</ToggleButton>
+      </Flex>
+        
+      {mapState ? 
+        <Flex
+        flex="1 1 0%"
+        minHeight="0"
+        width="100%"
+        gap="0">
+          <Flex
+          flex="1 1 0%"
+          gap="0"
+          minHeight="0"
+          minWidth="50px"
+          maxWidth="30%"
+          >
+          <ReportCollection data={data}/>
+
+          </Flex>
+
+          <Flex 
+            flex="1 1 0%"
+            minWidth="0"
+            maxWidth="70%"
+            fontFamily="sans-serif"
+            >
+            <MapView
+            children={MarkerData(data)}/>
+          </Flex>
+        </Flex>
+        
+           :
+        <Flex minHeight="0" flex="1 1 0%"><ReportCollection data={data}/></Flex>
+      }
+    
+    </Flex>
+>>>>>>> temp
   );
 }
 
 /*
 
-<span>Reported by {getUser(item.id)}</span>
-                <span>{getLocation(item)}</span>
-                <span>{getDate(item)}</span>
-<ReportView
-          image={urls[item.id]}
-          date={getDate(item)}
-          species={item.pestActual}
-          user={getUser(item.id)}
-          location={getLocation(item)}
-          key={item.id}
-        ></ReportView>
+<Flex 
+            id="map"
+            flex="1 1 0%"
+            minWidth="0"
+            maxWidth="70%"
+            fontFamily="sans-serif"
+            >
+            Map
+          </Flex>
+          
+<Flex
+    direction="column"
+    alignItems="stretch"
+    width="100%"
+    height="100%"
+    maxHeight="100%">
+      <Flex
+      justifyContent="center"
+      flex="0 1 auto">
+        <ToggleButton height="fit-content" width="fit-content" onClick={() => {toggleMap()}}>View Map</ToggleButton>
+      </Flex>
+        
+      {mapState ? 
+        <Flex
+        flex="1 1"
+        direction="row"
+        maxHeight="100px"
+        gap="0"
+        >
+          <Flex
+          flex="1 1"
+          maxHeight="300px"
+          maxWidth="300px"
+          overflow="hidden">
+            {collection}
+          </Flex>
+
+        </Flex>
+           :
+        <Flex flex="1 1">{collection}</Flex>
+      }
+    
+    </Flex>
+    
+
+
+        
+          
+          
+
+        {mapState ? 
+        <Flex
+        direction="row"
+        justifyContent="center"
+        width="100%"
+        height="100%"
+        >
+          <Flex
+          width="30vw"
+          maxWidth="30%">
+            {collection}
+          </Flex>
+          <Flex 
+            id="map"
+            flex="1 1 100%"
+          >
+            Map
+          </Flex>
+          </Flex>
+           :
+        collection}
         */
