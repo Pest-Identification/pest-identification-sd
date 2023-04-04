@@ -7,7 +7,7 @@
 /* eslint-disable */
 import { Storage, DataStore} from 'aws-amplify';
 import * as React from "react";
-import { Collection, Flex, Text, Button, ScrollView, SearchField} from "@aws-amplify/ui-react";
+import { Collection, Flex, Text, Button, ScrollView, SearchField, SelectField, SliderField} from "@aws-amplify/ui-react";
 
 import { Report, User } from "../models";
 import { Predicates, SortDirection } from "@aws-amplify/datastore";
@@ -18,11 +18,13 @@ export function loadReports(initialCount=20){
 
   const [reports, setReports] = React.useState([]);
   const [sortFunction, setSortFunction] = React.useState(() => (s) => {s.createdAt(SortDirection.DESCENDING)});
+  const [filterFunction, setFilterFunction] = React.useState(Predicates.ALL);
   const [displayCount, setDisplayCount] = React.useState(initialCount);
 
 
   React.useEffect(() => {
-    DataStore.query(Report, Predicates.ALL, {
+    DataStore.query(Report,
+      filterFunction, {
       sort: sortFunction,
       page: 0,
       limit: displayCount
@@ -48,7 +50,7 @@ export function loadReports(initialCount=20){
     });
   }, [sortFunction, displayCount]);
 
-  return {reports, setSortFunction, setDisplayCount};
+  return {reports, setFilterFunction, setSortFunction, setDisplayCount};
 }
 
 
@@ -57,6 +59,39 @@ export function loadReports(initialCount=20){
 
 export function ReportCollection({reports, onLoadMore}) {
 
+  const [selectedFilter, setSelectedFilter] = React.useState("Range");
+
+  const [maxMiles, setMaxMiles] = React.useState(10);
+  const [sliderMax, setSliderMax] = React.useState(maxMiles * 2);
+  let canChangeSlider = false;
+
+
+  const [filters, setFilters] = React.useState([]);
+  
+  function addFilter(){
+
+  }
+
+  function removeFilter(){
+
+  }
+
+  let cards = reports.map((item) => {
+    return <ReportCard key={item.id} report={item}/>
+  });
+
+  const rangeFilter = 
+    <Flex
+    
+    justifyContent="center">
+      <SliderField
+      onClick={() => {if(sliderMax == maxMiles) setSliderMax(sliderMax * 2)}}
+      onChange={(value) => setMaxMiles(value)}
+      max={sliderMax}
+      ></SliderField>
+    </Flex>;
+
+  const keywordFilter = <SearchField maxWidth="400px"/>;
   
     return( 
     <Flex
@@ -64,24 +99,37 @@ export function ReportCollection({reports, onLoadMore}) {
     minHeight="0"
     direction="column"
     alignItems="center">
-      <SearchField maxWidth="400px"/>
-      <ScrollView>
+      <Flex
+      direction="row">
+        <SelectField
+          width="40px"
+          size="small"
+          onChange={(e) => setSelectedFilter(e.target.value)}
+          value={selectedFilter}
+        >
+          <option value="Keyword">Keyword</option>
+          <option value="Range">Range</option>
+          <option value="Date">Date</option>
+          <option value="Pest">Pest</option>
+        </SelectField>
+        <Button variation="tiny">Add Filter</Button>
+      </Flex>
+        {selectedFilter === "Range" ? rangeFilter : keywordFilter}
+      
+      <ScrollView
+      flex="1">
         { reports != undefined ?
-          <Collection
-            items={reports}
-            type="list"
+          <Flex
             direction="row"
-            gap="10%"
+            gap="10px"
             wrap="wrap"
             justifyContent="center"
             alignItems="flex-start"
             backgroundColor="blue.10"
             padding="2%"
           >
-          {(item, index) => (
-            <ReportCard key={item.id} report={item}/>
-          )}
-          </Collection> 
+          {cards}
+          </Flex> 
           :
            <Text>Loading</Text>
         } 
