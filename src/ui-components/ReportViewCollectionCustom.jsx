@@ -11,10 +11,11 @@ import * as React from "react";
 import { Collection, Card, Image, Flex, Badge, View, Divider, Text, Heading, Button, ToggleButton, ScrollView, SearchField, MapView} from "@aws-amplify/ui-react";
 
 import { Textfit } from 'react-textfit';
-import {ReportCollection, loadReports, getUser, getAddress, getDate} from './ReportCollection';
+import {ReportCollection, loadReports } from './ReportCollection';
 
 
 import { Marker, Popup } from 'react-map-gl';
+import { ReportCard } from './ReportCard';
 
 
 
@@ -49,36 +50,22 @@ function MarkerWithPopup({ latitude, longitude, content}) {
 }
 
 function MarkerData(data) {
-  console.log("MarkerData got", data)
-  return data.items.map((item) => {
+  return data.map((item) => {
             return <MarkerWithPopup 
               longitude={item.location.coordinates.longitude}
               latitude={item.location.coordinates.latitude}
-              content={
-                <Flex
-                height="100px"
-                width="100px">
-                  <Flex
-                  height="100%"
-                  width="25%">
-                    <Image width="100%" maxHeight="100%" src={data.getUrl(item)}/>
-                  </Flex>
-                  <Flex direction="column">
-                    <Heading> Test1</Heading>
-                    <Text> Test2 </Text>
-                  </Flex>
-                </Flex>}/>
-            });
+              content={<ReportCard report={item}></ReportCard>}/>
+  });
 }
 
 
 export default function ReportViewCollectionCustom(props) {
 
-  const data = loadReports();
-  
+
+  const {reports, setSortFunction, setDisplayCount} = loadReports(5);
   const [mapState, setMapState] = React.useState(false);
 
-
+  let count = 20;
 
   function toggleMap(){
     if(mapState){
@@ -91,6 +78,10 @@ export default function ReportViewCollectionCustom(props) {
     }
   }
 
+  function incDisplayCount(){
+    count += 10;
+    setDisplayCount(count);
+  }
  
 
   return (
@@ -121,7 +112,7 @@ export default function ReportViewCollectionCustom(props) {
           minWidth="50px"
           maxWidth="30%"
           >
-          <ReportCollection data={data}/>
+          <ReportCollection reports={reports} onLoadMore={incDisplayCount}/>
 
           </Flex>
 
@@ -132,12 +123,14 @@ export default function ReportViewCollectionCustom(props) {
             fontFamily="sans-serif"
             >
             <MapView
-            children={MarkerData(data)}/>
+            children={MarkerData(reports)}/>
           </Flex>
         </Flex>
         
            :
-        <Flex minHeight="0" flex="1 1 0%"><ReportCollection data={data}/></Flex>
+        <Flex minHeight="0" flex="1 1 0%">
+          <ReportCollection reports={reports} onLoadMore={incDisplayCount}/>
+        </Flex>
       }
     
     </Flex>
