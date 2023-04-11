@@ -40,6 +40,7 @@ export function DBoard({props}) {
          // }
         
          console.log(datastorePosts);
+         setPosts(datastorePosts);
           return Promise.allSettled(promises).then((results) => {
             for(let r of results){
               newPosts[r.value.index][r.value.field] = r.value.value;
@@ -47,7 +48,7 @@ export function DBoard({props}) {
           })
   
         }).then(() => {
-          setPosts(newPosts);
+          //setPosts(newPosts);
         });
   
     }, [sortFunction, displayCount]);
@@ -90,13 +91,14 @@ export function DBoard({props}) {
         </form>
       )}
       <div>
+        {console.log("Hi", posts)}
         {posts.map((item) => (
           <DiscussionPost
             key={item.id}
             title={item.title}
             author={item.User}
             date={item.createdAt}
-            content={item.content}
+            content={item.body}
           />
         ))}
       </div>
