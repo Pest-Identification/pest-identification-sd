@@ -1,0 +1,128 @@
+/* DBoard.css */
+
+.discussion-board {
+    margin: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .discussion-board h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .discussion-board form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .discussion-board label {
+    font-weight: bold;
+  }
+  
+  .discussion-board input,
+  .discussion-board textarea {
+    border-radius: 0.5rem;
+    border: none;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .discussion-board textarea {
+    resize: none;
+  }
+  
+  .discussion-board button[type="submit"] {
+    background-color: #00ff33;
+    color: black;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .discussion-board button[type="submit"]:hover {
+    background-color: #00ff33;
+  }
+  
+  .discussion-board .posts {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .discussion-board .reply-button {
+    background-color: #00ff33;
+    color: black;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    margin-top: 1rem;
+  }
+  
+  .discussion-board .reply-button:hover {
+    background-color: #00ff33;
+  }
+  
+  .discussion-board .reply-form {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .discussion-board .reply-form.show {
+    display: flex;
+  }
+  .entry-form label, .entry-form input, .entry-form textarea, .entry-form button {
+  display: block;
+  margin-bottom: 10px;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.post-background {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.reply-background {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.discussion-board .post-button {
+    background-color: #00ff33;
+    color: black;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    margin-bottom: 1rem;
+  }
+  
+  .discussion-board .post-button:hover {
+    background-color: #00ff33;
+  }
+  
+
+  
