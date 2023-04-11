@@ -62,7 +62,7 @@ function MarkerData(data) {
 export default function ReportViewCollectionCustom(props) {
 
 
-  const {reports, setSortFunction, setDisplayCount} = loadReports(5);
+  const reportContext = loadReports(5);
   const [mapState, setMapState] = React.useState(false);
 
   let count = 20;
@@ -80,7 +80,7 @@ export default function ReportViewCollectionCustom(props) {
 
   function incDisplayCount(){
     count += 10;
-    setDisplayCount(count);
+    reportContext.setDisplayCount(count);
   }
  
 
@@ -112,7 +112,7 @@ export default function ReportViewCollectionCustom(props) {
           minWidth="50px"
           maxWidth="30%"
           >
-          <ReportCollection reports={reports} onLoadMore={incDisplayCount}/>
+          <ReportCollection context={reportContext} onLoadMore={incDisplayCount}/>
 
           </Flex>
 
@@ -123,13 +123,13 @@ export default function ReportViewCollectionCustom(props) {
             fontFamily="sans-serif"
             >
             <MapView
-            children={MarkerData(reports)}/>
+            children={MarkerData(reportContext.reports)}/>
           </Flex>
         </Flex>
         
            :
         <Flex minHeight="0" flex="1 1 0%">
-          <ReportCollection reports={reports} onLoadMore={incDisplayCount}/>
+          <ReportCollection context={reportContext} onLoadMore={incDisplayCount}/>
         </Flex>
       }
     

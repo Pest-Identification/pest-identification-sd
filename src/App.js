@@ -4,7 +4,8 @@ import awsconfig from './aws-exports';
 import './App.css';
 import "@aws-amplify/ui-react/styles.css";
 import React, { useEffect, useState } from 'react';
-import { NewIdentification, MainMenu, ReferencePage, Post1, PostCollection } from './ui-components';
+import { NewIdentification,ReferencePage, Post1, PostCollection} from './ui-components';
+import Menu from './ui-components/Menu';
 import {default as ReportViewCollectionCustom} from './ui-components/ReportViewCollectionCustom';
 import { withAuthenticator, SelectField, Button, Image, View} from '@aws-amplify/ui-react';
 import { createReport } from './modules/datastore';
@@ -20,7 +21,6 @@ function App({signOut, user}) {
   const [currentPage, setCurrentPage] = useState('Loading');
   const [pestSubmitted, setPestSubmitted] = useState("UNKNOWN");
   const [imageToSubmit, setImageToSubmit] = useState();
-
 
   // Run only once
   useEffect(() => {
@@ -87,25 +87,14 @@ function App({signOut, user}) {
       case 'Reports':
         return <ReportViewCollectionCustom />;
       default:
-        return (<MainMenu
-          b1Label="IDENTIFY"
-          b1onClick={() => setCurrentPage("Report")}
-          b2Label="REFERENCE"
-          b2onClick={() => setCurrentPage("ReferencePage")}
-          b3Label="POST"
-          b3onClick={() => setCurrentPage("Post")}
-          b4Label="DISCUSSION"
-          b4onClick={() => setCurrentPage("PostCollection")}
-          b5Label="REPORTS"
-          b5onClick={() => setCurrentPage("Reports")}
-          />);
+        return (<Menu renderPage={setCurrentPage}/>);
     }
   };
 
 
   return (
     <View className="App">
-      {renderPage()}
+      <Menu/>
     </View>
   );
 }

@@ -14,40 +14,63 @@ import { Predicates, SortDirection } from "@aws-amplify/datastore";
 
 import { ReportCard } from './ReportCard';
 
+function coordinateBoundingBox(latitude, radius, unit="mi") {
+
+  let circumference;
+  if(unit == "mi"){
+    circumference = 24901;
+  } else if(unit == "km"){
+    circumference = 40075;
+  }
+  
+  const dY = 360 * radius / circumference;
+  const dX = dY * Math.cos((Math.PI / 180) * latitude);
+
+  return {longDiff: dX, latDiff: dY}; 
+}
+
+
 export function loadReports(initialCount=20){
 
   const [reports, setReports] = React.useState([]);
   const [sortFunction, setSortFunction] = React.useState(() => (s) => {s.createdAt(SortDirection.DESCENDING)});
-  const [filterFunction, setFilterFunction] = React.useState(Predicates.ALL);
+  const [filterFunction, setFilterFunction] = React.useState((Predicates.ALL));
   const [displayCount, setDisplayCount] = React.useState(initialCount);
 
+  
 
   React.useEffect(() => {
-    DataStore.query(Report,
-      filterFunction, {
-      sort: sortFunction,
-      page: 0,
-      limit: displayCount
-    }).then((datastoreReports) => {
+    
+    let newReports = [];
 
-      let promises = [];
-      let newReports = [];
+    
 
-      for (const [index, item] of datastoreReports.entries()){
-        newReports.push({...item, url: "", user: ""});
-        promises.push(Storage.get(item.image).then(r => {return {value: r, index: index, field: "url"}}), 
-                      DataStore.query(User, item.authorID).then(r => {return {value: r.userName, index: index, field: "user"}}));
-      }
 
-      Promise.allSettled(promises).then((results) => {
-        for(let r of results){
-          newReports[r.value.index][r.value.field] = r.value.value;
+      DataStore.query(Report,
+        filterFunction, {
+        sort: sortFunction,
+        page: 0,
+        limit: displayCount}
+      ).then((datastoreReports) => {
+
+        let promises = [];
+
+        for (const [index, item] of datastoreReports.entries()){
+          newReports.push({...item, url: "", user: ""});
+          promises.push(Storage.get(item.image).then(r => {return {value: r, index: index, field: "url"}}), 
+                        DataStore.query(User, item.authorID).then(r => {return {value: r.userName, index: index, field: "user"}}));
         }
+
+        return Promise.allSettled(promises).then((results) => {
+          for(let r of results){
+            newReports[r.value.index][r.value.field] = r.value.value;
+          }
+        })
+
       }).then(() => {
         setReports(newReports);
       });
 
-    });
   }, [sortFunction, displayCount]);
 
   return {reports, setFilterFunction, setSortFunction, setDisplayCount};
@@ -57,7 +80,10 @@ export function loadReports(initialCount=20){
 
 
 
-export function ReportCollection({reports, onLoadMore}) {
+
+export function ReportCollection({context, onLoadMore}) {
+
+  const {reports, setFilterFunction, setDisplayCount} = context;
 
   const [selectedFilter, setSelectedFilter] = React.useState("Range");
 
@@ -75,10 +101,28 @@ export function ReportCollection({reports, onLoadMore}) {
   function removeFilter(){
 
   }
+  React.useEffect(() => {
+    let predicates = [];
+    for(let f of filters){
+      if(f.attr == "Range"){
+          let curLoc;
+          navigator.geolocation.getCurrentPosition(
+            (loc) => {console.log("got positions"); curLoc = loc}, // Success
+            () => {console.log("Failed to get position")} // Failure
+          )
+        
+          const {longDiff, latDiff} = coordinateBoundingBox(curLoc.coords.latitude, f.value, "mi");
+          console.log(longDiff,latDiff);
+          predicates.push(
+            c.location.coordinates.longitude.between(curLoc.coords.longitude - longDiff, curLoc.coords.longitude - longDiff),
+            c.location.coordinates.latitude.between(curLoc.coords.latitude - latDiff, curLoc.coords.latitude - latDiff),
+          );
+      }
+    }
+    //setFilterFunction((c) => c.and(predicates));
+  }, filters)
 
-  let cards = reports.map((item) => {
-    return <ReportCard key={item.id} report={item}/>
-  });
+
 
   const rangeFilter = 
     <Flex
@@ -102,7 +146,6 @@ export function ReportCollection({reports, onLoadMore}) {
       <Flex
       direction="row">
         <SelectField
-          width="40px"
           size="small"
           onChange={(e) => setSelectedFilter(e.target.value)}
           value={selectedFilter}
@@ -128,7 +171,7 @@ export function ReportCollection({reports, onLoadMore}) {
             backgroundColor="blue.10"
             padding="2%"
           >
-          {cards}
+          {reports.map((item) => {return <ReportCard key={item.id} report={item}/>})}
           </Flex> 
           :
            <Text>Loading</Text>

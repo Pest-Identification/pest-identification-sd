@@ -30,7 +30,7 @@ export default function ReportForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    pestSubmitted: undefined,
+    pestSubmitted: "",
     image: "",
   };
   const [pestSubmitted, setPestSubmitted] = React.useState(
@@ -52,9 +52,10 @@ export default function ReportForm(props) {
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
