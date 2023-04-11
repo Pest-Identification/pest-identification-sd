@@ -3,7 +3,6 @@ import { DataStore } from 'aws-amplify';
 import { Reply, User } from '../models';
 import "./DiscussionPost.css";
 import { Predicates, SortDirection } from "@aws-amplify/datastore";
-import ReplyForm from "./ReplyForm";
 
 function getDate(replies){
     const d = new Date(replies.createdAt);
@@ -89,14 +88,11 @@ const [isFormVisible, setIsFormVisible] =  React.useState(false);
       <p className="content">{props.content}</p>
       <button className="reply-button" onClick={() => setShowReplyForm(!showReplyForm)}>Reply</button>
       {showReplyForm && (
-        <ReplyForm onCancel={() => setIsFormVisible(false)}/>
-        //<form onSubmit={handleReplySubmit}>
-         // <label htmlFor="author">Author:</label>
-         // <input type="text" id="author" name="author" required />
-         // <label htmlFor="content">Content:</label>
-         // <textarea id="content" name="content" required />
-         // <button type="submit">Submit</button>
-       // </form>
+        <form onSubmit={handleReplySubmit}>
+          <label htmlFor="content">Content:</label>
+          <textarea id="content" name="content" required />
+          <button type="submit">Submit</button>
+        </form>
       )}
       {replies.length > 0 && (
         <div className="replies">

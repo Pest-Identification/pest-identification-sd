@@ -43,6 +43,8 @@ type Report @model @auth(rules: [{allow: public}]) {
   image: String
   posts: [Post] @manyToMany(relationName: "PostReport")
   replys: [Reply] @manyToMany(relationName: "ReplyReport")
+  longitude: Float
+  latitude: String
 }
 
 type Post @model @auth(rules: [{allow: public}]) {

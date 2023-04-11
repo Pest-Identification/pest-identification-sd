@@ -4,7 +4,7 @@ import DiscussionPost from "./DiscussionPost";
 import './DBoard.css';
 import { Post, User } from "../models";
 import { Predicates, SortDirection } from "@aws-amplify/datastore";
-import Post1 from "./Post1";
+import { createPost } from "../modules/datastore";
 
 function getDate(posts){
     const d = new Date(posts.createdAt);
@@ -74,9 +74,8 @@ export function DBoard({props}) {
     const post = {
       title: form.title.value,
       content: form.content.value,
-      author: form.author.value,
-      date: new Date(),
     };
+    createPost(post.title, post.content, null);
     setPosts([...posts, post]);
     form.reset();
     setIsFormVisible(false);
@@ -92,17 +91,14 @@ export function DBoard({props}) {
            
       )}
       {isFormVisible && (
-        <Post1 onCancel={() => setIsFormVisible(false)}/>
-        //<form onSubmit={handleSubmit}></form>
-         // <label htmlFor="title">Title:</label>
-         // <input type="text" id="title" name="title" required />
-         // <label htmlFor="content">Content:</label>
-         // <textarea id="content" name="content" required />
-         // <label htmlFor="author">Author:</label>
-         // <input type="text" id="author" name="author" required />
-         // <button type="submit">Submit</button>
-         // <button type="button" onClick={() => setIsFormVisible(false)}>Cancel</button>
-        //</form>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="title">Title:</label>
+          <input type="text" id="title" name="title" required />
+          <label htmlFor="content">Content:</label>
+          <textarea id="content" name="content" required />
+          <button type="submit">Submit</button>
+          <button type="button" onClick={() => setIsFormVisible(false)}>Cancel</button>
+        </form>
       )}
       <div>
         {console.log("Hi", posts)}

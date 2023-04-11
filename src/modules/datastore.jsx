@@ -152,13 +152,12 @@ export async function createReport(image,pest=Pests.UNKNOWN){
       "authorID": (await Auth.currentUserInfo()).attributes.sub,
       "title": title,
       "body": body,
-      "replies": null
     }
 
     console.log("Creating post: ", post);
 
     // Store (before creating relationships)
-    let postPromise = DataStore.save(new Post(post));
+    let postPromise = await DataStore.save(new Post(post));
 
     console.log("Post created: ", postPromise)
 
