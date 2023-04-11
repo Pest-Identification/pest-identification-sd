@@ -6,18 +6,12 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  TextAreaField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextAreaField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Post } from "../models";
+import { Reply } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function Post1(props) {
+export default function ReplyForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -30,19 +24,15 @@ export default function Post1(props) {
     ...rest
   } = props;
   const initialValues = {
-    title: "",
     body: "",
   };
-  const [title, setTitle] = React.useState(initialValues.title);
   const [body, setBody] = React.useState(initialValues.body);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setTitle(initialValues.title);
     setBody(initialValues.body);
     setErrors({});
   };
   const validations = {
-    title: [{ type: "Required" }],
     body: [{ type: "Required" }],
   };
   const runValidationTasks = async (
@@ -71,7 +61,6 @@ export default function Post1(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          title,
           body,
         };
         const validationResponses = await Promise.all(
@@ -102,7 +91,7 @@ export default function Post1(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new Post(modelFields));
+          await DataStore.save(new Reply(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -115,34 +104,9 @@ export default function Post1(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "Post1")}
+      {...getOverrideProps(overrides, "ReplyForm")}
       {...rest}
     >
-      <TextField
-        label="Title"
-        isRequired={true}
-        isReadOnly={false}
-        value={title}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              title: value,
-              body,
-            };
-            const result = onChange(modelFields);
-            value = result?.title ?? value;
-          }
-          if (errors.title?.hasError) {
-            runValidationTasks("title", value);
-          }
-          setTitle(value);
-        }}
-        onBlur={() => runValidationTasks("title", title)}
-        errorMessage={errors.title?.errorMessage}
-        hasError={errors.title?.hasError}
-        {...getOverrideProps(overrides, "title")}
-      ></TextField>
       <TextAreaField
         label="Body"
         isRequired={true}
@@ -151,7 +115,6 @@ export default function Post1(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              title,
               body: value,
             };
             const result = onChange(modelFields);
