@@ -19,48 +19,41 @@ export function DiscussionPost(props) {
   const [showReplyForm, setShowReplyForm] = useState(false);
 
   React.useEffect(() => {
-      
     let newReplies = [];
-
-    
-
-
-    DataStore.query(Reply,
-      filterFunction, {
-      sort: sortFunction,
-      page: 0,
-      limit: displayCount}
-    ).then((datastoreReplies) => {
+  
+    DataStore.query(
+      Reply,
+      r => r.postID("eq", props.postId),
+      {
+        sort: sortFunction,
+        page: 0,
+        limit: displayCount
+      }
+    ).then(datastoreReplies => {
       let newReplies = [];
       let promises = [];
-    
-      for (const [index, item] of datastoreReplies.entries()){
-        newReplies.push({...item, user: ""});
-        promises.push(DataStore.query(User, item.authorID).then(r => {
-          console.log('r:', r);
-          return {value: r.userName, index: index, field: "user"};
-        })); 
+  
+      for (const [index, item] of datastoreReplies.entries()) {
+        newReplies.push({ ...item, user: "" });
+        promises.push(
+          DataStore.query(User, item.authorID).then(r => {
+            return { value: r.userName, index: index, field: "user" };
+          })
+        );
       }
-    
-      console.log('newPosts before Promise.allSettled:', newReplies);
-      setReplies(datastoreReplies);
-    
-      return Promise.allSettled(promises).then((results) => {
-        console.log('Promise.allSettled results:', results);
-        for(let r of results){
+  
+      setReplies(newReplies);
+  
+      return Promise.allSettled(promises).then(results => {
+        for (let r of results) {
           if (r && r.value) {
             newReplies[r.value.index][r.value.field] = r.value.value;
           }
         }
-      })
-    }).then(() => {
-      console.log('newPosts after Promise.allSettled:', newReplies);
-      console.log('posts:', replies);
-      // setPosts(newPosts);
+      });
     });
-    
-
-  }, [sortFunction, displayCount]);
+  }, [props.postId, sortFunction, displayCount]);
+  
 
 const [isFormVisible, setIsFormVisible] =  React.useState(false);
 

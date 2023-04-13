@@ -109,6 +109,7 @@ export function DBoard({props}) {
             author={item.user}
             date={getDate(item)}
             content={item.body}
+            postId={item.id}
           />
         ))}
       </div>

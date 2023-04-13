@@ -1,6 +1,7 @@
 /* DBoard.css */
 
 .discussion-board {
+    flex: 1 1 0%;
     margin: 2rem;
     border: 1px solid #ccc;
     border-radius: 0.5rem;
