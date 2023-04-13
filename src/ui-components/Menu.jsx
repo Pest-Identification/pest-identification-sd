@@ -4,6 +4,8 @@ import './Menu.scss';
 import {default as ReportViewCollectionCustom} from './ReportViewCollectionCustom';
 import { NewIdentification, ReferencePage, Post1, PostCollection} from '.';
 import FReference from './FReference.jsx';
+import {DBoard} from './DBoard.jsx';
+import NewUpload from './NewUpload';
 
 const items = [
   {
@@ -19,12 +21,12 @@ const items = [
   {
     name: "Identify",
     color: "#9c27b0",
-    component: NewIdentification
+    component: NewUpload
   },
   {
     name: "Discussion",
     color: "#673ab7",
-    component: PostCollection
+    component: DBoard
   },
   {
     name: "Reports",

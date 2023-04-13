@@ -40,9 +40,16 @@ export default function ReplyForm(props) {
     currentValue,
     getDisplayValue
   ) => {
+<<<<<<< HEAD
     const value = getDisplayValue
       ? getDisplayValue(currentValue)
       : currentValue;
+=======
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
+>>>>>>> f48f8d5719cde0a4f1c595f35b48164ff1c62c94
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
