@@ -5,36 +5,33 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextAreaFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, TextAreaFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type Post1InputValues = {
-    title?: string;
+export declare type ReplyFormInputValues = {
     body?: string;
 };
-export declare type Post1ValidationValues = {
-    title?: ValidationFunction<string>;
+export declare type ReplyFormValidationValues = {
     body?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type Post1OverridesProps = {
-    Post1Grid?: PrimitiveOverrideProps<GridProps>;
-    title?: PrimitiveOverrideProps<TextFieldProps>;
+export declare type ReplyFormOverridesProps = {
+    ReplyFormGrid?: PrimitiveOverrideProps<GridProps>;
     body?: PrimitiveOverrideProps<TextAreaFieldProps>;
 } & EscapeHatchProps;
-export declare type Post1Props = React.PropsWithChildren<{
-    overrides?: Post1OverridesProps | undefined | null;
+export declare type ReplyFormProps = React.PropsWithChildren<{
+    overrides?: ReplyFormOverridesProps | undefined | null;
 } & {
     clearOnSuccess?: boolean;
-    onSubmit?: (fields: Post1InputValues) => Post1InputValues;
-    onSuccess?: (fields: Post1InputValues) => void;
-    onError?: (fields: Post1InputValues, errorMessage: string) => void;
+    onSubmit?: (fields: ReplyFormInputValues) => ReplyFormInputValues;
+    onSuccess?: (fields: ReplyFormInputValues) => void;
+    onError?: (fields: ReplyFormInputValues, errorMessage: string) => void;
     onCancel?: () => void;
-    onChange?: (fields: Post1InputValues) => Post1InputValues;
-    onValidate?: Post1ValidationValues;
+    onChange?: (fields: ReplyFormInputValues) => ReplyFormInputValues;
+    onValidate?: ReplyFormValidationValues;
 } & React.CSSProperties>;
-export default function Post1(props: Post1Props): React.ReactElement;
+export default function ReplyForm(props: ReplyFormProps): React.ReactElement;

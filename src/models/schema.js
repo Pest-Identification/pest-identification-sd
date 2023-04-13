@@ -256,6 +256,20 @@ export const schema = {
                         ]
                     }
                 },
+                "longitude": {
+                    "name": "longitude",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "latitude": {
+                    "name": "latitude",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -708,6 +722,6 @@ export const schema = {
             }
         }
     },
-    "codegenVersion": "3.4.0",
-    "version": "7bf66fb51e3dadbf8885b375682cccbe"
+    "codegenVersion": "3.3.5",
+    "version": "a03fd3a87283b87a6cac9db1620f5108"
 };

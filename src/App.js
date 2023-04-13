@@ -8,8 +8,7 @@ import { NewIdentification,ReferencePage, Post1, PostCollection} from './ui-comp
 import Menu from './ui-components/Menu';
 import {default as ReportViewCollectionCustom} from './ui-components/ReportViewCollectionCustom';
 import { withAuthenticator, SelectField, Button, Image, View} from '@aws-amplify/ui-react';
-import { createReport } from './modules/datastore';
-//import {createReport, createPost, createReply} from './modules/datastore';
+import { createReport, createPost } from './modules/datastore';
 
 
 Amplify.configure(awsconfig);
@@ -94,6 +93,7 @@ function App({signOut, user}) {
 
   return (
     <View className="App">
+      <Button onClick={() => createPost("Test","test")}/>
       <Menu/>
     </View>
   );

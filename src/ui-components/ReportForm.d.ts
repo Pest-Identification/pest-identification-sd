@@ -15,16 +15,22 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type ReportFormInputValues = {
     pestSubmitted?: string;
     image?: string;
+    longitude?: number;
+    latitude?: string;
 };
 export declare type ReportFormValidationValues = {
     pestSubmitted?: ValidationFunction<string>;
     image?: ValidationFunction<string>;
+    longitude?: ValidationFunction<number>;
+    latitude?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ReportFormOverridesProps = {
     ReportFormGrid?: PrimitiveOverrideProps<GridProps>;
     pestSubmitted?: PrimitiveOverrideProps<SelectFieldProps>;
     image?: PrimitiveOverrideProps<TextFieldProps>;
+    longitude?: PrimitiveOverrideProps<TextFieldProps>;
+    latitude?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ReportFormProps = React.PropsWithChildren<{
     overrides?: ReportFormOverridesProps | undefined | null;

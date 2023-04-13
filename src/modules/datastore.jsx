@@ -31,7 +31,8 @@ export async function createReport(image,pest=Pests.UNKNOWN){
       "pestActual": Pests.UNKNOWN,
       "pestSubmitted": pest,
       "pestIdentified": Pests.UNKNOWN,
-      "image": ""
+      "image": "",
+      ...coordinates // Curently here so can qeury based on coordinates instead of filtering
     };
     let submitedReport;
     
@@ -43,6 +44,10 @@ export async function createReport(image,pest=Pests.UNKNOWN){
 
         reportStruct.location.coordinates.longitude = r.coords.longitude; 
         reportStruct.location.coordinates.latitude = r.coords.latitude; 
+
+        reportStruct.longitude = r.coords.longitude;
+        reportStruct.latitude = r.coords.latitude;
+
         console.log("Got GPS location: " + JSON.stringify(reportStruct.location.coordinates) + " Reverse geocoding...");
 
         return Geo.searchByCoordinates([r.coords.longitude, r.coords.latitude]);
@@ -62,6 +67,7 @@ export async function createReport(image,pest=Pests.UNKNOWN){
         reportStruct.location.address.region = r.region;
         reportStruct.location.address.country = r.country;
         reportStruct.location.address.postalCode = r.postalCode;
+
 
         return Auth.currentUserInfo();
 
@@ -151,16 +157,15 @@ export async function createReport(image,pest=Pests.UNKNOWN){
     let post = {
       "authorID": (await Auth.currentUserInfo()).attributes.sub,
       "title": title,
-      "body": body,
-      "replies": null
+      "body": body
     }
 
     console.log("Creating post: ", post);
 
     // Store (before creating relationships)
-    let postPromise = DataStore.save(new Post(post));
+    let postResult = await DataStore.save(new Post(post));
 
-    console.log("Post created: ", postPromise)
+    console.log("Post created: ", postResult)
 
     // Create relationship for each report in array
     if (refReports != null){
@@ -169,13 +174,14 @@ export async function createReport(image,pest=Pests.UNKNOWN){
 
       for(let report in refReports){
         console.log("Creating relationship to report:", report);
-        let relPromise = await DataStore.save(new PostReport({"report": report, "post": post}));
-        console.log("Related",  report, " to ", postPromise, ": ", relPromise);
+        let relResult = await DataStore.save(new PostReport({"report": report, "post": post}));
+        console.log("Related",  report, " to ", postResult, ": ", relResult);
 
       }
     }
 
     console.log("Finished making post.")
 
-    return postPromise;
+    return postResult;
+
   }

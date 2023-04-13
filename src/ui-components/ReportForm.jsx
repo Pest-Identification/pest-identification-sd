@@ -30,32 +30,39 @@ export default function ReportForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    pestSubmitted: "",
+    pestSubmitted: undefined,
     image: "",
+    longitude: "",
+    latitude: "",
   };
   const [pestSubmitted, setPestSubmitted] = React.useState(
     initialValues.pestSubmitted
   );
   const [image, setImage] = React.useState(initialValues.image);
+  const [longitude, setLongitude] = React.useState(initialValues.longitude);
+  const [latitude, setLatitude] = React.useState(initialValues.latitude);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setPestSubmitted(initialValues.pestSubmitted);
     setImage(initialValues.image);
+    setLongitude(initialValues.longitude);
+    setLatitude(initialValues.latitude);
     setErrors({});
   };
   const validations = {
     pestSubmitted: [],
     image: [],
+    longitude: [],
+    latitude: [],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value =
-      currentValue && getDisplayValue
-        ? getDisplayValue(currentValue)
-        : currentValue;
+    const value = getDisplayValue
+      ? getDisplayValue(currentValue)
+      : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -75,6 +82,8 @@ export default function ReportForm(props) {
         let modelFields = {
           pestSubmitted,
           image,
+          longitude,
+          latitude,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -131,6 +140,8 @@ export default function ReportForm(props) {
             const modelFields = {
               pestSubmitted: value,
               image,
+              longitude,
+              latitude,
             };
             const result = onChange(modelFields);
             value = result?.pestSubmitted ?? value;
@@ -172,6 +183,8 @@ export default function ReportForm(props) {
             const modelFields = {
               pestSubmitted,
               image: value,
+              longitude,
+              latitude,
             };
             const result = onChange(modelFields);
             value = result?.image ?? value;
@@ -185,6 +198,64 @@ export default function ReportForm(props) {
         errorMessage={errors.image?.errorMessage}
         hasError={errors.image?.hasError}
         {...getOverrideProps(overrides, "image")}
+      ></TextField>
+      <TextField
+        label="Longitude"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={longitude}
+        onChange={(e) => {
+          let value = isNaN(parseFloat(e.target.value))
+            ? e.target.value
+            : parseFloat(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              pestSubmitted,
+              image,
+              longitude: value,
+              latitude,
+            };
+            const result = onChange(modelFields);
+            value = result?.longitude ?? value;
+          }
+          if (errors.longitude?.hasError) {
+            runValidationTasks("longitude", value);
+          }
+          setLongitude(value);
+        }}
+        onBlur={() => runValidationTasks("longitude", longitude)}
+        errorMessage={errors.longitude?.errorMessage}
+        hasError={errors.longitude?.hasError}
+        {...getOverrideProps(overrides, "longitude")}
+      ></TextField>
+      <TextField
+        label="Latitude"
+        isRequired={false}
+        isReadOnly={false}
+        value={latitude}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              pestSubmitted,
+              image,
+              longitude,
+              latitude: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.latitude ?? value;
+          }
+          if (errors.latitude?.hasError) {
+            runValidationTasks("latitude", value);
+          }
+          setLatitude(value);
+        }}
+        onBlur={() => runValidationTasks("latitude", latitude)}
+        errorMessage={errors.latitude?.errorMessage}
+        hasError={errors.latitude?.hasError}
+        {...getOverrideProps(overrides, "latitude")}
       ></TextField>
       <Flex
         justifyContent="space-between"

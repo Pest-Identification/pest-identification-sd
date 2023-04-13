@@ -138,6 +138,8 @@ type EagerReport = {
   readonly image?: string | null;
   readonly posts?: (PostReport | null)[] | null;
   readonly replys?: (ReplyReport | null)[] | null;
+  readonly longitude?: number | null;
+  readonly latitude?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -156,6 +158,8 @@ type LazyReport = {
   readonly image?: string | null;
   readonly posts: AsyncCollection<PostReport>;
   readonly replys: AsyncCollection<ReplyReport>;
+  readonly longitude?: number | null;
+  readonly latitude?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
