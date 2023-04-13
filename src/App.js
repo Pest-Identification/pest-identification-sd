@@ -93,7 +93,6 @@ function App({signOut, user}) {
 
   return (
     <View className="App">
-      <Button onClick={() => createPost("Test","test")}/>
       <Menu/>
     </View>
   );

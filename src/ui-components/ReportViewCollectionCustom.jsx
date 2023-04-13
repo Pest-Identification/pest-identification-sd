@@ -29,6 +29,7 @@ export default function ReportViewCollectionCustom(props) {
 
   const {reports, setFilterFunction, setSortFunction, setDisplayCount} = loadReports(20);
   const [mapState, setMapState] = React.useState(false);
+  const [screenIsVertical, setScreenIsVertical] = React.useState(true);
 
   const [maxMiles, setMaxMiles] = React.useState(10);
   const [selectedUser, setSelectedUser] = React.useState("All");
@@ -105,11 +106,17 @@ export default function ReportViewCollectionCustom(props) {
 
 
   React.useEffect(() => {
+
+    if(window.innerHeight > window.innerWidth){
+      setScreenIsVertical(true);
+    } else setScreenIsVertical(false);
+    
+
     navigator.geolocation.getCurrentPosition(
       (loc) => {
         setUserLocation(loc); 
         console.log("Got location:",loc)}, // Success
-      () => {console.log("Failed to get position")}); // Failure
+      (err) => {alert("Failed to get location. Error: " + err.message)}); // Failure
   }, []);
 
   
@@ -139,6 +146,9 @@ export default function ReportViewCollectionCustom(props) {
 
 
   let count = 20;
+  const initialViewState = {
+
+  }
 
   function toggleMap(){
     if(mapState){
@@ -169,13 +179,13 @@ export default function ReportViewCollectionCustom(props) {
 
       <Flex
       height="100%"
-      direction="row"
+      direction={screenIsVertical ? "column" : "row"}
       overflow="hidden"
       gap="0">
 
       <Flex
-      width="350px"
-      minHeight="0"
+      width={screenIsVertical ? "100%" : "350px"}
+      height={screenIsVertical ? "fit-content" : "100%"}
       direction="column"
       alignItems="center" 
       padding="16px">
@@ -185,25 +195,30 @@ export default function ReportViewCollectionCustom(props) {
           <Divider width="100%"/>
           
           <Grid
+            templateColumns="1fr 1fr"
+            alignItems="center"
           >
             
-          <Text>Address</Text>
-          <SearchField hasSearchButton={false} onClear={() => setSelectedAddress("")} onSubmit={(val) => setSelectedAddress(val)}/>
-         
-          <Text>Radius</Text>
-          <SliderField
-          onClick={() => {if(sliderMax == maxMiles) setSliderMax(sliderMax * 2)}}
-          onChange={(value) => setMaxMiles(value)}
-          max={sliderMax}
-          ></SliderField>
-        
-          <SelectField
-          onChange={(e) => setSelectedPest(e.target.value)}>
-            <option value={"All"}>All Pests</option>
-            <option value={Pests.UNKNOWN}>Unknown</option>
-            <option value={Pests.GRAPE_BERRY_MOTH}>Grape Berry Moth</option>
-            <option value={Pests.SPOTTED_LANTERN_FLY}>Spotted Lantern Fly</option>
-          </SelectField>
+            <Text column="1" row="1">Address</Text>
+            <SearchField column="2" row="1" hasSearchButton={false} onClear={() => setSelectedAddress("")} onSubmit={(val) => setSelectedAddress(val)}/>
+          
+            <Text column="1" row="2" >Radius</Text>
+            <SliderField
+            column="2" row="2"
+            onClick={() => {if(sliderMax == maxMiles) setSliderMax(sliderMax * 2)}}
+            onChange={(value) => setMaxMiles(value)}
+            max={sliderMax}
+            ></SliderField>
+          
+            <Text column="1" row="3" >Pest</Text>
+            <SelectField
+            column="2" row="3"
+            onChange={(e) => setSelectedPest(e.target.value)}>
+              <option value={"All"}>All Pests</option>
+              <option value={Pests.UNKNOWN}>Unknown</option>
+              <option value={Pests.GRAPE_BERRY_MOTH}>Grape Berry Moth</option>
+              <option value={Pests.SPOTTED_LANTERN_FLY}>Spotted Lantern Fly</option>
+            </SelectField>
 
 
           </Grid>
@@ -218,17 +233,15 @@ export default function ReportViewCollectionCustom(props) {
     {mapState ? 
         <Flex 
           flex="1 1 0%"
-          minWidth="0"
-          maxWidth="70%"
           fontFamily="sans-serif"
           >
             <MapView
-            initialViewState={{
+            initialViewState={ userLocation != null ? {
               latitude: userLocation.coords.latitude,
               longitude: userLocation.coords.longitude,
               zoom: 10,
               pitch: 70
-            }}>
+            } : {}}>
             {MarkerData(reports)}
             </MapView>
         </Flex>
