@@ -8,7 +8,7 @@
 import { Storage, DataStore} from 'aws-amplify';
 import * as React from "react";
 
-import { Collection, Card, Image, Flex, Badge, View, Divider, Text, SearchField, SelectField, SliderField, Heading, Button, ToggleButton, ScrollView, MapView, LocationSearch} from "@aws-amplify/ui-react";
+import { Collection, Card, Image, Flex, Badge, View, Divider, Text, SearchField, SelectField, SliderField, Heading, Button, ToggleButton, ScrollView, MapView, LocationSearch, Grid} from "@aws-amplify/ui-react";
 
 import { Textfit } from 'react-textfit';
 import {ReportCollection, loadReports } from './ReportCollection';
@@ -184,23 +184,19 @@ export default function ReportViewCollectionCustom(props) {
         <ToggleButton height="fit-content" width="fit-content" onClick={() => {toggleMap()}}>View Map</ToggleButton>
           <Divider width="100%"/>
           
-          <Flex
-          
-          alignItems="center"
-          width="100%">
-            <Text>Address</Text>
-            <SearchField hasSearchButton={false} onClear={() => setSelectedAddress("")} onSubmit={(val) => setSelectedAddress(val)}/>
-          </Flex>
-          <Flex
-          alignItems="center"
-          width="100%">
-            <Text>Radius</Text>
+          <Grid
+          >
+            
+          <Text>Address</Text>
+          <SearchField hasSearchButton={false} onClear={() => setSelectedAddress("")} onSubmit={(val) => setSelectedAddress(val)}/>
+         
+          <Text>Radius</Text>
           <SliderField
           onClick={() => {if(sliderMax == maxMiles) setSliderMax(sliderMax * 2)}}
           onChange={(value) => setMaxMiles(value)}
           max={sliderMax}
           ></SliderField>
-          </Flex>
+        
           <SelectField
           onChange={(e) => setSelectedPest(e.target.value)}>
             <option value={"All"}>All Pests</option>
@@ -209,6 +205,8 @@ export default function ReportViewCollectionCustom(props) {
             <option value={Pests.SPOTTED_LANTERN_FLY}>Spotted Lantern Fly</option>
           </SelectField>
 
+
+          </Grid>
         <Flex
         flex="1"
         direction="column"
