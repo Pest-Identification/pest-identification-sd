@@ -1,23 +1,16 @@
-/***************************************************************************
- * The contents of this file were generated with Amplify Studio.           *
- * Please refrain from making any modifications to this file.              *
- * Any changes to this file will be overwritten when running amplify pull. *
- **************************************************************************/
-
-/* eslint-disable */
-import { Storage, DataStore} from 'aws-amplify';
+import { Auth, DataStore} from 'aws-amplify';
 import * as React from "react";
+import {Report} from '../models';
 
-import { Collection, Card, Image, Flex, Badge, View, Divider, Text, SearchField, SelectField, SliderField, Heading, Button, ToggleButton, ScrollView, MapView, LocationSearch, Grid} from "@aws-amplify/ui-react";
+import {Flex, Divider, Text, SearchField, SelectField, SliderField, Button, ToggleButton, MapView, Grid} from "@aws-amplify/ui-react";
 
-import { Textfit } from 'react-textfit';
 import {ReportCollection, loadReports } from './ReportCollection';
 
 
 import { Marker, Popup } from 'react-map-gl';
 import { ReportCard } from './ReportCard';
 import { Pests } from '../models';
-import { attribute } from '@aws-amplify/datastore';
+import { useMatch } from 'react-router-dom';
 
 
 
@@ -27,7 +20,7 @@ import { attribute } from '@aws-amplify/datastore';
 export default function ReportViewCollectionCustom(props) {
 
 
-  const {reports, setFilterFunction, setSortFunction, setDisplayCount} = loadReports(20);
+  const {reports, setFilterFunction, setSortFunction, setDisplayCount, reloadReports} = loadReports(20);
   const [mapState, setMapState] = React.useState(false);
   const [screenIsVertical, setScreenIsVertical] = React.useState(true);
 
@@ -39,6 +32,19 @@ export default function ReportViewCollectionCustom(props) {
 
   const [sliderMax, setSliderMax] = React.useState(maxMiles * 2);
   const [userLocation, setUserLocation] = React.useState(null);
+  const [isModerator, setIsModerator] = React.useState(false);
+
+
+  function handleReportDelete(item){
+    if(window.confirm("Are you sure you want to delete?")){
+      DataStore.delete(Report, (report) => report.id.eq(item.id)).then(
+        r => {
+          reloadReports();
+        }
+      )
+    }
+
+  }
 
   function MarkerWithPopup({ latitude, longitude, content}) {
     const [showPopup, setShowPopup] = React.useState(false);
@@ -48,6 +54,7 @@ export default function ReportViewCollectionCustom(props) {
       originalEvent.stopPropagation();
       setShowPopup(true);
     };
+
   
     return (
       <>
@@ -72,7 +79,7 @@ export default function ReportViewCollectionCustom(props) {
   
   function MarkerData(data) {
     let userMarker = null;
-    if(userLocation != null){
+    if(userLocation !== null){
       userMarker = <Marker
         color="red"
         longitude={userLocation.coords.longitude}
@@ -85,16 +92,24 @@ export default function ReportViewCollectionCustom(props) {
             return <MarkerWithPopup 
               longitude={item.location.coordinates.longitude}
               latitude={item.location.coordinates.latitude}
-              content={<ReportCard report={item}></ReportCard>}/>
+              content={isModerator ? 
+                <Flex
+                direction="column">
+                  <ReportCard report={item}></ReportCard>
+                  <Button onClick={() => handleReportDelete(item)} color="white" backgroundColor="red.60">DELETE</Button> 
+                </Flex>
+                :
+                <ReportCard report={item}></ReportCard>}/>
     }), userMarker];
   }
+
   
   function coordinateBoundingBox(latitude, radius, unit="mi") {
   
     let circumference;
-    if(unit == "mi"){
+    if(unit === "mi"){
       circumference = 24901;
-    } else if(unit == "km"){
+    } else if(unit === "km"){
       circumference = 40075;
     }
     
@@ -111,6 +126,12 @@ export default function ReportViewCollectionCustom(props) {
       setScreenIsVertical(true);
     } else setScreenIsVertical(false);
     
+    
+    Auth.currentAuthenticatedUser().then( user => {
+      if(user.signInUserSession.accessToken.payload["cognito:groups"].find(element => element === "moderator") !== undefined){
+        setIsModerator(true);
+      } else setIsModerator(false);
+    });
 
     navigator.geolocation.getCurrentPosition(
       (loc) => {
@@ -122,17 +143,15 @@ export default function ReportViewCollectionCustom(props) {
   
 
   React.useEffect(() => {
-    if(userLocation != null){
+    if(userLocation !== null){
       const {longDiff, latDiff} = coordinateBoundingBox(userLocation.coords.latitude, maxMiles, "mi");
       function filterFunction(item) {
-        console.log("Selected:", selectedAddress)
-        console.log("Address: ", item.location.address.number +  item.location.address.street + item.location.address.neighborhood + item.location.address.municipality + item.location.address.region + item.location.address.country + item.location.address.postalCode)
         if(
-          (selectedUser == "All" || item.user == selectedUser) &&
+          (selectedUser === "All" || item.user === selectedUser) &&
           item.location.coordinates.longitude > (userLocation.coords.longitude - longDiff) && item.location.coordinates.longitude < (userLocation.coords.longitude + longDiff) &&
           item.location.coordinates.latitude > (userLocation.coords.latitude - latDiff) && item.location.coordinates.latitude < (userLocation.coords.latitude + latDiff) &&
-          (selectedPest == "All" || item.pestSubmitted == selectedPest) &&
-          (selectedAddress == "" || (item.location.address.number +  item.location.address.street + item.location.address.neighborhood + item.location.address.municipality + item.location.address.region + item.location.address.country + item.location.address.postalCode).includes(selectedAddress))
+          (selectedPest === "All" || item.pestSubmitted === selectedPest) &&
+          (selectedAddress === "" || (item.location.address.number +  item.location.address.street + item.location.address.neighborhood + item.location.address.municipality + item.location.address.region + item.location.address.country + item.location.address.postalCode).includes(selectedAddress))
           ){
             return true;
           }
@@ -141,9 +160,6 @@ export default function ReportViewCollectionCustom(props) {
       setFilterFunction(() => {return(filterFunction)});
     }
   }, [userLocation, maxMiles, selectedPest, selectedUser, selectedAddress])
-
-
-
 
   let count = 20;
   const initialViewState = {
@@ -205,7 +221,7 @@ export default function ReportViewCollectionCustom(props) {
             <Text column="1" row="2" >Radius</Text>
             <SliderField
             column="2" row="2"
-            onClick={() => {if(sliderMax == maxMiles) setSliderMax(sliderMax * 2)}}
+            onClick={() => {if(sliderMax === maxMiles) setSliderMax(sliderMax * 2)}}
             onChange={(value) => setMaxMiles(value)}
             max={sliderMax}
             ></SliderField>
@@ -236,7 +252,7 @@ export default function ReportViewCollectionCustom(props) {
           fontFamily="sans-serif"
           >
             <MapView
-            initialViewState={ userLocation != null ? {
+            initialViewState={ userLocation !== null ? {
               latitude: userLocation.coords.latitude,
               longitude: userLocation.coords.longitude,
               zoom: 10,

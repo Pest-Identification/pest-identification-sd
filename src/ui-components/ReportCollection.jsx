@@ -21,7 +21,12 @@ export function loadReports(initialCount=20){
   const [sortFunction, setSortFunction] = React.useState(() => (s) => {s.createdAt(SortDirection.DESCENDING)});
   const [filterFunction, setFilterFunction] = React.useState(() => (item) => {return(true)});
   const [displayCount, setDisplayCount] = React.useState(initialCount);
+  const [update, setUpdate] = React.useState(true);
 
+
+  function reloadReports(){
+    setUpdate(!update);
+  }
 
   React.useEffect(() => {
     
@@ -55,9 +60,9 @@ export function loadReports(initialCount=20){
         setReports(newReports);
       });
 
-  }, [filterFunction, sortFunction, displayCount]);
+  }, [filterFunction, sortFunction, displayCount, update]);
 
-  return {reports, setFilterFunction, setSortFunction, setDisplayCount};
+  return {reports, setFilterFunction, setSortFunction, setDisplayCount, reloadReports};
 }
 
 
