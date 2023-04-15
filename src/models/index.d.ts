@@ -131,7 +131,6 @@ type EagerReport = {
   };
   readonly id: string;
   readonly authorID: string;
-  readonly location?: Location | null;
   readonly pestActual: Pests | keyof typeof Pests;
   readonly pestSubmitted?: Pests | keyof typeof Pests | null;
   readonly pestIdentified?: Pests | keyof typeof Pests | null;
@@ -139,7 +138,14 @@ type EagerReport = {
   readonly posts?: (PostReport | null)[] | null;
   readonly replys?: (ReplyReport | null)[] | null;
   readonly longitude?: number | null;
-  readonly latitude?: string | null;
+  readonly latitude?: number | null;
+  readonly address_number?: string | null;
+  readonly address_street?: string | null;
+  readonly address_neighborhood?: string | null;
+  readonly address_municipality?: string | null;
+  readonly address_region?: string | null;
+  readonly address_country?: string | null;
+  readonly address_postalCode?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -151,7 +157,6 @@ type LazyReport = {
   };
   readonly id: string;
   readonly authorID: string;
-  readonly location?: Location | null;
   readonly pestActual: Pests | keyof typeof Pests;
   readonly pestSubmitted?: Pests | keyof typeof Pests | null;
   readonly pestIdentified?: Pests | keyof typeof Pests | null;
@@ -159,7 +164,14 @@ type LazyReport = {
   readonly posts: AsyncCollection<PostReport>;
   readonly replys: AsyncCollection<ReplyReport>;
   readonly longitude?: number | null;
-  readonly latitude?: string | null;
+  readonly latitude?: number | null;
+  readonly address_number?: string | null;
+  readonly address_street?: string | null;
+  readonly address_neighborhood?: string | null;
+  readonly address_municipality?: string | null;
+  readonly address_region?: string | null;
+  readonly address_country?: string | null;
+  readonly address_postalCode?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

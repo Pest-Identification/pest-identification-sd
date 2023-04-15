@@ -36,7 +36,6 @@ enum Pests {
 type Report @model @auth(rules: [{allow: public}]) {
   id: ID!
   authorID: String!
-  location: Location
   pestActual: Pests!
   pestSubmitted: Pests
   pestIdentified: Pests
@@ -44,7 +43,14 @@ type Report @model @auth(rules: [{allow: public}]) {
   posts: [Post] @manyToMany(relationName: "PostReport")
   replys: [Reply] @manyToMany(relationName: "ReplyReport")
   longitude: Float
-  latitude: String
+  latitude: Float
+  address_number: String
+  address_street: String
+  address_neighborhood: String
+  address_municipality: String
+  address_region: String
+  address_country: String
+  address_postalCode: String
 }
 
 type Post @model @auth(rules: [{allow: public}]) {
