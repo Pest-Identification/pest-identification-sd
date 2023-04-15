@@ -13,26 +13,20 @@ export async function createReport(image,pest=Pests.UNKNOWN){
       throw new Error("Location unavailable");
     }
 
-    let coordinates = {longitude: 0, latitude: 0};
-    let address = {
-      number: "",
-      street: "",
-      neighborhood: "",
-      municipality: "",
-      region: "",
-      country: "",
-      postalCode: ""
-    }
-
     let reportStruct = 
     {
       "authorID": "",
-      "location": {address,coordinates},
       "pestActual": Pests.UNKNOWN,
       "pestSubmitted": pest,
       "pestIdentified": Pests.UNKNOWN,
       "image": "",
-      ...coordinates // Curently here so can qeury based on coordinates instead of filtering
+      "address_number": "",
+      "address_street": "",
+      "address_neighborhood": "",
+      "address_municipality": "",
+      "address_region": "",
+      "address_country": "",
+      "address_postalCode": ""
     };
     let submitedReport;
     
@@ -42,13 +36,10 @@ export async function createReport(image,pest=Pests.UNKNOWN){
         () => {reject()} // Failure
       )}).then( r => {
 
-        reportStruct.location.coordinates.longitude = r.coords.longitude; 
-        reportStruct.location.coordinates.latitude = r.coords.latitude; 
+        reportStruct.longitude = r.coords.longitude; 
+        reportStruct.latitude = r.coords.latitude; 
 
-        reportStruct.longitude = r.coords.longitude;
-        reportStruct.latitude = r.coords.latitude;
-
-        console.log("Got GPS location: " + JSON.stringify(reportStruct.location.coordinates) + " Reverse geocoding...");
+        console.log("Got GPS location: Long: " + reportStruct.longitude + " Lat: " + reportStruct.latitude + " Reverse geocoding...");
 
         return Geo.searchByCoordinates([r.coords.longitude, r.coords.latitude]);
         
@@ -60,13 +51,13 @@ export async function createReport(image,pest=Pests.UNKNOWN){
 
         console.log("Successfully reverse geocoded. Getting author ID...");
 
-        reportStruct.location.address.number = r.addressNumber;
-        reportStruct.location.address.street = r.street;
-        reportStruct.location.address.neighborhood = r.subRegion;
-        reportStruct.location.address.municipality = r.municipality;
-        reportStruct.location.address.region = r.region;
-        reportStruct.location.address.country = r.country;
-        reportStruct.location.address.postalCode = r.postalCode;
+        reportStruct.address_number = r.addressNumber;
+        reportStruct.address_street = r.street;
+        reportStruct.address_neighborhood = r.subRegion;
+        reportStruct.address_municipality = r.municipality;
+        reportStruct.address_region = r.region;
+        reportStruct.address_country = r.country;
+        reportStruct.address_postalCode = r.postalCode;
 
 
         return Auth.currentUserInfo();

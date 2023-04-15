@@ -90,8 +90,8 @@ export default function ReportViewCollectionCustom(props) {
   
     return [...data.map((item) => {
             return <MarkerWithPopup 
-              longitude={item.location.coordinates.longitude}
-              latitude={item.location.coordinates.latitude}
+              longitude={item.longitude}
+              latitude={item.latitude}
               content={isModerator ? 
                 <Flex
                 direction="column">
@@ -161,13 +161,13 @@ export default function ReportViewCollectionCustom(props) {
             console.log("selectedAddress === All", selectedAddress === "");
             console.log("item.id === selectedUser", item.id === selectedUser);
             console.log("item.pestSubmitted === selectedPest", item.pestSubmitted === selectedPest);
-            console.log("Location check", item.location.coordinates.longitude > (userLocation.coords.longitude - longDiff) && item.location.coordinates.longitude < (userLocation.coords.longitude + longDiff) &&
-            item.location.coordinates.latitude > (userLocation.coords.latitude - latDiff) && item.location.coordinates.latitude < (userLocation.coords.latitude + latDiff)
+            console.log("Location check", item.longitude > (userLocation.coords.longitude - longDiff) && item.longitude < (userLocation.coords.longitude + longDiff) &&
+            item.latitude > (userLocation.coords.latitude - latDiff) && item.latitude < (userLocation.coords.latitude + latDiff)
             )*/
         if(
           (selectedUser === "All" || item.id === selectedUser) &&
-          item.location.coordinates.longitude > (userLocation.coords.longitude - longDiff) && item.location.coordinates.longitude < (userLocation.coords.longitude + longDiff) &&
-          item.location.coordinates.latitude > (userLocation.coords.latitude - latDiff) && item.location.coordinates.latitude < (userLocation.coords.latitude + latDiff) &&
+          item.longitude > (userLocation.coords.longitude - longDiff) && item.longitude < (userLocation.coords.longitude + longDiff) &&
+          item.latitude > (userLocation.coords.latitude - latDiff) && item.latitude < (userLocation.coords.latitude + latDiff) &&
           (selectedPest === "All" || item.pestSubmitted === selectedPest) &&
           (selectedAddress === "" || (item.location.address.number +  item.location.address.street + item.location.address.neighborhood + item.location.address.municipality + item.location.address.region + item.location.address.country + item.location.address.postalCode).includes(selectedAddress))
           ){
