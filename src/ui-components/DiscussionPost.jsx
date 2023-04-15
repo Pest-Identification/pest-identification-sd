@@ -16,7 +16,8 @@ export function DiscussionPost(props) {
     const [sortFunction, setSortFunction] = React.useState(() => (s) => {s.createdAt(SortDirection.DESCENDING)});
     const [filterFunction, setFilterFunction] = React.useState((Predicates.ALL));
     const [displayCount, setDisplayCount] = React.useState(20);
-  const [showReplyForm, setShowReplyForm] = useState(false);
+    const [showReplyForm, setShowReplyForm] = React.useState(false);
+    const [showReplies, setShowReplies] = React.useState(false);
 
   React.useEffect(() => {
     let newReplies = [];
@@ -82,7 +83,7 @@ const [isFormVisible, setIsFormVisible] =  React.useState(false);
   };
 
   return (
-    <div className="post">
+    <div onClick={() => setShowReplies(!replies)} className="post">
       <h3>{props.title}</h3>
       <p className="author">By {props.author} on {props.date}</p>
       <p className="content">{props.content}</p>
