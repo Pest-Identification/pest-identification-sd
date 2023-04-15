@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import './FReference.css';
 import { createReport } from '../modules/datastore';
 import e from 'express';
+import {Pests} from '../models';
 
-let userImage = NULL;
-let userType = NULL;
+let userImage = null;
+let userType = null;
 
 function NewUpload() {
   const [imageUrl, setImageUrl] = useState('');
@@ -24,7 +25,7 @@ function NewUpload() {
   const handleSubmit = (event) => {
     event.preventDefault();
     // handle submit logic here, such as sending the image to a server
-    createReport(userImage,pest=userType)
+    createReport(userImage,userType)
   };
 
   return (
