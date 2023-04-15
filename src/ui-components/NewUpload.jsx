@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import './FReference.css';
+import { createReport } from '../modules/datastore';
+import e from 'express';
+
+let userImage = NULL;
+let userType = NULL;
 
 function NewUpload() {
   const [imageUrl, setImageUrl] = useState('');
@@ -7,6 +12,7 @@ function NewUpload() {
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
+    userImage = file;
 
     reader.onload = () => {
       setImageUrl(reader.result);
@@ -18,16 +24,17 @@ function NewUpload() {
   const handleSubmit = (event) => {
     event.preventDefault();
     // handle submit logic here, such as sending the image to a server
+    createReport(userImage,pest=userType)
   };
 
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen">
       <div className="relative w-full lg:max-w-sm mb-4">
         <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
-          <option>What Do You Think It Is?</option>
-          <option>A Spotted LanternFly</option>
-          <option>A GrapeBerry Moth</option>
-          <option>I Do Not Know</option>
+          <option userType={Pests.UNKNOWN}>What Do You Think It Is?</option>
+          <option userType={Pests.SPOTTED_LANTERN_FLY}>A Spotted LanternFly</option>
+          <option userType={Pests.GRAPE_BERRY_MOTH}>A GrapeBerry Moth</option>
+          <option userType={Pests.UNKNOWN}>I Do Not Know</option>
         </select>
       </div>
 
@@ -50,7 +57,7 @@ function NewUpload() {
               )}
             </label>
           </form>
-          <button type="submit" className="mt-4 bg-green-400 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">
+          <button type="submit" className="mt-4 bg-green-400 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700" onClick={() => handleSubmit()}>
               Submit
             </button>
         </div>
