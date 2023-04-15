@@ -26,22 +26,20 @@ export function DBoard({props}) {
       
       let newPosts = [];
   
-      
-  
-  
       DataStore.query(Post,
         filterFunction, {
         sort: sortFunction,
         page: 0,
         limit: displayCount}
       ).then((datastorePosts) => {
-        let newPosts = [];
         let promises = [];
       
         for (const [index, item] of datastorePosts.entries()){
+          console.log("Parsing:", item)
           newPosts.push({...item, user: ""});
           promises.push(DataStore.query(User, item.authorID).then(r => {
-            console.log('r:', r);
+            //console.log('r:', r);
+            if (r == undefined) return {value: "Unknown", index: index, field: "user"};
             return {value: r.userName, index: index, field: "user"};
           })); 
         }
@@ -60,7 +58,7 @@ export function DBoard({props}) {
       }).then(() => {
         console.log('newPosts after Promise.allSettled:', newPosts);
         console.log('posts:', posts);
-        // setPosts(newPosts);
+        setPosts(newPosts);
       });
       
   

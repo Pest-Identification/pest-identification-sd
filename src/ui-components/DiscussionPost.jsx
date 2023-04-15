@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DataStore } from 'aws-amplify';
+import { DataStore, Auth } from 'aws-amplify';
 import { Reply, User } from '../models';
 import "./DiscussionPost.css";
 import { Predicates, SortDirection } from "@aws-amplify/datastore";
@@ -23,14 +23,11 @@ export function DiscussionPost(props) {
   
     DataStore.query(
       Reply,
-      r => r.postID("eq", props.postId),
+      r => r.postID.eq(props.postId),
       {
         sort: sortFunction,
-        page: 0,
-        limit: displayCount
       }
     ).then(datastoreReplies => {
-      let newReplies = [];
       let promises = [];
   
       for (const [index, item] of datastoreReplies.entries()) {
@@ -41,6 +38,8 @@ export function DiscussionPost(props) {
           })
         );
       }
+
+      console.log("newReplies", newReplies)
   
       setReplies(newReplies);
   
@@ -61,15 +60,23 @@ const [isFormVisible, setIsFormVisible] =  React.useState(false);
 
   const handleReplySubmit = async (event) => {
     event.preventDefault();
+    const user = await Auth.currentUserInfo();
+    console.log(event)
     const form = event.target;
     const replyData = {
-      author: form.author.value,
-      date: new Date(),
-      content: form.content.value,
-      post: props.postId // associate the reply with the current post
+      authorID: user.attributes.sub,
+      title: "",
+      body: form[0].value,
+      postID: props.postId // associate the reply with the current post
     };
     const newReply = await DataStore.save(new Reply(replyData));
-    setReplies([...replies, newReply]);
+    setReplies( await DataStore.query(
+      Reply,
+      r => r.postID.eq(props.postId),
+      {
+        sort: sortFunction,
+      }
+    ));
     form.reset();
     setShowReplyForm(false); // Hide the reply form after submitting
   };
