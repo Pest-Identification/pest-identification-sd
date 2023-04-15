@@ -17,7 +17,6 @@ function App({signOut, user}) {
 
   return (
     <View className="App">
-      <button onClick={() => signOut()}>Signout</button>
       <Menu/>
     </View>
   );

@@ -1,22 +1,33 @@
 import React, { useRef, useState, useEffect, createRef } from 'react';
-import { gsap } from "gsap";
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from '../aws-exports';
+import { gsap } from 'gsap';
 import './Menu.scss';
 import {default as ReportViewCollectionCustom} from './ReportViewCollectionCustom';
 import { NewIdentification, ReferencePage, Post1, PostCollection} from '.';
 import FReference from './FReference.jsx';
 import {DBoard} from './DBoard.jsx';
 import NewUpload from './NewUpload';
+import { withAuthenticator, View} from '@aws-amplify/ui-react';
+
+Amplify.configure(awsconfig);
+
+const handleSignOut = async () => {
+  try {
+    await Auth.signOut();
+    window.location.href = '/auth/signin';
+  } catch (error) {
+    
+  }
+};
+
+
 
 const items = [
   {
     name: "Home",
     color: "#f44336",
     component: FReference
-  },
-  {
-    name: "Post",
-    color: "#e91e63",
-    component: Post1
   },
   {
     name: "Identify",
@@ -32,7 +43,12 @@ const items = [
     name: "Reports",
     color: "#3f51b5",
     component: ReportViewCollectionCustom
-  }
+  },
+  {
+    name: 'Sign Out',
+    color: '#607d8b',
+    component: handleSignOut,
+  }  
 ];
 
 const Menu = () => {
@@ -83,8 +99,11 @@ const Menu = () => {
   };
 
   const handleItemClick = (index) => {
+    if(index == items.length - 1){handleSignOut()}
+    else{
     setActive(index);
     setIsMenuOpen(false);
+    }
   };
 
   return (
@@ -122,11 +141,10 @@ const Menu = () => {
         </div>
       </div>
       <div className="component-wrapper">
-      {<ComponentToRender />}
+      {<ComponentToRender/>}
       </div>
     </div>
   );
 };
-//{<ComponentToRender />}
 
-export default Menu;
+export default withAuthenticator(Menu);
