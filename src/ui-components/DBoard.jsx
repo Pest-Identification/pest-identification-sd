@@ -98,7 +98,7 @@ export function DBoard({props}) {
           <button type="button" onClick={() => setIsFormVisible(false)}>Cancel</button>
         </form>
       )}
-      <div>
+      <div className="posts">
         {console.log("Hi", posts)}
         {posts.map((item, index) => (
           <DiscussionPost

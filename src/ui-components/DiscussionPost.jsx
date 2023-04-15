@@ -58,6 +58,11 @@ export function DiscussionPost(props) {
 const [isFormVisible, setIsFormVisible] =  React.useState(false);
 
 
+  const handleShowReplies = () => {
+
+    if(showReplies) setShowReplyForm(false);
+    setShowReplies(!showReplies)
+  }
 
   const handleReplySubmit = async (event) => {
     event.preventDefault();
@@ -83,18 +88,13 @@ const [isFormVisible, setIsFormVisible] =  React.useState(false);
   };
 
   return (
-    <div onClick={() => setShowReplies(!showReplies)} className="post">
+    <div className="post">
       <h3>{props.title}</h3>
       <p className="author">By {props.author} on {props.date}</p>
+      <hr className="break"/>
       <p className="content">{props.content}</p>
-      <button className="reply-button" onClick={() => setShowReplyForm(!showReplyForm)}>Reply</button>
-      {showReplyForm && (
-        <form onSubmit={handleReplySubmit}>
-          <label htmlFor="content">Content:</label>
-          <textarea id="content" name="content" required />
-          <button type="submit">Submit</button>
-        </form>
-      )}
+      
+      <button className="reply-button" onClick={handleShowReplies}>Show Replies</button>
       {showReplies && replies.length > 0 && (
         <div className="replies">
           <h4>Replies:</h4>
@@ -105,8 +105,17 @@ const [isFormVisible, setIsFormVisible] =  React.useState(false);
               <p className="content">{item.body}</p>
             </div>
           ))}
+        <button className="reply-button" onClick={() => setShowReplyForm(!showReplyForm)}>Reply</button>
         </div>
       )}
+      {showReplyForm && (
+        <form onSubmit={handleReplySubmit}>
+          <label htmlFor="content">Content:</label>
+          <textarea id="content" name="content" required />
+          <button type="submit">Submit</button>
+        </form>
+      )}
+      
     </div>
   );
 }

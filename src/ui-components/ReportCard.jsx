@@ -16,14 +16,14 @@ function getDate(report){
 
   function getAddress(report){
     let spacing = ", "
-    if(report.location.address.municipality === ""){
-      if (report.location.address.region === "") 
+    if(report.address_municipality === ""){
+      if (report.address_region === "") 
       {
         spacing = '\u2028';
       }
       else spacing = "";
     }
-    return report.location.address.municipality + spacing + report.location.address.region;
+    return report.address_municipality + spacing + report.address_region;
   }
 
   function getActualPest(report){

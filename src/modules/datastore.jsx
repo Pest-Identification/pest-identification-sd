@@ -76,31 +76,36 @@ export async function createReport(image,pest=Pests.UNKNOWN){
 
       }).then( r => {
 
-        console.log("Submitted report. Getting new backend report id... ");
-
-          // Listen for changes to the report
-        return new Promise((resolve, reject) => {
-          const subscription = DataStore.observe(Report).subscribe(() => {
+        // Listen for changes to the report
+        const promise = new Promise((resolve, reject) => {
+          const subscription = DataStore.observe(Report, r.id).subscribe(() => {
             // Retrieve the updated report from the cloud
             console.log("Detected a possible id change. Querying...")
             subscription.unsubscribe(); // Unsubscribe from the observation to avoid memory leaks
             resolve(DataStore.query(Report, r.id));
           })
         });
+        
+        console.log("Submitted report. Getting new backend report id... ", promise);
+
+        return promise;
 
       }).then( r => {
 
-        console.log("Got backend report id from cloud. Uploading image... ");
+        const promise = Storage.put(r.id + ".jpg",image);
+
+        console.log("Got backend report id from cloud. Uploading image... ", promise);
 
         submitedReport = r;
 
-        return Storage.put(r.id + ".jpg",image);
+        return promise;
 
       }).then( r => {
 
-        console.log("Uploaded image. Updating report with image key...");
+        const promise = DataStore.save(Report.copyOf(submitedReport, updated => {updated.image = r.key}));
+        console.log("Uploaded image. Updating report with image key...", promise);
         
-        return DataStore.save(Report.copyOf(submitedReport, updated => {updated.image = r.key}));
+        return promise;
 
       }).then( r => {
         console.log("Report created successfully!", r);
