@@ -39,6 +39,7 @@ export function loadReports(initialCount=20){
 
         let promises = [];
         let count = 0;
+        console.log("datastorerepots",datastoreReports)
         for (const item of datastoreReports){
 
           if(filterFunction(item)){

@@ -16,13 +16,27 @@ export declare type ReportFormInputValues = {
     pestSubmitted?: string;
     image?: string;
     longitude?: number;
-    latitude?: string;
+    latitude?: number;
+    address_number?: string;
+    address_street?: string;
+    address_neighborhood?: string;
+    address_municipality?: string;
+    address_region?: string;
+    address_country?: string;
+    address_postalCode?: string;
 };
 export declare type ReportFormValidationValues = {
     pestSubmitted?: ValidationFunction<string>;
     image?: ValidationFunction<string>;
     longitude?: ValidationFunction<number>;
-    latitude?: ValidationFunction<string>;
+    latitude?: ValidationFunction<number>;
+    address_number?: ValidationFunction<string>;
+    address_street?: ValidationFunction<string>;
+    address_neighborhood?: ValidationFunction<string>;
+    address_municipality?: ValidationFunction<string>;
+    address_region?: ValidationFunction<string>;
+    address_country?: ValidationFunction<string>;
+    address_postalCode?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ReportFormOverridesProps = {
@@ -31,6 +45,13 @@ export declare type ReportFormOverridesProps = {
     image?: PrimitiveOverrideProps<TextFieldProps>;
     longitude?: PrimitiveOverrideProps<TextFieldProps>;
     latitude?: PrimitiveOverrideProps<TextFieldProps>;
+    address_number?: PrimitiveOverrideProps<TextFieldProps>;
+    address_street?: PrimitiveOverrideProps<TextFieldProps>;
+    address_neighborhood?: PrimitiveOverrideProps<TextFieldProps>;
+    address_municipality?: PrimitiveOverrideProps<TextFieldProps>;
+    address_region?: PrimitiveOverrideProps<TextFieldProps>;
+    address_country?: PrimitiveOverrideProps<TextFieldProps>;
+    address_postalCode?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ReportFormProps = React.PropsWithChildren<{
     overrides?: ReportFormOverridesProps | undefined | null;

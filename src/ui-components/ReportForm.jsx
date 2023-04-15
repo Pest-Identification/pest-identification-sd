@@ -34,6 +34,13 @@ export default function ReportForm(props) {
     image: "",
     longitude: "",
     latitude: "",
+    address_number: "",
+    address_street: "",
+    address_neighborhood: "",
+    address_municipality: "",
+    address_region: "",
+    address_country: "",
+    address_postalCode: "",
   };
   const [pestSubmitted, setPestSubmitted] = React.useState(
     initialValues.pestSubmitted
@@ -41,12 +48,40 @@ export default function ReportForm(props) {
   const [image, setImage] = React.useState(initialValues.image);
   const [longitude, setLongitude] = React.useState(initialValues.longitude);
   const [latitude, setLatitude] = React.useState(initialValues.latitude);
+  const [address_number, setAddress_number] = React.useState(
+    initialValues.address_number
+  );
+  const [address_street, setAddress_street] = React.useState(
+    initialValues.address_street
+  );
+  const [address_neighborhood, setAddress_neighborhood] = React.useState(
+    initialValues.address_neighborhood
+  );
+  const [address_municipality, setAddress_municipality] = React.useState(
+    initialValues.address_municipality
+  );
+  const [address_region, setAddress_region] = React.useState(
+    initialValues.address_region
+  );
+  const [address_country, setAddress_country] = React.useState(
+    initialValues.address_country
+  );
+  const [address_postalCode, setAddress_postalCode] = React.useState(
+    initialValues.address_postalCode
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setPestSubmitted(initialValues.pestSubmitted);
     setImage(initialValues.image);
     setLongitude(initialValues.longitude);
     setLatitude(initialValues.latitude);
+    setAddress_number(initialValues.address_number);
+    setAddress_street(initialValues.address_street);
+    setAddress_neighborhood(initialValues.address_neighborhood);
+    setAddress_municipality(initialValues.address_municipality);
+    setAddress_region(initialValues.address_region);
+    setAddress_country(initialValues.address_country);
+    setAddress_postalCode(initialValues.address_postalCode);
     setErrors({});
   };
   const validations = {
@@ -54,6 +89,13 @@ export default function ReportForm(props) {
     image: [],
     longitude: [],
     latitude: [],
+    address_number: [],
+    address_street: [],
+    address_neighborhood: [],
+    address_municipality: [],
+    address_region: [],
+    address_country: [],
+    address_postalCode: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -84,6 +126,13 @@ export default function ReportForm(props) {
           image,
           longitude,
           latitude,
+          address_number,
+          address_street,
+          address_neighborhood,
+          address_municipality,
+          address_region,
+          address_country,
+          address_postalCode,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -142,6 +191,13 @@ export default function ReportForm(props) {
               image,
               longitude,
               latitude,
+              address_number,
+              address_street,
+              address_neighborhood,
+              address_municipality,
+              address_region,
+              address_country,
+              address_postalCode,
             };
             const result = onChange(modelFields);
             value = result?.pestSubmitted ?? value;
@@ -185,6 +241,13 @@ export default function ReportForm(props) {
               image: value,
               longitude,
               latitude,
+              address_number,
+              address_street,
+              address_neighborhood,
+              address_municipality,
+              address_region,
+              address_country,
+              address_postalCode,
             };
             const result = onChange(modelFields);
             value = result?.image ?? value;
@@ -216,6 +279,13 @@ export default function ReportForm(props) {
               image,
               longitude: value,
               latitude,
+              address_number,
+              address_street,
+              address_neighborhood,
+              address_municipality,
+              address_region,
+              address_country,
+              address_postalCode,
             };
             const result = onChange(modelFields);
             value = result?.longitude ?? value;
@@ -234,15 +304,26 @@ export default function ReportForm(props) {
         label="Latitude"
         isRequired={false}
         isReadOnly={false}
+        type="number"
+        step="any"
         value={latitude}
         onChange={(e) => {
-          let { value } = e.target;
+          let value = isNaN(parseFloat(e.target.value))
+            ? e.target.value
+            : parseFloat(e.target.value);
           if (onChange) {
             const modelFields = {
               pestSubmitted,
               image,
               longitude,
               latitude: value,
+              address_number,
+              address_street,
+              address_neighborhood,
+              address_municipality,
+              address_region,
+              address_country,
+              address_postalCode,
             };
             const result = onChange(modelFields);
             value = result?.latitude ?? value;
@@ -256,6 +337,250 @@ export default function ReportForm(props) {
         errorMessage={errors.latitude?.errorMessage}
         hasError={errors.latitude?.hasError}
         {...getOverrideProps(overrides, "latitude")}
+      ></TextField>
+      <TextField
+        label="Address number"
+        isRequired={false}
+        isReadOnly={false}
+        value={address_number}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              pestSubmitted,
+              image,
+              longitude,
+              latitude,
+              address_number: value,
+              address_street,
+              address_neighborhood,
+              address_municipality,
+              address_region,
+              address_country,
+              address_postalCode,
+            };
+            const result = onChange(modelFields);
+            value = result?.address_number ?? value;
+          }
+          if (errors.address_number?.hasError) {
+            runValidationTasks("address_number", value);
+          }
+          setAddress_number(value);
+        }}
+        onBlur={() => runValidationTasks("address_number", address_number)}
+        errorMessage={errors.address_number?.errorMessage}
+        hasError={errors.address_number?.hasError}
+        {...getOverrideProps(overrides, "address_number")}
+      ></TextField>
+      <TextField
+        label="Address street"
+        isRequired={false}
+        isReadOnly={false}
+        value={address_street}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              pestSubmitted,
+              image,
+              longitude,
+              latitude,
+              address_number,
+              address_street: value,
+              address_neighborhood,
+              address_municipality,
+              address_region,
+              address_country,
+              address_postalCode,
+            };
+            const result = onChange(modelFields);
+            value = result?.address_street ?? value;
+          }
+          if (errors.address_street?.hasError) {
+            runValidationTasks("address_street", value);
+          }
+          setAddress_street(value);
+        }}
+        onBlur={() => runValidationTasks("address_street", address_street)}
+        errorMessage={errors.address_street?.errorMessage}
+        hasError={errors.address_street?.hasError}
+        {...getOverrideProps(overrides, "address_street")}
+      ></TextField>
+      <TextField
+        label="Address neighborhood"
+        isRequired={false}
+        isReadOnly={false}
+        value={address_neighborhood}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              pestSubmitted,
+              image,
+              longitude,
+              latitude,
+              address_number,
+              address_street,
+              address_neighborhood: value,
+              address_municipality,
+              address_region,
+              address_country,
+              address_postalCode,
+            };
+            const result = onChange(modelFields);
+            value = result?.address_neighborhood ?? value;
+          }
+          if (errors.address_neighborhood?.hasError) {
+            runValidationTasks("address_neighborhood", value);
+          }
+          setAddress_neighborhood(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("address_neighborhood", address_neighborhood)
+        }
+        errorMessage={errors.address_neighborhood?.errorMessage}
+        hasError={errors.address_neighborhood?.hasError}
+        {...getOverrideProps(overrides, "address_neighborhood")}
+      ></TextField>
+      <TextField
+        label="Address municipality"
+        isRequired={false}
+        isReadOnly={false}
+        value={address_municipality}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              pestSubmitted,
+              image,
+              longitude,
+              latitude,
+              address_number,
+              address_street,
+              address_neighborhood,
+              address_municipality: value,
+              address_region,
+              address_country,
+              address_postalCode,
+            };
+            const result = onChange(modelFields);
+            value = result?.address_municipality ?? value;
+          }
+          if (errors.address_municipality?.hasError) {
+            runValidationTasks("address_municipality", value);
+          }
+          setAddress_municipality(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("address_municipality", address_municipality)
+        }
+        errorMessage={errors.address_municipality?.errorMessage}
+        hasError={errors.address_municipality?.hasError}
+        {...getOverrideProps(overrides, "address_municipality")}
+      ></TextField>
+      <TextField
+        label="Address region"
+        isRequired={false}
+        isReadOnly={false}
+        value={address_region}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              pestSubmitted,
+              image,
+              longitude,
+              latitude,
+              address_number,
+              address_street,
+              address_neighborhood,
+              address_municipality,
+              address_region: value,
+              address_country,
+              address_postalCode,
+            };
+            const result = onChange(modelFields);
+            value = result?.address_region ?? value;
+          }
+          if (errors.address_region?.hasError) {
+            runValidationTasks("address_region", value);
+          }
+          setAddress_region(value);
+        }}
+        onBlur={() => runValidationTasks("address_region", address_region)}
+        errorMessage={errors.address_region?.errorMessage}
+        hasError={errors.address_region?.hasError}
+        {...getOverrideProps(overrides, "address_region")}
+      ></TextField>
+      <TextField
+        label="Address country"
+        isRequired={false}
+        isReadOnly={false}
+        value={address_country}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              pestSubmitted,
+              image,
+              longitude,
+              latitude,
+              address_number,
+              address_street,
+              address_neighborhood,
+              address_municipality,
+              address_region,
+              address_country: value,
+              address_postalCode,
+            };
+            const result = onChange(modelFields);
+            value = result?.address_country ?? value;
+          }
+          if (errors.address_country?.hasError) {
+            runValidationTasks("address_country", value);
+          }
+          setAddress_country(value);
+        }}
+        onBlur={() => runValidationTasks("address_country", address_country)}
+        errorMessage={errors.address_country?.errorMessage}
+        hasError={errors.address_country?.hasError}
+        {...getOverrideProps(overrides, "address_country")}
+      ></TextField>
+      <TextField
+        label="Address postal code"
+        isRequired={false}
+        isReadOnly={false}
+        value={address_postalCode}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              pestSubmitted,
+              image,
+              longitude,
+              latitude,
+              address_number,
+              address_street,
+              address_neighborhood,
+              address_municipality,
+              address_region,
+              address_country,
+              address_postalCode: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.address_postalCode ?? value;
+          }
+          if (errors.address_postalCode?.hasError) {
+            runValidationTasks("address_postalCode", value);
+          }
+          setAddress_postalCode(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("address_postalCode", address_postalCode)
+        }
+        errorMessage={errors.address_postalCode?.errorMessage}
+        hasError={errors.address_postalCode?.hasError}
+        {...getOverrideProps(overrides, "address_postalCode")}
       ></TextField>
       <Flex
         justifyContent="space-between"

@@ -67,8 +67,9 @@ export async function createReport(image,pest=Pests.UNKNOWN){
         reportStruct.authorID = r.attributes.sub;
 
         console.log("Got author ID. Creating report... ")
-      
-        return DataStore.save(new Report(reportStruct));
+        const promise = DataStore.save(new Report(reportStruct));
+        console.log("Report promise",promise)
+        return promise;
 
       }).then( r => {
 

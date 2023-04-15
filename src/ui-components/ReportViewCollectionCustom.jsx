@@ -148,7 +148,7 @@ export default function ReportViewCollectionCustom(props) {
       const {longDiff, latDiff} = coordinateBoundingBox(userLocation.coords.latitude, maxMiles, "mi");
       
       function filterFunction(item) {
-        /*console.log("User location", userLocation);
+        console.log("User location", userLocation);
         console.log("longdiff " + longDiff + " lat diff" + latDiff)
         console.log("selectedUser", selectedUser);
         console.log("selectedPest", selectedPest);
@@ -161,7 +161,7 @@ export default function ReportViewCollectionCustom(props) {
             console.log("item.pestSubmitted === selectedPest", item.pestSubmitted === selectedPest);
             console.log("Location check", item.longitude > (userLocation.coords.longitude - longDiff) && item.longitude < (userLocation.coords.longitude + longDiff) &&
             item.latitude > (userLocation.coords.latitude - latDiff) && item.latitude < (userLocation.coords.latitude + latDiff)
-            )*/
+            )
         if(
           (selectedUser === "All" || item.id === selectedUser) &&
           item.longitude > (userLocation.coords.longitude - longDiff) && item.longitude < (userLocation.coords.longitude + longDiff) &&
@@ -171,7 +171,6 @@ export default function ReportViewCollectionCustom(props) {
           ){
             return true;
           }
-            console.log("False")
             return false;
       }
       setFilterFunction(() => {return(filterFunction)});
@@ -244,10 +243,10 @@ export default function ReportViewCollectionCustom(props) {
             <SelectField
             column="2" row="3"
             onChange={(e) => setSelectedPest(e.target.value)}>
-              <option value={"All"}>All Pests</option>
-              <option value={Pests.UNKNOWN}>Unknown</option>
-              <option value={Pests.GRAPE_BERRY_MOTH}>Grape Berry Moth</option>
-              <option value={Pests.SPOTTED_LANTERN_FLY}>Spotted Lantern Fly</option>
+              <option key={0} value={"All"}>All Pests</option>
+              <option key={1} value={Pests.UNKNOWN}>Unknown</option>
+              <option key={2} value={Pests.GRAPE_BERRY_MOTH}>Grape Berry Moth</option>
+              <option key={3} value={Pests.SPOTTED_LANTERN_FLY}>Spotted Lantern Fly</option>
             </SelectField>
 
             <SelectField
