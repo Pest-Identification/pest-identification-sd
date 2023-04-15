@@ -4,7 +4,7 @@ import { createReport } from '../modules/datastore';
 import {Pests} from '../models';
 
 let userImage = null;
-let userType = null;
+let userType = Pests.UNKNOWN;
 
 function NewUpload() {
   const [imageUrl, setImageUrl] = useState('');
@@ -21,20 +21,27 @@ function NewUpload() {
     reader.readAsDataURL(file);
   };
 
+  const handleUserTypeChange = (event) => {
+    userType = event.target.value;
+    console.log("hi2", userType);
+  };
+
   const handleSubmit = (event) => {
     //event.preventDefault();
     // handle submit logic here, such as sending the image to a server
-    createReport(userImage,userType)
+    console.log(userType);
+    
+    createReport(userImage, userType);
   };
 
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen">
       <div className="relative w-full lg:max-w-sm mb-4">
-        <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
-          <option userType={Pests.UNKNOWN}>What Do You Think It Is?</option>
-          <option userType={Pests.SPOTTED_LANTERN_FLY}>A Spotted LanternFly</option>
-          <option userType={Pests.GRAPE_BERRY_MOTH}>A GrapeBerry Moth</option>
-          <option userType={Pests.UNKNOWN}>I Do Not Know</option>
+      <h1 class="text-4xl font-bold">What Do You Think It Is?</h1>
+        <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600" onChange={handleUserTypeChange}>
+          <option value={Pests.SPOTTED_LANTERN_FLY}>A Spotted LanternFly</option>
+          <option value={Pests.GRAPE_BERRY_MOTH}>A GrapeBerry Moth</option>
+          <option value={Pests.UNKNOWN}>I Do Not Know</option>
         </select>
       </div>
 
