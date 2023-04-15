@@ -5,12 +5,11 @@ import {Report} from '../models';
 import {Flex, Divider, Text, SearchField, SelectField, SliderField, Button, ToggleButton, MapView, Grid} from "@aws-amplify/ui-react";
 
 import {ReportCollection, loadReports } from './ReportCollection';
-
-
+import 'react-select-search/style.css'
+import SelectSearch from 'react-select-search';
 import { Marker, Popup } from 'react-map-gl';
 import { ReportCard } from './ReportCard';
-import { Pests } from '../models';
-import { useMatch } from 'react-router-dom';
+import { Pests, User } from '../models';
 
 
 
@@ -20,7 +19,8 @@ import { useMatch } from 'react-router-dom';
 export default function ReportViewCollectionCustom(props) {
 
 
-  const {reports, setFilterFunction, setSortFunction, setDisplayCount, reloadReports} = loadReports(20);
+  const {reports, setFilterFunction, setDisplayCount, reloadReports} = loadReports(20);
+  const [users, setUsers] = React.useState([]);
   const [mapState, setMapState] = React.useState(false);
   const [screenIsVertical, setScreenIsVertical] = React.useState(true);
 
@@ -34,7 +34,7 @@ export default function ReportViewCollectionCustom(props) {
   const [userLocation, setUserLocation] = React.useState(null);
   const [isModerator, setIsModerator] = React.useState(false);
 
-
+  
   function handleReportDelete(item){
     if(window.confirm("Are you sure you want to delete?")){
       DataStore.delete(Report, (report) => report.id.eq(item.id)).then(
@@ -125,7 +125,10 @@ export default function ReportViewCollectionCustom(props) {
     if(window.innerHeight > window.innerWidth){
       setScreenIsVertical(true);
     } else setScreenIsVertical(false);
-    
+
+    DataStore.query(User).then(r => {
+      setUsers(r);
+    });   
     
     Auth.currentAuthenticatedUser().then( user => {
       if(user.signInUserSession.accessToken.payload["cognito:groups"].find(element => element === "moderator") !== undefined){
@@ -145,9 +148,24 @@ export default function ReportViewCollectionCustom(props) {
   React.useEffect(() => {
     if(userLocation !== null){
       const {longDiff, latDiff} = coordinateBoundingBox(userLocation.coords.latitude, maxMiles, "mi");
+      
       function filterFunction(item) {
+        /*console.log("User location", userLocation);
+        console.log("longdiff " + longDiff + " lat diff" + latDiff)
+        console.log("selectedUser", selectedUser);
+        console.log("selectedPest", selectedPest);
+        console.log("selectedAddress", selectedAddress);
+        console.log("item", item);
+        console.log("selectedUser === All", selectedUser === "All");
+            console.log("selectedPest === All", selectedPest === "All");
+            console.log("selectedAddress === All", selectedAddress === "");
+            console.log("item.id === selectedUser", item.id === selectedUser);
+            console.log("item.pestSubmitted === selectedPest", item.pestSubmitted === selectedPest);
+            console.log("Location check", item.location.coordinates.longitude > (userLocation.coords.longitude - longDiff) && item.location.coordinates.longitude < (userLocation.coords.longitude + longDiff) &&
+            item.location.coordinates.latitude > (userLocation.coords.latitude - latDiff) && item.location.coordinates.latitude < (userLocation.coords.latitude + latDiff)
+            )*/
         if(
-          (selectedUser === "All" || item.user === selectedUser) &&
+          (selectedUser === "All" || item.id === selectedUser) &&
           item.location.coordinates.longitude > (userLocation.coords.longitude - longDiff) && item.location.coordinates.longitude < (userLocation.coords.longitude + longDiff) &&
           item.location.coordinates.latitude > (userLocation.coords.latitude - latDiff) && item.location.coordinates.latitude < (userLocation.coords.latitude + latDiff) &&
           (selectedPest === "All" || item.pestSubmitted === selectedPest) &&
@@ -155,16 +173,14 @@ export default function ReportViewCollectionCustom(props) {
           ){
             return true;
           }
+            console.log("False")
             return false;
       }
       setFilterFunction(() => {return(filterFunction)});
     }
-  }, [userLocation, maxMiles, selectedPest, selectedUser, selectedAddress])
+  }, [setFilterFunction, userLocation, maxMiles, selectedPest, selectedUser, selectedAddress])
 
   let count = 20;
-  const initialViewState = {
-
-  }
 
   function toggleMap(){
     if(mapState){
@@ -221,9 +237,9 @@ export default function ReportViewCollectionCustom(props) {
             <Text column="1" row="2" >Radius</Text>
             <SliderField
             column="2" row="2"
-            onClick={() => {if(sliderMax === maxMiles) setSliderMax(sliderMax * 2)}}
+            //onClick={() => {if(sliderMax === maxMiles) setSliderMax(sliderMax * 2)}}
             onChange={(value) => setMaxMiles(value)}
-            max={sliderMax}
+            max={500}
             ></SliderField>
           
             <Text column="1" row="3" >Pest</Text>
@@ -236,8 +252,21 @@ export default function ReportViewCollectionCustom(props) {
               <option value={Pests.SPOTTED_LANTERN_FLY}>Spotted Lantern Fly</option>
             </SelectField>
 
+            <SelectField
+            column="2"
+            row="4"
+            onChange={(e) => setSelectedUser(e.target.value)} 
+            
+            children={
+              [...users.map((user, index) => <option key={index+1} value={user.id}>  {user.userName}</option>),
+                <option value="All" children="All Users"/>]
+              }
+            value={selectedUser} name="User">
+
+            </SelectField>
 
           </Grid>
+          
         <Flex
         flex="1"
         direction="column"

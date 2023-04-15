@@ -39,8 +39,8 @@ export function loadReports(initialCount=20){
 
         let promises = [];
         let count = 0;
+        for (const item of datastoreReports){
 
-        for (const item of datastoreReports.values()){
           if(filterFunction(item)){
             const index = count;
             newReports.push({...item, url: "", user: ""});
