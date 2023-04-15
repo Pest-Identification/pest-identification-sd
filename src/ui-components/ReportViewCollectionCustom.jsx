@@ -5,8 +5,6 @@ import {Report} from '../models';
 import {Flex, Divider, Text, SearchField, SelectField, SliderField, Button, ToggleButton, MapView, Grid} from "@aws-amplify/ui-react";
 
 import {ReportCollection, loadReports } from './ReportCollection';
-import 'react-select-search/style.css'
-import SelectSearch from 'react-select-search';
 import { Marker, Popup } from 'react-map-gl';
 import { ReportCard } from './ReportCard';
 import { Pests, User } from '../models';
