@@ -83,7 +83,7 @@ const [isFormVisible, setIsFormVisible] =  React.useState(false);
   };
 
   return (
-    <div onClick={() => setShowReplies(!replies)} className="post">
+    <div onClick={() => setShowReplies(!showReplies)} className="post">
       <h3>{props.title}</h3>
       <p className="author">By {props.author} on {props.date}</p>
       <p className="content">{props.content}</p>
@@ -95,7 +95,7 @@ const [isFormVisible, setIsFormVisible] =  React.useState(false);
           <button type="submit">Submit</button>
         </form>
       )}
-      {replies.length > 0 && (
+      {showReplies && replies.length > 0 && (
         <div className="replies">
           <h4>Replies:</h4>
           {replies.map((item, index) => (

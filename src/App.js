@@ -1,4 +1,4 @@
-import { Amplify, Auth } from 'aws-amplify';
+import { Amplify, Auth, DataStore } from 'aws-amplify';
 import awsconfig from './aws-exports';
 
 import './App.css';
@@ -14,6 +14,16 @@ Amplify.configure(awsconfig);
 function App({signOut, user}) {
 
   console.log("Group",user.signInUserSession.accessToken.payload["cognito:groups"]);
+
+  // Ran only once
+  React.useEffect(() => {
+    DataStore.stop().then(() => {
+      console.log("Datastore stopped. Starting...");
+      DataStore.start().then(() => {
+        console.log("Datastore started!");
+      });
+    });
+  }, []);
 
   return (
     <View className="App">

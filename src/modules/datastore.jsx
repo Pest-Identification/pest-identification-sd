@@ -49,7 +49,6 @@ export async function createReport(image,pest=Pests.UNKNOWN){
 
       }).then((r) => {
 
-        console.log("Successfully reverse geocoded. Getting author ID...");
 
         reportStruct.address_number = r.addressNumber;
         reportStruct.address_street = r.street;
@@ -59,16 +58,20 @@ export async function createReport(image,pest=Pests.UNKNOWN){
         reportStruct.address_country = r.country;
         reportStruct.address_postalCode = r.postalCode;
 
+        const promise = Auth.currentUserInfo();
 
-        return Auth.currentUserInfo();
+        console.log("Successfully reverse geocoded. Getting author ID...", promise);
+
+        return promise;
 
       }).then((r) => {
 
         reportStruct.authorID = r.attributes.sub;
 
-        console.log("Got author ID. Creating report... ")
         const promise = DataStore.save(new Report(reportStruct));
-        console.log("Report promise",promise)
+
+        console.log("Got author ID. Creating report... ", promise)
+
         return promise;
 
       }).then( r => {
