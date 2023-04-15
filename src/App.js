@@ -5,7 +5,7 @@ import './App.css';
 import "@aws-amplify/ui-react/styles.css";
 import React from 'react';
 import Menu from './ui-components/Menu';
-import { withAuthenticator, View} from '@aws-amplify/ui-react';
+import { withAuthenticator, View, FileUploader} from '@aws-amplify/ui-react';
 
 
 Amplify.configure(awsconfig);
