@@ -1,9 +1,8 @@
 /* DBoard.css */
 
 .discussion-board {
-    flex: 1 1 0%;
+    flex: 1 3 100%;
     margin: 2rem;
-    border: 1px solid #ccc;
     border-radius: 0.5rem;
     padding: 1rem;
   }
@@ -27,6 +26,7 @@
   .discussion-board input,
   .discussion-board textarea {
     border-radius: 0.5rem;
+    background-color: lightgray;
     border: none;
     padding: 0.5rem;
     font-size: 1rem;
