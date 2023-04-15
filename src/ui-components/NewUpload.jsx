@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './FReference.css';
 import { createReport } from '../modules/datastore';
-import e from 'express';
 import {Pests} from '../models';
 
 let userImage = null;
@@ -23,7 +22,7 @@ function NewUpload() {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    //event.preventDefault();
     // handle submit logic here, such as sending the image to a server
     createReport(userImage,userType)
   };
@@ -58,7 +57,7 @@ function NewUpload() {
               )}
             </label>
           </form>
-          <button type="submit" className="mt-4 bg-green-400 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700" onClick={() => handleSubmit()}>
+          <button type="submit" className="mt-4 bg-green-400 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700" onClick={handleSubmit}>
               Submit
             </button>
         </div>
