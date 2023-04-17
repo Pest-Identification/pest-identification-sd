@@ -153,7 +153,7 @@ export default function ReportViewCollectionCustom(props) {
       const {longDiff, latDiff} = coordinateBoundingBox(userLocation.coords.latitude, maxMiles, "mi");
       
       function filterFunction(item) {
-        console.log("User location", userLocation);
+        /*console.log("User location", userLocation);
         console.log("longdiff " + longDiff + " lat diff" + latDiff)
         console.log("selectedUser", selectedUser);
         console.log("selectedPest", selectedPest);
@@ -166,7 +166,7 @@ export default function ReportViewCollectionCustom(props) {
             console.log("item.pestSubmitted === selectedPest", item.pestSubmitted === selectedPest);
             console.log("Location check", item.longitude > (userLocation.coords.longitude - longDiff) && item.longitude < (userLocation.coords.longitude + longDiff) &&
             item.latitude > (userLocation.coords.latitude - latDiff) && item.latitude < (userLocation.coords.latitude + latDiff)
-            )
+            )*/
         if(
           (selectedUser === "All" || item.authorID === selectedUser) &&
           item.longitude > (userLocation.coords.longitude - longDiff) && item.longitude < (userLocation.coords.longitude + longDiff) &&

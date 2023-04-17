@@ -99,6 +99,7 @@ export function ReportCard({report}){
           maxWidth="100%"
           textAlign="left"
           overflow="hidden"
+          whiteSpace="nowrap"
           style={{"text-overflow": "ellipsis"}}>
             By {getUser(report)}<br/>
             {getAddress(report)}<br/>
