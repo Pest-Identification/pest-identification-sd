@@ -67,6 +67,7 @@ export default function ReportViewCollectionCustom(props) {
         />
         {showPopup && (
           <Popup
+            maxWidth="none"
             latitude={latitude}
             longitude={longitude}
             offset={{ bottom: [0, -40] }}
@@ -161,13 +162,13 @@ export default function ReportViewCollectionCustom(props) {
         console.log("selectedUser === All", selectedUser === "All");
             console.log("selectedPest === All", selectedPest === "All");
             console.log("selectedAddress === All", selectedAddress === "");
-            console.log("item.id === selectedUser", item.id === selectedUser);
+            console.log("item.authorID === selectedUser", item.authorID === selectedUser);
             console.log("item.pestSubmitted === selectedPest", item.pestSubmitted === selectedPest);
             console.log("Location check", item.longitude > (userLocation.coords.longitude - longDiff) && item.longitude < (userLocation.coords.longitude + longDiff) &&
             item.latitude > (userLocation.coords.latitude - latDiff) && item.latitude < (userLocation.coords.latitude + latDiff)
             )
         if(
-          (selectedUser === "All" || item.id === selectedUser) &&
+          (selectedUser === "All" || item.authorID === selectedUser) &&
           item.longitude > (userLocation.coords.longitude - longDiff) && item.longitude < (userLocation.coords.longitude + longDiff) &&
           item.latitude > (userLocation.coords.latitude - latDiff) && item.latitude < (userLocation.coords.latitude + latDiff) &&
           (selectedPest === "All" || item.pestSubmitted === selectedPest) &&
@@ -216,7 +217,7 @@ export default function ReportViewCollectionCustom(props) {
     Filters 
   </Button>;
 
-  const showMenuButton = 
+  const showMapButton = 
   <Button 
   height="fit-content" 
   width="fit-content" 
@@ -228,12 +229,11 @@ export default function ReportViewCollectionCustom(props) {
   const filterMenu = 
   <Flex
   backgroundColor="lightgrey"
-  border="thin solid black"
   width={screenIsVertical ? "100%" : "fit-content"}
   minWidth="fit-content"
-  maxHeight={showFilterMenu ? "100%" : "0px"}
+  maxHeight={showFilterMenu || !screenIsVertical ? "100%" : "0px"}
   overflow="hidden"
-  display={showFilterMenu ? "flex" : "none"}
+  display={showFilterMenu || !screenIsVertical ? "flex" : "none"}
   height={screenIsVertical ? "fit-content" : "100%"}
   direction="column"
   alignItems="center" 
@@ -281,6 +281,9 @@ export default function ReportViewCollectionCustom(props) {
         </SelectField>
 
       </Grid>
+      <Text>
+        Results:  {reports.length}
+      </Text>
    
   </Flex>;
 
@@ -295,7 +298,7 @@ export default function ReportViewCollectionCustom(props) {
       style={{pointerEvents: "auto"}}
       justifyContent="center"
       padding="10px">
-        {showMenuButton}
+        {showMapButton}
         {showFiltersButton}
         {loadMoreButton}
       </Flex>
@@ -304,8 +307,7 @@ export default function ReportViewCollectionCustom(props) {
       justifyContent="center"
       height="100%"
       width="100%"
-      position="absolute"
-      top="25%">
+      alignItems="bottom">
         {filterMenu}
       </Flex>
       : null}
@@ -314,14 +316,28 @@ export default function ReportViewCollectionCustom(props) {
 
   return (
     <Flex
-    direction="column"
+    direction="row"
     alignItems="stretch"
     minWidth="100%"
     minHeight="100%"
     maxWidth="100%"
     maxHeight="100%"
-    overflow="hidden">
+    overflow="hidden"
+    gap="0">
 
+
+    {screenIsVertical ? null : 
+    <Flex
+    padding="10px"
+    backgroundColor="lightgrey"
+    direction="column"
+    width="300px"
+    minWidth="300px"
+    alignItems="center">
+      {showMapButton}
+      {filterMenu}
+    </Flex>
+    } 
 
     {mapState ? 
         <Flex 
@@ -353,16 +369,20 @@ export default function ReportViewCollectionCustom(props) {
           direction="column" 
           minHeight="0" 
           flex="1 1 0%">
+            {screenIsVertical ?
             <Flex
-              direction="row"
-              >
-                {showMenuButton}
-                {screenIsVertical ? showFiltersButton : null}
-            </Flex>
-          
-          {filterMenu}
+            alignItems="center"
+            direction="column">
+              <Flex
+                direction="row"
+                >
+                  {showMapButton}
+                  {showFiltersButton}
+              </Flex>
+              {filterMenu}
+            </Flex> : null}
           <ReportCollection reports={reports}/>
-          {loadMoreButton}
+          {screenIsVertical ? loadMoreButton : null}
         </Flex>
       }
         

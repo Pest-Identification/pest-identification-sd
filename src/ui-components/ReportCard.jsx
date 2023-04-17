@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Card, Image, Flex, Badge, Divider, View} from "@aws-amplify/ui-react";
+import { Card, Image, Flex, Badge, Divider, Text} from "@aws-amplify/ui-react";
 import { Pests } from "../models";
-import { Textfit } from 'react-textfit';
 
 function getDate(report){
     const d = new Date(report.createdAt);
@@ -95,8 +94,8 @@ export function ReportCard({report}){
             
           <Divider/>
           
-          <View
-          
+          <Text
+          fontSize="15px"
           maxWidth="100%"
           textAlign="left"
           overflow="hidden"
@@ -104,7 +103,7 @@ export function ReportCard({report}){
             By {getUser(report)}<br/>
             {getAddress(report)}<br/>
             {getDate(report)}<br/>
-          </View>
+          </Text>
             
           
         </Flex> 
