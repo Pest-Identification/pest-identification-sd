@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Card, Image, Flex, Badge, Divider} from "@aws-amplify/ui-react";
+import { Card, Image, Flex, Badge, Divider, View} from "@aws-amplify/ui-react";
 import { Pests } from "../models";
 import { Textfit } from 'react-textfit';
 
@@ -41,9 +41,7 @@ export function ReportCard({report}){
     key={report.id}
     borderRadius="medium"
     variation="outlined"
-    maxWidth="300px"
-    maxHeight="150px"
-    width="100%"
+    width="250px"
     style={{aspectRatio: "2 / 1"}}
     padding="1%"
     >
@@ -92,28 +90,21 @@ export function ReportCard({report}){
             : report.pestActual === Pests.GRAPE_BERRY_MOTH ? 'blue.40'
             : 'grey'}
         >
-          <Textfit
-          mode="single"
-          min={0}>
           {getActualPest(report)}
-          </Textfit>
         </Badge>
             
           <Divider/>
           
-          <Flex
-          direction="column"
-          flex="1"
+          <View
+          
           maxWidth="100%"
-          textAlign="left">
-            <Textfit
-            mode="single"
-            min={0}>
-                Reported by {getUser(report)} <br/>
-                {getAddress(report)}<br/>
-                {getDate(report)}<br/>
-            </Textfit>
-          </Flex>
+          textAlign="left"
+          overflow="hidden"
+          style={{"text-overflow": "ellipsis"}}>
+            By {getUser(report)}<br/>
+            {getAddress(report)}<br/>
+            {getDate(report)}<br/>
+          </View>
             
           
         </Flex> 
@@ -124,7 +115,14 @@ export function ReportCard({report}){
 
 
 /*
-Reported by {getUser(report)} <br/>
-                {getAddress(report)}<br/>
-                {getDate(report)}<br/>
+<Card
+    key={report.id}
+    borderRadius="medium"
+    variation="outlined"
+    maxWidth="300px"
+    maxHeight="150px"
+    width="100%"
+    style={{aspectRatio: "2 / 1"}}
+    padding="1%"
+    >
 */

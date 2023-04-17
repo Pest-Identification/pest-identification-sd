@@ -27,6 +27,7 @@ function App({signOut, user}) {
 
   return (
     <View className="App">
+      <meta name="viewport" content="width=device-width, user-scalable=no"></meta>
       <Menu/>
     </View>
   );

@@ -83,7 +83,6 @@ export function ReportCollection({reports}) {
             wrap="wrap"
             justifyContent="center"
             alignItems="flex-start"
-            backgroundColor="blue.10"
             padding="2%"
           >
           {reports.map((item) => {return <ReportCard key={item.id} report={item}/>})}

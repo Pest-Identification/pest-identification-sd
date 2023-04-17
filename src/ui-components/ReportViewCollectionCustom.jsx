@@ -2,7 +2,7 @@ import { Auth, DataStore} from 'aws-amplify';
 import * as React from "react";
 import {Report} from '../models';
 
-import {Flex, Divider, Text, SearchField, SelectField, SliderField, Button, ToggleButton, MapView, Grid} from "@aws-amplify/ui-react";
+import {View, Flex, Divider, Text, SearchField, SelectField, SliderField, Button, ToggleButton, MapView, Grid} from "@aws-amplify/ui-react";
 
 import {ReportCollection, loadReports } from './ReportCollection';
 import { Marker, Popup } from 'react-map-gl';
@@ -22,6 +22,7 @@ export default function ReportViewCollectionCustom(props) {
   const [mapState, setMapState] = React.useState(false);
   const [screenIsVertical, setScreenIsVertical] = React.useState(true);
 
+  const [showFilterMenu, setShowFilterMenu] = React.useState(false);
   const [maxMiles, setMaxMiles] = React.useState(10);
   const [selectedUser, setSelectedUser] = React.useState("All");
   const [selectedPest, setSelectedPest] = React.useState("All");
@@ -31,6 +32,9 @@ export default function ReportViewCollectionCustom(props) {
   const [sliderMax, setSliderMax] = React.useState(maxMiles * 2);
   const [userLocation, setUserLocation] = React.useState(null);
   const [isModerator, setIsModerator] = React.useState(false);
+
+
+  const mapViewRef = React.useRef();
 
   
   function handleReportDelete(item){
@@ -185,6 +189,7 @@ export default function ReportViewCollectionCustom(props) {
       return;
     }
     else{
+      setShowFilterMenu(false)
       setMapState(true);
       return;
     }
@@ -194,6 +199,117 @@ export default function ReportViewCollectionCustom(props) {
     count += 10;
     setDisplayCount(count);
   }
+
+  const loadMoreButton = 
+  <Button 
+  height="fit-content"
+  width="fit-content" 
+  backgroundColor="lightgreen"
+  onClick={() => {incDisplayCount()}}>Load More</Button>;
+
+  const showFiltersButton = 
+  <Button
+  height="fit-content"
+  width="fit-content"
+  backgroundColor="lightgreen"
+  onClick={() => {setShowFilterMenu(!showFilterMenu)}}> 
+    Filters 
+  </Button>;
+
+  const showMenuButton = 
+  <Button 
+  height="fit-content" 
+  width="fit-content" 
+  backgroundColor="lightgreen"
+  onClick={() => {toggleMap()}}>
+      Map
+  </Button>;
+
+  const filterMenu = 
+  <Flex
+  backgroundColor="lightgrey"
+  border="thin solid black"
+  width={screenIsVertical ? "100%" : "fit-content"}
+  minWidth="fit-content"
+  maxHeight={showFilterMenu ? "100%" : "0px"}
+  overflow="hidden"
+  display={showFilterMenu ? "flex" : "none"}
+  height={screenIsVertical ? "fit-content" : "100%"}
+  direction="column"
+  alignItems="center" 
+  padding="16px">
+
+      <Grid
+        gap="5px"
+        templateColumns="auto auto"
+        alignItems="center"
+      >
+        
+        <Text column="1" row="1">Address</Text>
+        <SearchField column="2" row="1" hasSearchButton={false} onClear={() => setSelectedAddress("")} onSubmit={(val) => setSelectedAddress(val)}/>
+      
+        <Text column="1" row="2" >Radius <br/> (mi) </Text>
+        <SliderField
+        column="2" row="2"
+        //onClick={() => {if(sliderMax === maxMiles) setSliderMax(sliderMax * 2)}}
+        onChange={(value) => setMaxMiles(value)}
+        max={500}
+        ></SliderField>
+      
+        <Text column="1" row="3" >Pest</Text>
+        <SelectField
+        column="2" row="3"
+        onChange={(e) => setSelectedPest(e.target.value)}>
+          <option key={0} value={"All"}>All Pests</option>
+          <option key={1} value={Pests.UNKNOWN}>Unknown</option>
+          <option key={2} value={Pests.GRAPE_BERRY_MOTH}>Grape Berry Moth</option>
+          <option key={3} value={Pests.SPOTTED_LANTERN_FLY}>Spotted Lantern Fly</option>
+        </SelectField>
+
+        <Text column="1" row="4" >User</Text>
+        <SelectField
+        column="2"
+        row="4"
+        onChange={(e) => setSelectedUser(e.target.value)} 
+        
+        children={
+          [...users.map((user, index) => <option key={index+1} value={user.id}>  {user.userName}</option>),
+            <option value="All" children="All Users"/>]
+          }
+        value={selectedUser} name="User">
+
+        </SelectField>
+
+      </Grid>
+   
+  </Flex>;
+
+  const mapOverlay =
+  <Flex
+    direction="column"
+    style={{pointerEvents: "none", position: "relative", zIndex: 100}}
+    width="100%"
+    height="100%"
+    alignItems="stretch">
+      <Flex
+      style={{pointerEvents: "auto"}}
+      justifyContent="center"
+      padding="10px">
+        {showMenuButton}
+        {showFiltersButton}
+        {loadMoreButton}
+      </Flex>
+      {showFilterMenu ? 
+      <Flex
+      justifyContent="center"
+      height="100%"
+      width="100%"
+      position="absolute"
+      top="25%">
+        {filterMenu}
+      </Flex>
+      : null}
+  </Flex>
  
 
   return (
@@ -206,94 +322,49 @@ export default function ReportViewCollectionCustom(props) {
     maxHeight="100%"
     overflow="hidden">
 
-      <Flex
-      height="100%"
-      direction={screenIsVertical ? "column" : "row"}
-      overflow="hidden"
-      gap="0">
-
-      <Flex
-      width={screenIsVertical ? "100%" : "350px"}
-      height={screenIsVertical ? "fit-content" : "100%"}
-      direction="column"
-      alignItems="center" 
-      padding="16px">
-
-          
-        <ToggleButton height="fit-content" width="fit-content" onClick={() => {toggleMap()}}>View Map</ToggleButton>
-          <Divider width="100%"/>
-          
-          <Grid
-            templateColumns="1fr 1fr"
-            alignItems="center"
-          >
-            
-            <Text column="1" row="1">Address</Text>
-            <SearchField column="2" row="1" hasSearchButton={false} onClear={() => setSelectedAddress("")} onSubmit={(val) => setSelectedAddress(val)}/>
-          
-            <Text column="1" row="2" >Radius</Text>
-            <SliderField
-            column="2" row="2"
-            //onClick={() => {if(sliderMax === maxMiles) setSliderMax(sliderMax * 2)}}
-            onChange={(value) => setMaxMiles(value)}
-            max={500}
-            ></SliderField>
-          
-            <Text column="1" row="3" >Pest</Text>
-            <SelectField
-            column="2" row="3"
-            onChange={(e) => setSelectedPest(e.target.value)}>
-              <option key={0} value={"All"}>All Pests</option>
-              <option key={1} value={Pests.UNKNOWN}>Unknown</option>
-              <option key={2} value={Pests.GRAPE_BERRY_MOTH}>Grape Berry Moth</option>
-              <option key={3} value={Pests.SPOTTED_LANTERN_FLY}>Spotted Lantern Fly</option>
-            </SelectField>
-
-            <SelectField
-            column="2"
-            row="4"
-            onChange={(e) => setSelectedUser(e.target.value)} 
-            
-            children={
-              [...users.map((user, index) => <option key={index+1} value={user.id}>  {user.userName}</option>),
-                <option value="All" children="All Users"/>]
-              }
-            value={selectedUser} name="User">
-
-            </SelectField>
-
-          </Grid>
-          
-        <Flex
-        flex="1"
-        direction="column"
-        justifyContent="flex-end">
-          <Button  onClick={() => {incDisplayCount()}}>Load More</Button>
-        </Flex>
-      </Flex>
 
     {mapState ? 
         <Flex 
-          flex="1 1 0%"
-          fontFamily="sans-serif"
-          >
-            <MapView
-            initialViewState={ userLocation !== null ? {
-              latitude: userLocation.coords.latitude,
-              longitude: userLocation.coords.longitude,
-              zoom: 10,
-              pitch: 70
-            } : {}}>
-            {MarkerData(reports)}
-            </MapView>
+        gap="1px"
+        maxHeight="100%"
+        height="fit-content"
+        direction="column"
+        flex="1 1 0%">
+          <MapView
+          ref={mapViewRef}
+          attributionControl={false}
+          style={{maxHeight: "100%", maxWidth: "100%"}}
+          initialViewState={ userLocation !== null ? {
+            latitude: userLocation.coords.latitude,
+            longitude: userLocation.coords.longitude,
+            zoom: 10,
+            pitch: 70
+          } : {}}>
+            {screenIsVertical ? mapOverlay : null}
+
+          {MarkerData(reports)}
+          </MapView>
         </Flex>
         
-           :
-        <Flex minHeight="0" flex="1 1 0%">
+          :
+        <Flex 
+          padding="10px"
+          alignItems="center"
+          direction="column" 
+          minHeight="0" 
+          flex="1 1 0%">
+            <Flex
+              direction="row"
+              >
+                {showMenuButton}
+                {screenIsVertical ? showFiltersButton : null}
+            </Flex>
+          
+          {filterMenu}
           <ReportCollection reports={reports}/>
+          {loadMoreButton}
         </Flex>
       }
-      </Flex>
         
       
     
