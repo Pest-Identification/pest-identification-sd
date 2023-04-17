@@ -41,7 +41,9 @@ export function ReportCard({report}){
     borderRadius="medium"
     variation="outlined"
     width="250px"
-    style={{aspectRatio: "2 / 1"}}
+    height="125px"
+    maxWidth="250px"
+    maxHeight="125px"
     padding="1%"
     >
       <Flex
@@ -95,7 +97,7 @@ export function ReportCard({report}){
           <Divider/>
           
           <Text
-          fontSize="15px"
+          fontSize="14px"
           maxWidth="100%"
           textAlign="left"
           overflow="hidden"
