@@ -1,5 +1,5 @@
 import { Amplify, Auth, DataStore } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import awsmobile from './aws-exports';
 
 import './App.css';
 import "@aws-amplify/ui-react/styles.css";
@@ -8,7 +8,7 @@ import Menu from './ui-components/Menu';
 import { withAuthenticator, View, FileUploader} from '@aws-amplify/ui-react';
 
 
-Amplify.configure(awsconfig);
+Amplify.configure(awsmobile);
 
 
 function App({signOut, user}) {
