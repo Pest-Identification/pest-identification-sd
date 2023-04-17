@@ -32,10 +32,10 @@ export function DiscussionPost(props) {
       let promises = [];
   
       for (const [index, item] of datastoreReplies.entries()) {
-        newReplies.push({ ...item, user: "" });
+        newReplies.push({ ...item, author: "" });
         promises.push(
           DataStore.query(User, item.authorID).then(r => {
-            return { value: r.userName, index: index, field: "user" };
+            return { value: r.userName, index: index, field: "author" };
           })
         );
       }
@@ -95,22 +95,28 @@ const [isFormVisible, setIsFormVisible] =  React.useState(false);
       <p className="content">{props.content}</p>
       
       <button className="reply-button" onClick={handleShowReplies}>Show Replies</button>
-      {showReplies && replies.length > 0 && (
+      {showReplies && (
         <div className="replies">
-          <h4>Replies:</h4>
-          {replies.map((item, index) => (
+          {replies.length != 0 ? 
+          <div>
+            <h4>Replies:</h4> 
+            {replies.map((item, index) => (
             <div key={index} className="reply">
-              <p className="title">{item.title}</p>
               <p className="author">By {item.author} on {getDate(item)}</p>
               <p className="content">{item.body}</p>
             </div>
-          ))}
+            ))}
+          </div>
+            :
+          <div>
+           <p className="title"> No replies </p>
+          </div>}
         <button className="reply-button" onClick={() => setShowReplyForm(!showReplyForm)}>Reply</button>
         </div>
       )}
       {showReplyForm && (
         <form onSubmit={handleReplySubmit}>
-          <label htmlFor="content">Content:</label>
+          <label htmlFor="content">Create reply:</label>
           <textarea id="content" name="content" required />
           <button type="submit">Submit</button>
         </form>

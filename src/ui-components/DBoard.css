@@ -58,11 +58,13 @@
   }
   
   .discussion-board .reply-button {
+    width: fit-content;
     background-color: #00ff33;
     color: black;
     border: none;
     border-radius: 0.5rem;
     padding: 0.5rem;
+    margin: 10px;
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.2s ease-in-out;

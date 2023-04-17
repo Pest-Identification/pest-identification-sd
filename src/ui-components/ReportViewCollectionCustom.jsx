@@ -304,6 +304,7 @@ export default function ReportViewCollectionCustom(props) {
       </Flex>
       {showFilterMenu ? 
       <Flex
+      style={{pointerEvents: "auto"}}
       justifyContent="center"
       height="100%"
       width="100%"
