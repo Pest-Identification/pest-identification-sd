@@ -35,8 +35,8 @@ function NewUpload() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-screen h-screen">
-      <div className="relative w-full lg:max-w-sm mb-4">
+    <div className="flex flex-col items-center justify-center w-screen h-full">
+      <div className="relative   mb-4">
       <h1 class="text-4xl font-bold">What Do You Think It Is?</h1>
         <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600" onChange={handleUserTypeChange}>
           <option value={Pests.SPOTTED_LANTERN_FLY}>A Spotted LanternFly</option>
