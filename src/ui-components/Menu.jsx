@@ -15,7 +15,7 @@ Amplify.configure(awsconfig);
 const handleSignOut = async () => {
   try {
     await Auth.signOut();
-    window.location.href = '/auth/signin';
+   // window.location.href = '/auth/signin';
   } catch (error) {
     
   }
