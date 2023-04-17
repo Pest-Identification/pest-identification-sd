@@ -23,7 +23,7 @@ export default function ReportViewCollectionCustom(props) {
   const [screenIsVertical, setScreenIsVertical] = React.useState(true);
 
   const [showFilterMenu, setShowFilterMenu] = React.useState(false);
-  const [maxMiles, setMaxMiles] = React.useState(10);
+  const [maxMiles, setMaxMiles] = React.useState(500);
   const [selectedUser, setSelectedUser] = React.useState("All");
   const [selectedPest, setSelectedPest] = React.useState("All");
   const [selectedAddress, setSelectedAddress] = React.useState("");
@@ -253,6 +253,7 @@ export default function ReportViewCollectionCustom(props) {
         column="2" row="2"
         //onClick={() => {if(sliderMax === maxMiles) setSliderMax(sliderMax * 2)}}
         onChange={(value) => setMaxMiles(value)}
+        value={maxMiles}
         max={500}
         ></SliderField>
       
