@@ -273,8 +273,8 @@ export default function ReportViewCollectionCustom(props) {
         onChange={(e) => setSelectedUser(e.target.value)} 
         
         children={
-          [...users.map((user, index) => <option key={index+1} value={user.id}>  {user.userName}</option>),
-            <option value="All" children="All Users"/>]
+          [<option value="All" children="All Users"/>,
+          ...users.map((user, index) => <option key={index+1} value={user.id}>  {user.userName}</option>)]
           }
         value={selectedUser} name="User">
 
