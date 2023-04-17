@@ -1,7 +1,7 @@
 import { DataStore } from '@aws-amplify/datastore';
 import { Auth, Storage, Geo } from 'aws-amplify';
 import { Pests, Reply, Report, Post, PostReport, ReplyReport} from '../models';
-
+import {isJPEG} from '../modules/utility';
 
 
 export async function createReport(image,pest=Pests.UNKNOWN){
@@ -18,7 +18,6 @@ export async function createReport(image,pest=Pests.UNKNOWN){
       "authorID": "",
       "pestActual": Pests.UNKNOWN,
       "pestSubmitted": pest,
-      "pestIdentified": Pests.UNKNOWN,
       "image": "",
       "address_number": "",
       "address_street": "",
@@ -30,11 +29,13 @@ export async function createReport(image,pest=Pests.UNKNOWN){
     };
     let submitedReport;
     
-    new Promise((resolve, reject) => {
+    return isJPEG(image).then( r => {
+      return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         (loc) => {resolve(loc)}, // Success
         () => {reject()} // Failure
-      )}).then( r => {
+      )});
+      }).then( r => {
 
         reportStruct.longitude = r.coords.longitude; 
         reportStruct.latitude = r.coords.latitude; 
@@ -43,10 +44,6 @@ export async function createReport(image,pest=Pests.UNKNOWN){
 
         return Geo.searchByCoordinates([r.coords.longitude, r.coords.latitude]);
         
-      }, ()=> {
-
-        throw new Error("Can't access location.");
-
       }).then((r) => {
 
 
@@ -81,6 +78,7 @@ export async function createReport(image,pest=Pests.UNKNOWN){
           const subscription = DataStore.observe(Report, r.id).subscribe(() => {
             // Retrieve the updated report from the cloud
             console.log("Detected a possible id change. Querying...")
+
             subscription.unsubscribe(); // Unsubscribe from the observation to avoid memory leaks
             resolve(DataStore.query(Report, r.id));
           })
@@ -109,10 +107,8 @@ export async function createReport(image,pest=Pests.UNKNOWN){
 
       }).then( r => {
         console.log("Report created successfully!", r);
-      });
-
-
-    return;
+        return r;
+      }).catch(() => {alert("Failed to submit report!")});
   }
 
   export async function createReply(post,body,refReports){
