@@ -23,14 +23,12 @@ function FReference() {
       <div class="w-full md:w-1/2">
         <div class="block">
           <img
-              src="https://cals.cornell.edu/sites/default/files/styles/hero_landing_desktop/public/2021-07/0728_lanternfly2.jpeg?h=c74750f6&itok=4lJ5ktcT&amp;ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mzd8fHxlbnwwfHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=450&amp;q=60" class="object-cover rounded-lg max-h-64 sm:max-h-96 btn- w-full h-full"/>
+              src="https://publish.purewow.net/wp-content/uploads/sites/2/2017/08/vineyard-versus-winery-hero.jpg?resize=720%2C404&amp;ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=450&amp;q=60" class="object-cover rounded-lg max-h-64 sm:max-h-96 btn- w-full h-full"/>
         </div>
       </div>
     </div>
     <div class="grid grid-cols-12 sm:px-5 gap-x-8 gap-y-16">
     <div class="container pr-4 flex flex-col items-start col-span-12 sm:col-span-6 xl:col-span-4">
-        <img
-            src="https://publish.purewow.net/wp-content/uploads/sites/2/2017/08/vineyard-versus-winery-hero.jpg?resize=720%2C404&amp;ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=450&amp;q=60" class="object-cover w-full mb-2 overflow-hidden rounded-lg shadow-sm max-h-56 btn-"/>
         <p class="bg-green-500 flex items-center leading-none text-sm font-medium text-gray-50 pt-1.5 pr-3 pb-1.5 pl-3
             rounded-full uppercase inline-block">About</p>
         <a class="text-lg font-bold sm:text-xl md:text-2x1">Objectives And Needs</a>
