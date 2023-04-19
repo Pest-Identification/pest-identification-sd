@@ -313,7 +313,7 @@ export const schema = {
                 "location_accuracy": {
                     "name": "location_accuracy",
                     "isArray": false,
-                    "type": "String",
+                    "type": "Float",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -770,5 +770,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.3.5",
-    "version": "a102ae6fab2ed9d219d113898022d51a"
+    "version": "881d3cc4a82761ad0ed76c705e75091f"
 };

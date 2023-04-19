@@ -13,6 +13,7 @@ import { Report, User } from "../models";
 import { Predicates, SortDirection } from "@aws-amplify/datastore";
 
 import { ReportCard } from './ReportCard';
+import { isModifier } from 'typescript';
 
 
 export function loadReports(initialCount=20){
@@ -39,7 +40,7 @@ export function loadReports(initialCount=20){
 
         let promises = [];
         let count = 0;
-        console.log("datastorerepots",datastoreReports)
+        //console.log("datastorerepots",datastoreReports)
         for (const item of datastoreReports){
 
           if(filterFunction(item)){
@@ -71,7 +72,7 @@ export function loadReports(initialCount=20){
 
 
 
-export function ReportCollection({reports, onDelete}) { 
+export function ReportCollection({reports, onDelete, isModerator}) { 
 
   
     return( 
@@ -88,10 +89,12 @@ export function ReportCollection({reports, onDelete}) {
           >
           {reports.map((item) => {return (
             <Flex
+            key={item.id}
             position="relative"
             gap="2px"
             direction="column">
               <ReportCard key={item.id} report={item}/>
+              {isModerator ? 
               <Button 
               position="absolute"
               top="5px"
@@ -103,7 +106,7 @@ export function ReportCollection({reports, onDelete}) {
               padding="3px"
               backgroundColor="red.60">
                 DELETE
-              </Button> 
+              </Button> : null}
             </Flex>
           )})}
           </Flex> 

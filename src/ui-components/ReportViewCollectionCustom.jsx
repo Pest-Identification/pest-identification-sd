@@ -93,16 +93,15 @@ export default function ReportViewCollectionCustom(props) {
   
     return [...data.map((item) => {
             return <MarkerWithPopup 
+              key={item.id}
               longitude={item.longitude}
               latitude={item.latitude}
-              content={isModerator ? 
+              content={
                 <Flex
                 direction="column">
                   <ReportCard report={item}></ReportCard>
-                  <Button onClick={() => handleReportDelete(item)} color="white" backgroundColor="red.60">DELETE</Button> 
-                </Flex>
-                :
-                <ReportCard report={item}></ReportCard>}/>
+                  {isModerator ? <Button onClick={() => handleReportDelete(item)} color="white" backgroundColor="red.60">DELETE</Button> : null}
+                </Flex>}/>
     }), userMarker];
   }
 
@@ -274,7 +273,7 @@ export default function ReportViewCollectionCustom(props) {
         onChange={(e) => setSelectedUser(e.target.value)} 
         
         children={
-          [<option value="All" children="All Users"/>,
+          [<option key={0} value="All" children="All Users"/>,
           ...users.map((user, index) => <option key={index+1} value={user.id}>  {user.userName}</option>)]
           }
         value={selectedUser} name="User">
@@ -383,7 +382,7 @@ export default function ReportViewCollectionCustom(props) {
               </Flex>
               {filterMenu}
             </Flex> : null}
-          <ReportCollection reports={reports} onDelete={handleReportDelete}/>
+          <ReportCollection reports={reports} onDelete={handleReportDelete} isModerator={isModerator}/>
           {screenIsVertical ? loadMoreButton : null}
         </Flex>
       }

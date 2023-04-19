@@ -146,7 +146,7 @@ type EagerReport = {
   readonly address_region?: string | null;
   readonly address_country?: string | null;
   readonly address_postalCode?: string | null;
-  readonly location_accuracy?: string | null;
+  readonly location_accuracy?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -173,7 +173,7 @@ type LazyReport = {
   readonly address_region?: string | null;
   readonly address_country?: string | null;
   readonly address_postalCode?: string | null;
-  readonly location_accuracy?: string | null;
+  readonly location_accuracy?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

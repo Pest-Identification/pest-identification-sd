@@ -38,7 +38,8 @@ export async function createReport(image,pest=Pests.UNKNOWN){
       }).then( r => {
 
         reportStruct.longitude = r.coords.longitude; 
-        reportStruct.latitude = r.coords.latitude; 
+        reportStruct.latitude = r.coords.latitude;
+        reportStruct.location_accuracy = r.coords.accuracy;
 
         console.log("Got GPS location: Long: " + reportStruct.longitude + " Lat: " + reportStruct.latitude + " Reverse geocoding...");
 

@@ -51,7 +51,7 @@ type Report @model @auth(rules: [{allow: public}]) {
   address_region: String
   address_country: String
   address_postalCode: String
-  location_accuracy: String
+  location_accuracy: Float
 }
 
 type Post @model @auth(rules: [{allow: public}]) {

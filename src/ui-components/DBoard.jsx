@@ -35,7 +35,7 @@ export function DBoard({props}) {
         let promises = [];
       
         for (const [index, item] of datastorePosts.entries()){
-          console.log("Parsing:", item)
+          //console.log("Parsing:", item)
           newPosts.push({...item, user: ""});
           promises.push(DataStore.query(User, item.authorID).then(r => {
             //console.log('r:', r);
@@ -44,11 +44,11 @@ export function DBoard({props}) {
           })); 
         }
       
-        console.log('newPosts before Promise.allSettled:', newPosts);
+        //console.log('newPosts before Promise.allSettled:', newPosts);
         setPosts(datastorePosts);
       
         return Promise.allSettled(promises).then((results) => {
-          console.log('Promise.allSettled results:', results);
+          //console.log('Promise.allSettled results:', results);
           for(let r of results){
             if (r && r.value) {
               newPosts[r.value.index][r.value.field] = r.value.value;
@@ -56,8 +56,8 @@ export function DBoard({props}) {
           }
         })
       }).then(() => {
-        console.log('newPosts after Promise.allSettled:', newPosts);
-        console.log('posts:', posts);
+        //console.log('newPosts after Promise.allSettled:', newPosts);
+        //console.log('posts:', posts);
         setPosts(newPosts);
       });
       
@@ -99,7 +99,6 @@ export function DBoard({props}) {
         </form>
       )}
       <div className="posts">
-        {console.log("Hi", posts)}
         {posts.map((item, index) => (
           <DiscussionPost
             key={index}

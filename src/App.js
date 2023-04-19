@@ -13,17 +13,16 @@ Amplify.configure(awsmobile);
 
 function App({signOut, user}) {
 
-  console.log("Group",user.signInUserSession.accessToken.payload["cognito:groups"]);
 
   // Ran only once
-  React.useEffect(() => {
+  /*React.useEffect(() => {
     DataStore.stop().then(() => {
       console.log("Datastore stopped. Starting...");
       DataStore.start().then(() => {
         console.log("Datastore started!");
       });
     });
-  }, []);
+  }, []);*/
 
   return (
     <View className="App">

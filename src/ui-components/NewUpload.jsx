@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './FReference.css';
 import { createReport } from '../modules/datastore';
 import {Pests} from '../models';
-import {isJPEG} from '../modules/utility.jsx';
+import {compressJPEG, isJPEG} from '../modules/utility.jsx';
 
 let userImage = null;
 let userType = Pests.UNKNOWN;
@@ -22,15 +22,20 @@ function NewUpload() {
     }
 
     isJPEG(file).then(() => {
-      console.log("File uploaded")
+      console.log("Original size", file.size)
+      const maxSize = 1000000;
+      if (file.size > maxSize) return compressJPEG(file, 1000000);
+      else return file;
+    }).then((compressed) => {
       const reader = new FileReader();
-      userImage = file;
+      userImage = compressed;
+      console.log("Compressed", compressed.size)
   
       reader.onload = () => {
         setImageUrl(reader.result);
       };
   
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(compressed);
       return;
     }).catch( () => {
       userImage = null;
@@ -44,14 +49,14 @@ function NewUpload() {
   };
 
   const handleSubmit = (event) => {
-    //event.preventDefault();    
+    //event.preventDefault();
     createReport(userImage, userType)
   };
 
   return (
     <div className="flex flex-col items-center justify-center w-screen h-full">
       <div className="relative mb-4">
-      <h1 class="text-4xl font-bold">What Do You Think It Is?</h1>
+      <h1 className="text-4xl font-bold">What Do You Think It Is?</h1>
         <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600" onChange={handleUserTypeChange}>
           <option value={Pests.SPOTTED_LANTERN_FLY}>Spotted LanternFly</option>
           <option value={Pests.GRAPE_BERRY_MOTH}>GrapeBerry Moth</option>
