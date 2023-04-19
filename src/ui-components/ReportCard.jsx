@@ -41,15 +41,15 @@ export function ReportCard({report}){
     borderRadius="medium"
     variation="outlined"
     width="250px"
-    height="125px"
+    height="fit-content"
     maxWidth="250px"
-    maxHeight="125px"
-    padding="1%"
+    maxHeight="150px"
+    padding="5px"
     >
       <Flex
         direction="row"
         alignItems="stretch"
-        gap="2%"
+        gap="10px"
         height="100%"
         width="100%"
       >
@@ -74,14 +74,13 @@ export function ReportCard({report}){
           direction="column"
           justifyContent="flex-start"
           alignItems="stretch"
-          gap="5%"
+          gap="5px"
           width="75%"
           height="100%"
-          padding="3%"
         >
             
         <Badge
-          padding="1%"
+          padding="4px"
           height="fit-content"
           width="fit-content"
           alignItems="center"
@@ -102,7 +101,7 @@ export function ReportCard({report}){
           textAlign="left"
           overflow="hidden"
           whiteSpace="nowrap"
-          style={{"text-overflow": "ellipsis"}}>
+          style={{"textOverflow": "ellipsis"}}>
             By {getUser(report)}<br/>
             {getAddress(report)}<br/>
             {getDate(report)}<br/>

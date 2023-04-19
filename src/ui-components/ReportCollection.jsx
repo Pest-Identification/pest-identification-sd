@@ -71,7 +71,8 @@ export function loadReports(initialCount=20){
 
 
 
-export function ReportCollection({reports}) { 
+export function ReportCollection({reports, onDelete}) { 
+
   
     return( 
       <ScrollView
@@ -85,7 +86,26 @@ export function ReportCollection({reports}) {
             alignItems="flex-start"
             padding="2%"
           >
-          {reports.map((item) => {return <ReportCard key={item.id} report={item}/>})}
+          {reports.map((item) => {return (
+            <Flex
+            position="relative"
+            gap="2px"
+            direction="column">
+              <ReportCard key={item.id} report={item}/>
+              <Button 
+              position="absolute"
+              top="5px"
+              left="5px"
+              width="fit-content" 
+              onClick={() => onDelete(item)} 
+              color="white"
+              fontSize="10px"
+              padding="3px"
+              backgroundColor="red.60">
+                DELETE
+              </Button> 
+            </Flex>
+          )})}
           </Flex> 
           :
           <Text>Loading</Text>

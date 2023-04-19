@@ -310,6 +310,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "location_accuracy": {
+                    "name": "location_accuracy",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -763,5 +770,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.3.5",
-    "version": "1f2acc05da6b5db96a31e38988ad2035"
+    "version": "a102ae6fab2ed9d219d113898022d51a"
 };
