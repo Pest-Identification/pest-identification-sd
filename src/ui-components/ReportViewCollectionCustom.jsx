@@ -170,7 +170,7 @@ export default function ReportViewCollectionCustom(props) {
           (selectedUser === "All" || item.authorID === selectedUser) &&
           item.longitude > (userLocation.coords.longitude - longDiff) && item.longitude < (userLocation.coords.longitude + longDiff) &&
           item.latitude > (userLocation.coords.latitude - latDiff) && item.latitude < (userLocation.coords.latitude + latDiff) &&
-          (selectedPest === "All" || item.pestSubmitted === selectedPest) &&
+          (selectedPest === "All" || item.pestIdentified === selectedPest) &&
           (selectedAddress === "" || (item.address_number +  item.address_street + item.address_neighborhood + item.address_municipality + item.address_region + item.address_country + item.address_postalCode).includes(selectedAddress))
           ){
             return true;

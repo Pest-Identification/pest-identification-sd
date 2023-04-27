@@ -20,10 +20,8 @@ export function DBoard({props}) {
     const [filterFunction, setFilterFunction] = React.useState((Predicates.ALL));
     const [displayCount, setDisplayCount] = React.useState(20);
   
-    
-  
-    React.useEffect(() => {
-      
+    function getPosts() {
+
       let newPosts = [];
   
       DataStore.query(Post,
@@ -61,6 +59,12 @@ export function DBoard({props}) {
         setPosts(newPosts);
       });
       
+    }
+    
+  
+    React.useEffect(() => {
+      
+      getPosts();
   
     }, [sortFunction, displayCount]);
 
@@ -74,7 +78,7 @@ export function DBoard({props}) {
       content: form.content.value,
     };
     createPost(post.title, post.content, null);
-    setPosts([...posts, post]);
+    getPosts();
     form.reset();
     setIsFormVisible(false);
   };
