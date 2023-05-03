@@ -85,3 +85,20 @@ The purpose of multiple hosting and backend environments is so that a new app bu
 
 
 #### Datamodels
+We created 8 different datamodels for our backend to be able to store the data the way that we wish to store it and relate different elements together. More information about how to create your own on amplify as well as the rules that go into making them can be found on `https://docs.amplify.aws/console/data/data-model/`.
+
+The first one is Location. This consists of two field names which are essentially variable names and their types are Address and GPSLocation. These are simply used to store information for the pins that are used on our map.
+
+The next model is specifically in regards to the Address we talked about before and is a relation model. What we chose to have in Address is a number, a street, a neighborhood, a municipality, a region, a country, and a postalCode. All of these are stored as String variables and in the actual application as long as they are on a mobile device will come from information gathered through their GPS.
+
+The third of the 8 is what goes into a User and you guessed it, it is the User model. This is the overarching one so it is kept rather simple and a user consists of an id that is unique and a userName which is stored as a string. 
+
+The fourth of the 8 is the Repliy data model and this is how the replies to the different discussion board posts can be made. This also consists of an id. as well as an authorID, a title, a body, and a postID. The postID is a relationship source which is related to the original post by its own unique id. This allows us to only display the replies to the individual posts they are made for. There is also a relationship that you will see if you are further developing that has it link to reports. This is so that in the future we may have posts and replies have the ability to link to reports with the hope of eventually displaying report images.
+
+The fifth of the 8 is a list of variables to be used so if you are planning on expanding the capability of the automatic identification teh area you will wish to add to is the Pests model which currently only consists of UNKOWN, GRAPE_BERRY_MOTH, and SPOTTED_LANTERN_FLY.
+
+The sixth model to cover is the Report model and this is quite possibly the most important as it is the key element of the application and what we set out to accomplish. It has the fields id, authorID, PestActual this is used to store what the pest actually is, pestSubmitted is used to see what the user think it is, pestIdentified is what is identified. These are used to cross reference the model as time goes along. This model also consists of an image, longitude, latitude, address_number, address_street, address_neighborhood, address_municipality, address_region, address_country, address_postalCode, and location_accuracy. This also has two relationships which are to posts and replies.
+
+the seventh model is that of the Post themselves and consist of an id, an authorID, a title, and a body. This also has two relations which are to replies and reports. 
+
+The last of the data models is for GPSLocation which simply consists of longitude and latitude.
