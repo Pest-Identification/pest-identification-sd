@@ -21,8 +21,12 @@ Clone the repository from https://github.com/AJBuilder/pest-identification-sd.gi
 ***
 ## Architecture
 
-![](img/architecture.png)
-
+<p align="center">
+  <figure>
+    <img width="1420" height="720" src="img/architecture.png">
+    <figcaption>Figure 1: Technology Diagram Showing Services Used for Implementation<figcaption>
+  <figure>
+</p>
 
 ### Cloud Architecture
 
@@ -78,14 +82,16 @@ The purpose of multiple hosting and backend environments is so that a new app bu
 
 ### ML Model Development
 
+
+
 ### Backend Modifications
 
 #### Lambda Scripts
 
-
+When needing to create a connection between the backend of the application and the model deployed for inferencing we went with AWS service [Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html). AWS Lambda is a service that runs backend scripts that do tasks when scheduled or based on triggers. The scripts used can be from a bank of predefined ones offered by Lambda or written from scratch. Being an AWS service, Lambda also has the ability to connect and interact with other AWS services.
 
 #### Datamodels
-We created 8 different datamodels for our backend to be able to store the data the way that we wish to store it and relate different elements together. More information about how to create your own on amplify as well as the rules that go into making them can be found on `https://docs.amplify.aws/console/data/data-model/`.
+We created 8 different datamodels for our backend to be able to store the data the way that we wish to store it and relate different elements together. More information about how to create your own on amplify as well as the rules that go into making them can be found on https://docs.amplify.aws/console/data/data-model/.
 
 The first one is Location. This consists of two field names which are essentially variable names and their types are Address and GPSLocation. These are simply used to store information for the pins that are used on our map.
 
