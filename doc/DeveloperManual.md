@@ -23,7 +23,7 @@ Clone the repository from https://github.com/AJBuilder/pest-identification-sd.gi
 
 <p align="center">
   <figure>
-    <img width="1420" height="720" src="img/architecture.png">
+    <img src="img/architecture.png">
     <figcaption>Figure 1: Technology Diagram Showing Services Used for Implementation<figcaption>
   <figure>
 </p>
@@ -120,9 +120,75 @@ There are other buckets like lantern-rd-pictures, gbm-pictures, and gbm-test-pic
 
 #### Lambda Scripts
 
-When needing to create a connection between the backend of the application and the model deployed for inferencing we went with AWS service [Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html). AWS Lambda is a service that runs backend scripts that do tasks when scheduled or based on triggers. The scripts used can be from a bank of predefined ones offered by Lambda or written from scratch. Being an AWS service, Lambda also has the ability to connect and interact with other AWS services. For the use of this project, we used a template in Python, to set up a Lambda function that triggers in response to an object being added to an S3 bucket. 
+When needing to create a connection between the backend of the application and the model deployed for inferencing we went with AWS service [Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html). AWS Lambda is a service that runs backend scripts that do tasks when scheduled or based on triggers. The scripts used can be from a bank of predefined ones offered by Lambda or written from scratch. Being an AWS service, Lambda also has the ability to connect and interact with other AWS services. It is important to note that in order to interact with other services, we made use of the [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) library and the corresponding APIs for each service. For the use of this project, we used a template in Python, to set up a Lambda function that triggers in response to an object being added to an S3 bucket. 
 
+The function is set up so that when an object, in our case an image, is uploaded to a designated bucket, the object is pulled from the bucket to be used as the input for the inference model. The following code shows the event handler, and how the information that triggers the Lambda function is used. 
 
+``` Python 
+def lambda_handler(event, context):
+    # Get the S3 object key from the event
+    s3 = boto3.client("s3")
+    bucket = event['Records'][0]['s3']['bucket']['name']
+    key = event['Records'][0]['s3']['object']['key']
+    
+    # Get the input data from the S3 object
+    obj = s3.get_object(Bucket=bucket, Key=key)
+    input_data = obj['Body'].read()
+```
+Each object in an S3 bucket can be known by its unique key, therefore, in order to get the physical image, we extrapolate the bucket name and object key from the event trigger. Now would be a good time to mention that the trigger is set up in the AWS Lambda console under the trigger section. Here is where you establish what bucket you would like the function to trigger in response to, and whether that trigger is on an addition or deletion from the bucket. 
+
+After obtaining the key to the object, we can use an API apart of S3 to get the image. Having the image, we then can setup the code to invoke the endpoint in which our model is being hosted on. 
+
+``` Python
+sagemaker = boto3.client('sagemaker-runtime')
+    response = sagemaker.invoke_endpoint(
+        EndpointName='pest-classifier-release',
+        ContentType='application/x-image',
+        Accept='application/json',
+        Body=input_data
+    )
+```
+The name of our endpoint is setup in SageMaker and the "ContentType" is established by the model, which is all known information. The "Body" is where we send the obtained image, so that it will be the input for model and get classified. The result of the inference model, what it sends back, it stored in the variable response. In order to get the relevant information, we parse the response and look for the 'probabilities' that are returned. 
+
+``` Python
+ model_predictions = json.loads(response['Body'].read().decode())
+ probs = model_predictions['probabilities']
+```
+Once we have those probabilities, we can give a response based on which of the probabilities is the highest. Now having what the image was classified as, we can add the result the database table in which the report for each image is stored. To do this, we utilize the Boto3 library again to make a connection to the desired table, our report table, and update the designated fields. 
+
+``` Python
+  dynamoDB = boto3.client('dynamodb')
+  tableName = 'Report-cx725szbmvc7xcykpwaxueqafq-staging'
+
+  response = dynamoDB.update_item(
+        TableName=tableName,
+        Key={
+            'id' :{
+                'S': report_id
+            }
+        },
+        UpdateExpression= 'SET pestIdentified = :idType, pestActual = :idType, updatedAt = :updatedAt, #lastChangedAt = :lastChanged, #version = #version + :val',
+        ExpressionAttributeNames={
+            '#lastChangedAt': '_lastChangedAt',
+            '#version': '_version'
+        },
+        ExpressionAttributeValues={
+            ':idType':{
+                'S': label_predict
+            },
+            ':updatedAt':{
+                'S': time_str
+            },
+            ':lastChanged':{
+                'N': time_num
+            },
+            ':val':{
+                'N': '1'
+            }
+        }
+    )
+```
+This is the last step in the approach of connecting the inference model to the backend database tables in order to have the result stored in a usable location. With the classification result stored in the table, we are able to pull that attribute and display the information in whatever way we choose. 
 
 #### **Datamodels**
 We created 8 different datamodels for our backend to be able to store the data the way that we wish to store it and relate different elements together. More information about how to create your own on amplify as well as the rules that go into making them can be found on https://docs.amplify.aws/console/data/data-model/.
