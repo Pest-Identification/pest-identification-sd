@@ -84,13 +84,47 @@ The purpose of multiple hosting and backend environments is so that a new app bu
 
 
 
+The machine learning model was developed using Sagemaker. Sagemaker is the machine learning suite of AWS. It provides an API to easily run training jobs and deploy models in addtion to a library of pre-trained models. You can find all the Jupyter Notebooks that were used in Sagemaker Studio under "./Sagemaker/Jupyter Notebooks/". The main ones used were:
+
+- [slf-classifier.ipynb](../Sagemaker/Jupyter%20Notebooks/slf-classifier.ipynb)
+- [slf-endpoint-serverless.ipynb](../Sagemaker/Jupyter%20Notebooks/slf-endpoint-serverless.ipynb)
+- [slf-inference.ipynb](../Sagemaker/Jupyter%20Notebooks/slf-inference.ipynb)
+
+The current model is a three class model that classifies either SLF, GBM, or Neither. The model is of the Mobile Net V2 architecture and was trained using transfer learning. It was pre-trained on ImageNet and was provided by Sagemaker. You can see this in [slf-classifier.ipynb](../Sagemaker/Jupyter%20Notebooks/slf-classifier.ipynb) in the code 
+
+``` Python
+
+model_id, model_version = "tensorflow-ic-imagenet-mobilenet-v2-100-224-classification-4", "*"
+
+train_model_uri = model_uris.retrieve(
+    model_id=model_id, model_version=model_version, model_scope="training"
+)
+```
+
+Once the model was trained, [slf-endpoint-serverless.ipynb](../Sagemaker/Jupyter%20Notebooks/slf-endpoint-serverless.ipynb) was used to deploy the model to a serverless endpoint. Using serverless endpoint instead of a real time or other type is important as AWS does not charge for when the model is not in use. With serverless, the model is loaded out of memory if inference is not done for a specific amount of time. However, loading it back into memory due to a inference request will take longer. This is referred to as a "cold start".
+
+[slf-inference.ipynb](../Sagemaker/Jupyter%20Notebooks/slf-inference.ipynb) is just a test notebook to ensure that the endpoint is working.
+
+The dataset used for training is stored in S3 bucket. There are many different buckets attached to the account (a lot are artifacts from development) but the main ones are:
+
+- flylite-model-training-pictures
+- flylite-model-validation-pictures
+- flylite-model-testing-pictures
+
+These buckets are passed during [slf-classifier.ipynb](../Sagemaker/Jupyter%20Notebooks/slf-classifier.ipynb) as the pictures to be used for training, validation, and testing. Inside each bucket, they are sorted into slf, gbm, and neither folders. (Not really folders sinc S3 is object storage) The Sagemaker training script will use these prefixes as class labels.
+
+There are other buckets like lantern-rd-pictures, gbm-pictures, and gbm-test-pictures, however these are raw datasets and are probably unfiltered or sorted. The flylite-model-*-pictures contain copies of all these buckets but are also sorted and filtered.
+
+
 ### Backend Modifications
 
 #### Lambda Scripts
 
+When needing to create a connection between the backend of the application and the model deployed for inferencing we went with AWS service [Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html). AWS Lambda is a service that runs backend scripts that do tasks when scheduled or based on triggers. The scripts used can be from a bank of predefined ones offered by Lambda or written from scratch. Being an AWS service, Lambda also has the ability to connect and interact with other AWS services. For the use of this project, we used a template in Python, to set up a Lambda function that triggers in response to an object being added to an S3 bucket. 
+
 When needing to create a connection between the backend of the application and the model deployed for inferencing we went with AWS service [Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html). AWS Lambda is a service that runs backend scripts that do tasks when scheduled or based on triggers. The scripts used can be from a bank of predefined ones offered by Lambda or written from scratch. Being an AWS service, Lambda also has the ability to connect and interact with other AWS services.
 
-#### Datamodels
+#### **Datamodels**
 We created 8 different datamodels for our backend to be able to store the data the way that we wish to store it and relate different elements together. More information about how to create your own on amplify as well as the rules that go into making them can be found on https://docs.amplify.aws/console/data/data-model/.
 
 The first one is Location. This consists of two field names which are essentially variable names and their types are Address and GPSLocation. These are simply used to store information for the pins that are used on our map.
@@ -99,7 +133,7 @@ The next model is specifically in regards to the Address we talked about before 
 
 The third of the 8 is what goes into a User and you guessed it, it is the User model. This is the overarching one so it is kept rather simple and a user consists of an id that is unique and a userName which is stored as a string. 
 
-The fourth of the 8 is the Repliy data model and this is how the replies to the different discussion board posts can be made. This also consists of an id. as well as an authorID, a title, a body, and a postID. The postID is a relationship source which is related to the original post by its own unique id. This allows us to only display the replies to the individual posts they are made for. There is also a relationship that you will see if you are further developing that has it link to reports. This is so that in the future we may have posts and replies have the ability to link to reports with the hope of eventually displaying report images.
+The fourth of the 8 is the Reply data model and this is how the replies to the different discussion board posts can be made. This also consists of an id. as well as an authorID, a title, a body, and a postID. The postID is a relationship source which is related to the original post by its own unique id. This allows us to only display the replies to the individual posts they are made for. There is also a relationship that you will see if you are further developing that has it link to reports. This is so that in the future we may have posts and replies have the ability to link to reports with the hope of eventually displaying report images. Furthermore, the title field is not used but is included to enable to possiblilty of only having the Post datamodel. Where this model also behaves as a reply.
 
 The fifth of the 8 is a list of variables to be used so if you are planning on expanding the capability of the automatic identification teh area you will wish to add to is the Pests model which currently only consists of UNKOWN, GRAPE_BERRY_MOTH, and SPOTTED_LANTERN_FLY.
 
