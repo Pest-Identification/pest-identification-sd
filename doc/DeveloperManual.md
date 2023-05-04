@@ -122,7 +122,7 @@ There are other buckets like lantern-rd-pictures, gbm-pictures, and gbm-test-pic
 
 When needing to create a connection between the backend of the application and the model deployed for inferencing we went with AWS service [Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html). AWS Lambda is a service that runs backend scripts that do tasks when scheduled or based on triggers. The scripts used can be from a bank of predefined ones offered by Lambda or written from scratch. Being an AWS service, Lambda also has the ability to connect and interact with other AWS services. For the use of this project, we used a template in Python, to set up a Lambda function that triggers in response to an object being added to an S3 bucket. 
 
-When needing to create a connection between the backend of the application and the model deployed for inferencing we went with AWS service [Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html). AWS Lambda is a service that runs backend scripts that do tasks when scheduled or based on triggers. The scripts used can be from a bank of predefined ones offered by Lambda or written from scratch. Being an AWS service, Lambda also has the ability to connect and interact with other AWS services.
+
 
 #### **Datamodels**
 We created 8 different datamodels for our backend to be able to store the data the way that we wish to store it and relate different elements together. More information about how to create your own on amplify as well as the rules that go into making them can be found on https://docs.amplify.aws/console/data/data-model/.
