@@ -5,7 +5,7 @@ This repo is the code base for the 1060: Pest Identifcation computer engineering
 **Date:** 2022-2023  
 **Authors:** 
 - Kailey Smotek (smotek.kailey@gmail.com)
-- Andre Tench  
+- Andre Tench  (andretench@gmail.com)
 - Adam Robertson  (adam.aj.robertson@gmail.com)
 
 **Advisor:** Dr. Abdallah S. Abdallah Abousheaisha  
